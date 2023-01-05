@@ -5,9 +5,10 @@ INCLUDES = includes/
 SRC_DIR = src/
 OBJ_DIR = obj/
 CC = gcc
-LIBS = -L$(INCLUDES)/mlx -lmlx -lXext -lX11 -lm
+LIBS = -L$(INCLUDES)mlx -lmlx -lXext -lX11 -lm
 
 SRC = $(addprefix $(SRC_DIR), \
+	utils.c \
 	main.c)
 
 OBJ = $(patsubst $(SRC_DIR)%.c,$(OBJ_DIR)%.o,$(SRC))
