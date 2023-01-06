@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 00:05:30 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/05 02:33:30 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/05 18:07:37 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,3 @@ char	*ft_itoa(int n)
 		res[0] = '-';
 	return (res);
 }
-
-//void	my_mlx_pixel_put(t_mlx *data, int x, int y, int color)
-//{
-//	char	*dst;
-
-//	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-//	*(unsigned int*)dst = color;
-//}
