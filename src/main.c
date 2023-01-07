@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/07 02:20:30 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/08 00:41:23 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ int	on_start(t_mlx *mlx)
 	mlx->img[e_fps]->img = mlx_new_image(mlx->mlx, 100, 100);
 	//mlx->img[e_player]->img = mlx_new_image(mlx->mlx, PLAYER_SIZE_X, PLAYER_SIZE_Y);
 
-	mlx->img[e_player]->img = mlx_xpm_file_to_image(mlx->mlx, "../assets/abeille.xpm", &img_width, &img_height);
+	mlx->img[e_player]->img = mlx_xpm_file_to_image(mlx->mlx, "assets/abeille.xpm", &img_width, &img_height);
 	return (0);
 }
 
