@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/06 19:53:34 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/07 02:01:36 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,12 @@
 # define KEY_S 115
 # define KEY_D 100
 
+// --=======----=======-- KEY_MAP --=======----=======--
+# define PLAYER_SIZE_X 100
+# define PLAYER_SIZE_Y 100
+
 // --=======----=======-- FPS --=======----=======--
-# define FRAME_RATE_DRAW_SPEED 10000
+# define FRAME_RATE_DRAW_SPEED 100
 # define FPS_POSX 10
 # define FPS_POSY 20
 # define FPS_WIDTH 35

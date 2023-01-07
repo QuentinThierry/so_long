@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/06 20:08:27 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/07 02:20:30 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
-
 
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 {
@@ -104,12 +103,12 @@ void	draw_rectangle(t_mlx *mlx, t_point pos, t_point size, int color)
 	}
 }
 
-void	show_fps(t_mlx *mlx, t_point pos)
+void	show_fps(t_mlx *mlx, t_point pos, int fps)
 {
-	draw_rectangle(mlx, point(FPS_POSX, FPS_POSY),
-		point(FPS_WIDTH, FPS_HEIGHT), 0xFF0000);
+	//draw_rectangle(mlx, point(FPS_POSX, FPS_POSY),
+	//	point(FPS_WIDTH, FPS_HEIGHT), 0xFF0000);
 	mlx_string_put(mlx->mlx, mlx->window, pos.x + mlx->offset_x,
-		pos.y + mlx->offset_y, 0xFFFFFF, ft_itoa(mlx->fps));
+		pos.y + mlx->offset_y, 0xFFFFFF, ft_itoa(fps));
 }
 
 int	draw_background(t_mlx *mlx)
@@ -134,39 +133,44 @@ int	draw_background(t_mlx *mlx)
 int	draw_layers(t_mlx *mlx)
 {
 	mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->img[e_background]->img, 0, 0);
-	mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->img[e_fps]->img, 0, 0);
+	mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->img[e_player]->img, 0, 0);
 	return (0);
 }
 
 int	on_update(t_mlx *mlx)
 {
 	static unsigned int	frame = 0;
+	static int			fps = 0;
 
 	calculate_fps(&mlx->fps);
-	if (frame % FRAME_RATE_DRAW_SPEED == 0)
-	{
-		show_fps(mlx, point(FPS_POSX, FPS_POSY));
-		frame = 0;
-	}
 	draw_background(mlx);
 	draw_layers(mlx);
 
+	if (frame % FRAME_RATE_DRAW_SPEED == 0)
+	{
+		fps = mlx->fps;
+		frame = 0;
+	}
+	show_fps(mlx, point(FPS_POSX, FPS_POSY), fps);
 	frame++;
 	return (0);
 }
 
 int	on_start(t_mlx *mlx)
 {
+	int	img_width = 100;
+	int	img_height = 100;
+
 	*mlx = init_values();
 	// if (!mlx->img)
 	// 	return (1); // free all img
 	mlx->mlx = mlx_init();
 	mlx->window = mlx_new_window(mlx->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "Trop cool");
 	mlx->img[e_background]->img = mlx_new_image(mlx->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
-	mlx->img[e_fps]->img = mlx_new_image(mlx->mlx, FPS_WIDTH, FPS_HEIGHT);
-	mlx->img[e_player]->img = mlx_new_image(mlx->mlx, FPS_WIDTH, FPS_HEIGHT);
+	mlx->img[e_fps]->img = mlx_new_image(mlx->mlx, 100, 100);
+	//mlx->img[e_player]->img = mlx_new_image(mlx->mlx, PLAYER_SIZE_X, PLAYER_SIZE_Y);
 
-
+	mlx->img[e_player]->img = mlx_xpm_file_to_image(mlx->mlx, "../assets/abeille.xpm", &img_width, &img_height);
 	return (0);
 }
 
@@ -181,6 +185,8 @@ int main(int argc, char const *argv[])
 	if(on_start(&mlx))
 		return (1);
 
+	//mlx_string_put
+
 	mlx.img[e_background]->addr = mlx_get_data_addr(mlx.img[e_background]->img,
 								&mlx.img[e_background]->bits_per_pixel,
 								&mlx.img[e_background]->line_length,
@@ -189,12 +195,10 @@ int main(int argc, char const *argv[])
 								&mlx.img[e_fps]->bits_per_pixel,
 								&mlx.img[e_fps]->line_length,
 								&mlx.img[e_fps]->endian);
-	mlx.img[e_player]->addr = mlx_get_data_addr(mlx.img[e_player]->img,
-								&mlx.img[e_player]->bits_per_pixel,
-								&mlx.img[e_player]->line_length,
-								&mlx.img[e_player]->endian);
-	
-	printf("test\n");
+	//mlx.img[e_player]->addr = mlx_get_data_addr(mlx.img[e_player]->img,
+	//							&mlx.img[e_player]->bits_per_pixel,
+	//							&mlx.img[e_player]->line_length,
+	//							&mlx.img[e_player]->endian);
 	mlx_key_hook(mlx.window, handle_keys, &mlx);
 	mlx_loop_hook(mlx.mlx, on_update, &mlx.mlx);
 
