@@ -9,6 +9,7 @@ LIBS = -L$(INCLUDES)mlx -lmlx -lXext -lX11 -lm
 
 SRC = $(addprefix $(SRC_DIR), \
 	utils.c \
+	rotation.c \
 	main.c)
 
 OBJ = $(patsubst $(SRC_DIR)%.c,$(OBJ_DIR)%.o,$(SRC))
@@ -21,7 +22,7 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(DEPS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJ) $(DEPS) 
-	$(CC) $(CFLAGS) $(SRC) $(LIBS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBS) -o $(NAME)
 
 bonus : $(NAME)
 

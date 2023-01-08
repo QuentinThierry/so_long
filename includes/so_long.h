@@ -6,18 +6,20 @@
 /*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/07 02:01:36 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/08 05:03:05 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/time.h>
-#include <time.h>
-#include "mlx/mlx.h"
+# include <stdio.h>
+# include <stdlib.h>
+# include <sys/time.h>
+# include <math.h>
+# include <time.h>
+# include <X11/X.h>
+# include "mlx/mlx.h"
 
 // --=======----=======-- SCREEN_SIZE --=======----=======--
 # define SCREEN_WIDTH 500
@@ -28,10 +30,17 @@
 # define KEY_A 97
 # define KEY_S 115
 # define KEY_D 100
+# define KEY_Q 113
+# define KEY_E 101
+# define KEY_ESC 65307
+# define NB_KEYS 7
 
 // --=======----=======-- KEY_MAP --=======----=======--
 # define PLAYER_SIZE_X 100
 # define PLAYER_SIZE_Y 100
+
+// --=======----=======-- MATHS --=======----=======--
+#define PI 3.141592654
 
 // --=======----=======-- FPS --=======----=======--
 # define FRAME_RATE_DRAW_SPEED 100
@@ -41,18 +50,30 @@
 # define FPS_HEIGHT 10
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-enum layers
+enum e_layers
 {
 	e_background,
 	e_fps,
 	e_player
 };
 
+enum e_key_map
+{
+	e_W,
+	e_A,
+	e_S,
+	e_D,
+	e_E,
+	e_ESC
+};
+
 typedef struct s_mlx
 {
 	void			*mlx;
 	void			*window;
-	struct s_img	*img[3];
+	struct s_img	*imgs[3];
+	struct s_player	*player;
+	void			(*exec_on_key[NB_KEYS])(struct s_mlx *);
 	int				fps;
 	int				offset_x;
 	int				offset_y;
@@ -67,15 +88,33 @@ typedef struct s_img
 	int		endian;
 }	t_img;
 
-typedef struct s_point
+typedef struct s_vector2
 {
 	int	x;
 	int	y;
-}	t_point;
+}	t_vector2;
+
+typedef struct s_dvector2
+{
+	int	x;
+	int	y;
+}	t_dvector2;
+
+typedef struct s_player
+{
+	t_vector2	pos;
+	t_dvector2	rot;
+	
+}	t_player;
 
 // utils.c
-t_point	point(int x, int y);
+t_vector2	vector(int x, int y);
 char	*ft_itoa(int n);
 
+// keys.c
+void	exec_on_w(t_mlx *mlx);
+
+// rotation.c
+void rotate_player(t_player *player, int angle);
 
 #endif
