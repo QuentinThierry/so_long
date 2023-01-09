@@ -10,7 +10,7 @@ LIBS = -L$(INCLUDES)mlx -lmlx -lXext -lX11 -lm
 SRC = $(addprefix $(SRC_DIR), \
 	utils.c \
 	rotation.c \
-	bettermlx_put_img_window.c \
+	bettermlx.c \
 	main.c)
 
 OBJ = $(patsubst $(SRC_DIR)%.c,$(OBJ_DIR)%.o,$(SRC))
