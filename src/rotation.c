@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 04:02:45 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/08 04:46:02 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/08 17:00:22 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 
 void	rotate_player(t_player *player, int angle)
 {
-	double	cos_phi_x;
-	double	cos_phi_y;
 	double	pos_x;
 	double	pos_y;
 	double	teta;
@@ -29,7 +27,7 @@ void	rotate_player(t_player *player, int angle)
 	player->pos.y = pos_x * sin(teta) + pos_y * cos(teta);
 }
 
-void	rotate_img(t_img *img, double angle)
-{
+//void	rotate_img(t_pict *img, double angle)
+//{
 	
-}
+//}

@@ -6,17 +6,17 @@
 /*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/08 05:15:27 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/09 01:49:53 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
-void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
+void	my_mlx_pixel_put(t_pict *img, int x, int y, int color)
 {
 	char	*dst;
 
-	printf("%d\n"), *(unsigned int*)img->addr;
+	//printf("%d\n"), *(unsigned int*)img->addr;
 	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
 	*(unsigned int*)dst = color;
 }
@@ -47,9 +47,9 @@ void	exec_on_d(t_mlx *mlx)
 
 void	exec_on_e(t_mlx *mlx)
 {
-	printf("Avant : (%d, %d)\n", mlx->player->pos.x, mlx->player->pos.y);
+	//printf("Avant : (%d, %d)\n", mlx->player->pos.x, mlx->player->pos.y);
 	rotate_player(mlx->player, 1);
-	printf("Apres : (%d, %d)\n", mlx->player->pos.x, mlx->player->pos.y);
+	//printf("Apres : (%d, %d)\n", mlx->player->pos.x, mlx->player->pos.y);
 }
 
 enum e_key_map	get_key(int key)
@@ -103,7 +103,7 @@ void	draw_rectangle(t_mlx *mlx, t_vector2 pos, t_vector2 size, int color)
 		j = 0;
 		while (j < size.y)
 		{
-			my_mlx_pixel_put(mlx->imgs[e_fps], pos.x + i, pos.y - j, color);
+			my_mlx_pixel_put(mlx->imgs[e_tile], pos.x + i, pos.y + j, color);
 			j++;
 		}
 		i++;
@@ -127,7 +127,7 @@ int	calculate_background(t_mlx *mlx)
 		j = 0;
 		while (j < SCREEN_HEIGHT)
 		{
-			my_mlx_pixel_put(mlx->imgs[e_background], i, j, 0xFF0000);
+			my_mlx_pixel_put(mlx->imgs[e_background], i, j, 0xFFFF0000);
 			j++;
 		}
 		i++;
@@ -135,10 +135,10 @@ int	calculate_background(t_mlx *mlx)
 	return (0);
 }
 
-void	move_pixel(t_img *img, t_vector2 pix_pos, t_vector2 delta)
+void	move_pixel(t_pict *img, t_vector2 pix_pos, t_vector2 delta)
 {
-	unsigned int	color;
-	char			*dst;
+	//unsigned int	color;
+	//char			*dst;
 
 	//printf("%d\n", *(unsigned int*)img->addr);
 	//dst = img->addr + ((pix_pos.y + delta.y) * img->line_length
@@ -158,7 +158,7 @@ int	calculate_player(t_mlx *mlx)
 		while (j < PLAYER_SIZE_Y)
 		{
 			//move_pixel(mlx->imgs[e_player]->img, vector(i, j), vector(10,10));
-			my_mlx_pixel_put(mlx->imgs[e_player]->img, 10, 10, 0x00FF00);
+			//my_mlx_pixel_put(mlx->imgs[e_player]->img, 10, 10, 0x00FF00);
 			j++;
 		}
 		i++;
@@ -169,8 +169,13 @@ int	calculate_player(t_mlx *mlx)
 
 int	draw_layers(t_mlx *mlx)
 {
+	//draw_rectangle(mlx, vector(100, 99), vector(100, 100), 0xFF00FF00);
+	//move_pixel(mlx->imgs[e_background]->img, vector(10, 10), vector(100,100));
+	apply_transparency_on_image(mlx);
 	mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->imgs[e_background]->img, 0, 0);
 	mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->imgs[e_player]->img, mlx->player->pos.x, mlx->player->pos.y);
+	//mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->imgs[e_tile]->img, 0, 0);
+	//printf("Color 200, 200 : %#x\n", get_color_at(mlx->imgs[e_background], vector(200, 200)));
 	return (0);
 }
 
@@ -182,6 +187,7 @@ int	on_update(t_mlx *mlx)
 	calculate_fps(&mlx->fps);
 	calculate_background(mlx);
 	calculate_player(mlx);
+	draw_rectangle(mlx, vector(0, 0), vector(100, 100), 0x4000FF00);
 	draw_layers(mlx);
 
 	if (frame % FRAME_RATE_DRAW_SPEED == 0)
@@ -191,6 +197,7 @@ int	on_update(t_mlx *mlx)
 	}
 	show_fps(mlx, vector(FPS_POSX, FPS_POSY), fps);
 	frame++;
+	get_blended_color(mlx, vector(100,100));
 	return (0);
 }
 
@@ -200,9 +207,10 @@ t_mlx	init_values()
 
 	mlx.mlx = NULL;
 	mlx.window = NULL;
-	mlx.imgs[e_background] = malloc(sizeof(t_img));
-	mlx.imgs[e_fps] = malloc(sizeof(t_img));
-	mlx.imgs[e_player] = malloc(sizeof(t_img));
+	mlx.imgs[e_background] = malloc(sizeof(t_pict));
+	mlx.imgs[e_fps] = malloc(sizeof(t_pict));
+	mlx.imgs[e_player] = malloc(sizeof(t_pict));
+	mlx.imgs[e_tile] = malloc(sizeof(t_pict));
 	mlx.player = malloc(sizeof(t_player));
 	mlx.player->pos.x = 0;
 	mlx.player->pos.y = 0;
@@ -232,10 +240,10 @@ int	on_start(t_mlx *mlx)
 	mlx->window = mlx_new_window(mlx->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "Trop cool");
 	mlx->imgs[e_background]->img = mlx_new_image(mlx->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	mlx->imgs[e_fps]->img = mlx_new_image(mlx->mlx, 100, 100);
+	mlx->imgs[e_tile]->img = mlx_new_image(mlx->mlx, 100, 100);
 	mlx->imgs[e_player]->img = mlx_xpm_file_to_image(mlx->mlx, "assets/abeille.xpm", &img_width, &img_height);
 	return (0);
 }
-
 
 int main(int argc, char const *argv[])
 {
@@ -247,8 +255,6 @@ int main(int argc, char const *argv[])
 	//j = 100;
 	if(on_start(&mlx))
 		return (1);
-
-	//mlx_string_put
 
 	mlx.imgs[e_background]->addr = mlx_get_data_addr(mlx.imgs[e_background]->img,
 								&mlx.imgs[e_background]->bits_per_pixel,
@@ -262,6 +268,11 @@ int main(int argc, char const *argv[])
 								&mlx.imgs[e_player]->bits_per_pixel,
 								&mlx.imgs[e_player]->line_length,
 								&mlx.imgs[e_player]->endian);
+	mlx.imgs[e_tile]->addr = mlx_get_data_addr(mlx.imgs[e_tile]->img,
+								&mlx.imgs[e_tile]->bits_per_pixel,
+								&mlx.imgs[e_tile]->line_length,
+								&mlx.imgs[e_tile]->endian);
+
 	//mlx_key_hook(mlx.window, handle_keys, &mlx);
 
 	mlx_hook(mlx.window, KeyPress, KeyPressMask, &handle_keys, &mlx);
