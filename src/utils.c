@@ -3,23 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 00:05:30 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/08 03:49:29 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/09 20:00:10 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
-
-t_vector2	vector(int x, int y)
-{
-	t_vector2	point;
-
-	point.x = x;
-	point.y = y;
-	return (point);
-}
 
 static size_t	get_size(unsigned int n)
 {
@@ -60,4 +51,35 @@ char	*ft_itoa(int n)
 	if (n < 0)
 		res[0] = '-';
 	return (res);
+}
+
+int	min(int value1, int value2)
+{
+	if (value1 < value2)
+		return (value1);
+	return (value2);
+}
+
+void	*ft_memmove(void *dest, const void *src, size_t n)
+{
+	size_t	i;
+
+	if (!dest && !src)
+		return (NULL);
+	if (dest < src)
+	{
+		i = 0;
+		while (i < n)
+		{
+			((unsigned char *)dest)[i] = ((unsigned char *)src)[i];
+			i++;
+		}
+	}
+	else
+	{
+		i = n;
+		while (i-- > 0)
+			((unsigned char *)dest)[i] = ((unsigned char *)src)[i];
+	}
+	return (dest);
 }

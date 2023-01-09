@@ -1,5 +1,5 @@
 NAME = so_long
-CFLAGS = -g3 -Wall -Wextra#-Werror
+CFLAGS = -g3 -Wall -s -Wextra #-Werror
 DEPS = $(INCLUDES)so_long.h Makefile
 INCLUDES = includes/
 SRC_DIR = src/
