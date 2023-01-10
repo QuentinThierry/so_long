@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bettermlx.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:25:20 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/09 19:30:27 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/10 01:59:08 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,7 @@ void	blend_images(t_pict *back, t_pict *front)
 		{
 			color_back = get_color_at(back, (t_vector2){i, j});
 			color_front = get_color_at(front, (t_vector2){i, j});
-			// if (color_back == color_front)
-			// 	return ;
+			printf("back : %x / front : %x\n", color_back, color_front);
 			if (color_front >> 24 == 0)
 			{
 				change_color(back, (t_vector2){i, j}, color_back);

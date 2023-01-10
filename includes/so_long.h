@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/09 20:08:02 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/10 03:39:54 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,10 @@
 # include "mlx/mlx.h"
 # include "mlx/mlx_int.h"
 
-// --=======----=======-- SCREEN_SIZE --=======----=======--
-# define SCREEN_WIDTH 500
-# define SCREEN_HEIGHT 500
+// --=======----=======-- WINDOWS --=======----=======--
+# define SCREEN_WIDTH 1024
+# define SCREEN_HEIGHT 720
+# define SIZE_CHUNK 64
 
 // --=======----=======-- KEY_MAP --=======----=======--
 # define KEY_W 119
@@ -82,7 +83,7 @@ typedef struct s_mlx
 {
 	void			*mlx;
 	void			*window;
-	struct s_pict	*canvas;
+	struct s_canvas	*canvas;
 	struct s_pict	*layers[4];
 	struct s_player	*player;
 	void			(*exec_on_key[NB_KEYS])(struct s_mlx *);
@@ -102,7 +103,21 @@ typedef struct s_pict
 	int		height;
 }	t_pict;
 
-//typedef struct 
+typedef struct s_canvas
+{
+	struct s_pict	*pict;
+	struct s_chunk	*chunks;
+	int				width;
+	int				height;
+	
+}	t_canvas;
+
+typedef struct s_chunk
+{
+	char	*addr;
+	int		size_x;
+	int		size_y;
+}	t_chunk;
 
 typedef struct s_vector2
 {
@@ -110,22 +125,16 @@ typedef struct s_vector2
 	int	y;
 }	t_vector2;
 
-typedef struct s_dvector2
-{
-	int	x;
-	int	y;
-}	t_dvector2;
-
 typedef struct s_player
 {
 	t_vector2	pos;
-	t_dvector2	rot;
+	t_vector2	rot;
 }	t_player;
 
 // utils.c
 char			*ft_itoa(int n);
 int				min(int value1, int value2);
-void	*ft_memmove(void *dest, const void *src, size_t n);
+void	*ft_memcpy(void *dest, const void *src, size_t n);
 
 // keys.c
 void			exec_on_w(t_mlx *mlx);

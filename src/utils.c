@@ -3,14 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 00:05:30 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/09 20:00:10 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/10 01:52:51 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
+
+t_vector2	vector(int x, int y)
+{
+	t_vector2 vec;
+
+	vec.x = x;
+	vec.y = y;
+	return (vec);
+}
 
 static size_t	get_size(unsigned int n)
 {
@@ -60,26 +69,20 @@ int	min(int value1, int value2)
 	return (value2);
 }
 
-void	*ft_memmove(void *dest, const void *src, size_t n)
+void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
 	size_t	i;
 
-	if (!dest && !src)
-		return (NULL);
-	if (dest < src)
+	i = 0;
+	while ((n - i) % sizeof(size_t))
 	{
-		i = 0;
-		while (i < n)
-		{
-			((unsigned char *)dest)[i] = ((unsigned char *)src)[i];
-			i++;
-		}
+		*(unsigned char *)dest = *(unsigned char *)src;
+		i++;
 	}
-	else
+	while (i < n)
 	{
-		i = n;
-		while (i-- > 0)
-			((unsigned char *)dest)[i] = ((unsigned char *)src)[i];
+		*(size_t *)(dest + i) = *(size_t *)(src + i);
+		i += sizeof(size_t);
 	}
 	return (dest);
 }
