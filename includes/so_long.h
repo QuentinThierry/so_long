@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/10 03:39:54 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/10 19:41:22 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@
 // --=======----=======-- COLORS --=======----=======--
 
 # define ALPHA_MASk 0xFF000000
-# define RED 0xFF0000
-# define GREEN 0xFF00
-# define BLUE 0xFF
+# define RED 0xFFFF0000
+# define GREEN 0xFF00FF00
+# define BLUE 0xFF0000FF
 
 // --=======----=======-- KEY_MAP --=======----=======--
 # define PLAYER_SIZE_X 100
@@ -63,10 +63,11 @@
 
 enum e_layers
 {
-	e_background,
-	e_fps,
-	e_player,
-	e_tile
+	e_lbackground,
+	e_lfps,
+	e_lplayer,
+	e_ltile,
+	e_ldebug
 };
 
 enum e_key_map
@@ -84,7 +85,7 @@ typedef struct s_mlx
 	void			*mlx;
 	void			*window;
 	struct s_canvas	*canvas;
-	struct s_pict	*layers[4];
+	struct s_pict	*layers[5];
 	struct s_player	*player;
 	void			(*exec_on_key[NB_KEYS])(struct s_mlx *);
 	int				fps;
@@ -107,6 +108,9 @@ typedef struct s_canvas
 {
 	struct s_pict	*pict;
 	struct s_chunk	*chunks;
+	int				nb_chunks_x;
+	int				nb_chunks_y;
+	int				nl_offset;
 	int				width;
 	int				height;
 	
@@ -131,10 +135,23 @@ typedef struct s_player
 	t_vector2	rot;
 }	t_player;
 
+typedef union u_color
+{
+	unsigned int color;
+	struct
+	{
+		unsigned char blue;
+		unsigned char green;
+		unsigned char red;
+		unsigned char alpha;
+	};
+}	u_color;
+
+
 // utils.c
 char			*ft_itoa(int n);
 int				min(int value1, int value2);
-void	*ft_memcpy(void *dest, const void *src, size_t n);
+void			*ft_memcpy(void *dest, const void *src, size_t n);
 
 // keys.c
 void			exec_on_w(t_mlx *mlx);
@@ -145,8 +162,7 @@ void			rotate_player(t_player *player, int angle);
 // bettermlx.c;
 unsigned int	get_color_at(t_pict *img, t_vector2 pos);
 void			blend_images(t_pict *back, t_pict *front);
-unsigned int	get_blended_color(unsigned int color_depth_back,
-					unsigned int color_depth_front, t_vector2 pos);
+u_color			get_blended_color(u_color c_back, u_color c_front, t_vector2 pos);
 void			bettermlx_get_data_addr(t_pict *pict);
 
 #endif
