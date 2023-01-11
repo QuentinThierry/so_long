@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/10 19:41:22 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/11 01:52:20 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@
 # define RED 0xFFFF0000
 # define GREEN 0xFF00FF00
 # define BLUE 0xFF0000FF
+# define WHITE 0xFFFFFFFF
 
 // --=======----=======-- KEY_MAP --=======----=======--
 # define PLAYER_SIZE_X 100
@@ -54,7 +55,7 @@
 # define PI 3.141592654
 
 // --=======----=======-- FPS --=======----=======--
-# define FRAME_RATE_DRAW_SPEED 100
+# define FRAME_RATE_DRAW_SPEED 10
 # define FPS_POSX 10
 # define FPS_POSY 20
 # define FPS_WIDTH 35
@@ -162,7 +163,7 @@ void			rotate_player(t_player *player, int angle);
 // bettermlx.c;
 unsigned int	get_color_at(t_pict *img, t_vector2 pos);
 void			blend_images(t_pict *back, t_pict *front);
-u_color			get_blended_color(u_color c_back, u_color c_front, t_vector2 pos);
+//u_color			get_blended_color(u_color c_back, u_color c_front);
 void			bettermlx_get_data_addr(t_pict *pict);
 
 #endif

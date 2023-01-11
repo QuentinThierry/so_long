@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/10 19:57:13 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/11 03:18:31 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,24 +112,37 @@ void	draw_rectangle(t_mlx *mlx, t_vector2 pos, t_vector2 size, int color)
 void	show_fps(t_mlx *mlx, t_vector2 pos, int fps)
 {
 	mlx_string_put(mlx->mlx, mlx->window, pos.x + mlx->offset_x,
-		pos.y + mlx->offset_y, 0xFFFFFF, ft_itoa(fps));
+		pos.y + mlx->offset_y, 0xFFFFFFFF, ft_itoa(fps));
 }
 
 int	calculate_background(t_mlx *mlx)
 {
-	int	i;
-	int	j;
+	int	x;
+	int	y;
 
-	i = 0;
-	while (i < SCREEN_WIDTH)
+	//x = 0;
+	//while (x < SCREEN_WIDTH)
+	//{
+	//	y = 0;
+	//	while (y < SCREEN_HEIGHT)
+	//	{
+	//		my_mlx_pixel_put(mlx->layers[e_lbackground], x, y, 0xFF5F0000);
+	//		y++;
+	//	}
+	//	x++;
+	//}
+
+	y = 0;
+	while (y < mlx->canvas->nb_chunks_y)
 	{
-		j = 0;
-		while (j < SCREEN_HEIGHT)
+		x = 0;
+		while (x < mlx->canvas->nb_chunks_x)
 		{
-			my_mlx_pixel_put(mlx->layers[e_lbackground], i, j, 0xFFFF0000);
-			j++;
+			//printf("y : %d x : %d\n", y, x);
+			draw_to_chunk(mlx->canvas, x + mlx->canvas->nb_chunks_x * y, mlx->layers[e_ltile]);
+			x++;
 		}
-		i++;
+		y++;
 	}
 	return (0);
 }
@@ -156,7 +169,6 @@ int	calculate_player(t_mlx *mlx)
 	return (0);
 }
 
-// crash if window is size 0
 int	init_chunks(t_canvas *canvas)
 {
 	int		x;
@@ -170,7 +182,6 @@ int	init_chunks(t_canvas *canvas)
 	canvas->nb_chunks_y = canvas->height / SIZE_CHUNK + (canvas->height % SIZE_CHUNK != 0);
 	canvas->chunks = malloc(sizeof(t_chunk) * canvas->nb_chunks_x * canvas->nb_chunks_y);
 	y = 0;
-	// printf("size : %d (%dx%d)\n", canvas->nb_chunks_x * canvas->nb_chunks_y, canvas->nb_chunks_x, canvas->nb_chunks_y);
 	while (y < canvas->nb_chunks_y)
 	{
 		x = 0;
@@ -181,13 +192,13 @@ int	init_chunks(t_canvas *canvas)
 				(y * SCREEN_WIDTH * SIZE_CHUNK * canvas->pict->oct_per_pixel) +
 				(SIZE_CHUNK * x * canvas->pict->oct_per_pixel);
 			if (x == canvas->nb_chunks_x - 1 && canvas->width % SIZE_CHUNK != 0)
-				canvas->chunks[y * canvas->nb_chunks_x + x].size_x = (canvas->width % SIZE_CHUNK) - 1;
+				canvas->chunks[y * canvas->nb_chunks_x + x].size_x = (canvas->width % SIZE_CHUNK);
 			else
-				canvas->chunks[y * canvas->nb_chunks_x + x].size_x = SIZE_CHUNK - 1;
+				canvas->chunks[y * canvas->nb_chunks_x + x].size_x = SIZE_CHUNK;
 			if (y == canvas->nb_chunks_y - 1 && (canvas->height % SIZE_CHUNK) != 0)
-				canvas->chunks[y * canvas->nb_chunks_x + x].size_y = (canvas->height % SIZE_CHUNK) - 1;
+				canvas->chunks[y * canvas->nb_chunks_x + x].size_y = (canvas->height % SIZE_CHUNK);
 			else
-				canvas->chunks[y * canvas->nb_chunks_x + x].size_y = SIZE_CHUNK - 1;
+				canvas->chunks[y * canvas->nb_chunks_x + x].size_y = SIZE_CHUNK;
 			x++;
 		}
 		y++;
@@ -206,7 +217,6 @@ void	debug_draw_chunks(t_canvas *canvas, t_pict *debug_image)
 		x = 0;
 		while (x < canvas->nb_chunks_x)
 		{
-			// printf("%dx %dy %dsize, %dchunk\n", x, y, canvas->chunks[y * canvas->nb_chunks_x + x].size_x, y * canvas->nb_chunks_x + x);
 			*(unsigned int *)(debug_image->addr +
 				canvas->nl_offset * y * SIZE_CHUNK + 
 				canvas->pict->oct_per_pixel * 
@@ -233,9 +243,20 @@ void	draw_to_chunk(t_canvas *canvas, int chunk, t_pict *src)
 	{
 		dst = canvas->chunks[chunk].addr +
 			y * canvas->nl_offset;
-		memcpy(dst, src->addr, canvas->chunks[chunk].size_x * 4);
+		ft_memcpy(dst, src->addr, (canvas->chunks[chunk].size_x)
+			* canvas->pict->oct_per_pixel);
 		y++;
 	}
+}
+
+int	find_chunk(t_canvas *canvas, int x, int y)
+{
+	int	chunk;
+
+	chunk = (y / SIZE_CHUNK) * canvas->nb_chunks_x +
+		x / SIZE_CHUNK;
+
+	return (chunk);
 }
 
 int	draw_on_canvas_image(t_mlx *mlx, t_pict *pict,
@@ -255,20 +276,21 @@ int	draw_on_canvas_image(t_mlx *mlx, t_pict *pict,
 		ft_memcpy(mlx->canvas->pict->addr, pict->addr, height * pict->line_length + width * pict->oct_per_pixel);
 	else
 		blend_images(mlx->canvas->pict, pict);
-
-
 	return (0);
 }
 
 int	draw_layers(t_mlx *mlx)
 {
-	draw_rectangle(mlx, (t_vector2){0 ,0}, (t_vector2){100, 100}, 0x5000FF00);
 	//move_pixel(mlx->imgs[e_lbackground]->img, vector(10, 10), vector(100,100));
-	draw_on_canvas_image(mlx, mlx->layers[e_lbackground], (t_vector2){0, 0}, 0);
-	blend_images(mlx->canvas->pict, mlx->layers[e_ltile]);
-	draw_to_chunk(mlx->canvas, 29, mlx->layers[e_ltile]);
-	// debug_calculate(mlx, mlx->layers[e_ldebug]);
-	// blend_images(mlx->canvas->pict, mlx->layers[e_ldebug]);
+	//draw_on_canvas_image(mlx, mlx->layers[e_lbackground], (t_vector2){0, 0}, 0);
+	//blend_images(mlx->canvas->pict, mlx->layers[e_ltile]);
+	
+
+	//find_chunk(mlx->canvas, 100, 100);
+	
+	//debug_calculate(mlx, mlx->layers[e_ldebug]);
+	//blend_images(mlx->canvas->pict, mlx->layers[e_ldebug]);
+
 
 	// draw_on_canvas_image(mlx, mlx->layers[e_ldebug], (t_vector2){0, 0}, 0);
 	mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->canvas->pict->img, 0, 0);
@@ -286,7 +308,6 @@ int	on_update(t_mlx *mlx)
 	static int			fps = 0;
 
 	calculate_fps(&mlx->fps);
-	calculate_background(mlx);
 	// calculate_player(mlx);
 	draw_layers(mlx);
 
@@ -365,7 +386,9 @@ int main(int argc, char const *argv[])
 	bettermlx_get_data_addr(mlx.layers[e_lplayer]);
 	bettermlx_get_data_addr(mlx.layers[e_ltile]);
 	bettermlx_get_data_addr(mlx.layers[e_ldebug]);
-
+	draw_rectangle(&mlx, (t_vector2){0 ,0}, (t_vector2){100, 100}, 0xFFFF00000);
+	calculate_background(&mlx);
+	
 	//mlx_key_hook(mlx.window, handle_keys, &mlx);
 
 	mlx_hook(mlx.window, KeyPress, KeyPressMask, &handle_keys, &mlx);
