@@ -3,23 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 00:05:30 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/10 01:52:51 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/11 20:06:32 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
-
-t_vector2	vector(int x, int y)
-{
-	t_vector2 vec;
-
-	vec.x = x;
-	vec.y = y;
-	return (vec);
-}
 
 static size_t	get_size(unsigned int n)
 {
@@ -85,4 +76,22 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 		i += sizeof(size_t);
 	}
 	return (dest);
+}
+
+// use in chunk_to_draw
+void	ft_bzero(void *dest, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while ((n - i) % sizeof(size_t))
+	{
+		*(unsigned char *)dest = 0;
+		i++;
+	}
+	while (i < n)
+	{
+		*(size_t *)(dest + i) = 0;
+		i += sizeof(size_t);
+	}
 }

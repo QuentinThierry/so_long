@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/11 01:52:20 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/11 19:17:30 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <sys/time.h>
 # include <math.h>
 # include <time.h>
+# include <stdbool.h>
 # include <X11/X.h>
 # include <X11/Xlib.h>
 # include <X11/extensions/Xrender.h>
@@ -41,7 +42,7 @@
 
 // --=======----=======-- COLORS --=======----=======--
 
-# define ALPHA_MASk 0xFF000000
+# define ALPHA_MASK 0xFF000000
 # define RED 0xFFFF0000
 # define GREEN 0xFF00FF00
 # define BLUE 0xFF0000FF
@@ -55,11 +56,15 @@
 # define PI 3.141592654
 
 // --=======----=======-- FPS --=======----=======--
-# define FRAME_RATE_DRAW_SPEED 10
+# define FRAME_RATE_DRAW_SPEED 100
 # define FPS_POSX 10
 # define FPS_POSY 20
 # define FPS_WIDTH 35
 # define FPS_HEIGHT 10
+
+// --=======----=======-- PLAYER --=======----=======--
+# define SPEED 10
+
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 enum e_layers
@@ -109,6 +114,7 @@ typedef struct s_canvas
 {
 	struct s_pict	*pict;
 	struct s_chunk	*chunks;
+	bool			*chunks_to_redraw;
 	int				nb_chunks_x;
 	int				nb_chunks_y;
 	int				nl_offset;
@@ -153,6 +159,7 @@ typedef union u_color
 char			*ft_itoa(int n);
 int				min(int value1, int value2);
 void			*ft_memcpy(void *dest, const void *src, size_t n);
+void			ft_bzero(void *dest, size_t n);
 
 // keys.c
 void			exec_on_w(t_mlx *mlx);
@@ -163,7 +170,14 @@ void			rotate_player(t_player *player, int angle);
 // bettermlx.c;
 unsigned int	get_color_at(t_pict *img, t_vector2 pos);
 void			blend_images(t_pict *back, t_pict *front);
-//u_color			get_blended_color(u_color c_back, u_color c_front);
 void			bettermlx_get_data_addr(t_pict *pict);
+
+// player_move.c
+void	exec_on_w(t_mlx *mlx);
+void	exec_on_a(t_mlx *mlx);
+void	exec_on_s(t_mlx *mlx);
+void	exec_on_d(t_mlx *mlx);
+void	exec_on_e(t_mlx *mlx);
+
 
 #endif

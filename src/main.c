@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/11 03:18:31 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/11 19:53:17 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,37 +18,6 @@ void	my_mlx_pixel_put(t_pict *pict, int x, int y, int color)
 
 	dst = pict->addr + (y * pict->line_length + x * pict->oct_per_pixel);
 	*(unsigned int*)dst = color;
-}
-
-void	exec_on_w(t_mlx *mlx)
-{
-	mlx->player->pos.y--;
-	//printf("W\n");
-}
-
-void	exec_on_a(t_mlx *mlx)
-{
-	mlx->player->pos.x--;
-	//printf("A\n");
-}
-
-void	exec_on_s(t_mlx *mlx)
-{
-	mlx->player->pos.y++;
-	//printf("S\n");
-}
-
-void	exec_on_d(t_mlx *mlx)
-{
-	mlx->player->pos.x++;
-	//printf("D\n");
-}
-
-void	exec_on_e(t_mlx *mlx)
-{
-	//printf("Avant : (%d, %d)\n", mlx->player->pos.x, mlx->player->pos.y);
-	rotate_player(mlx->player, 1);
-	//printf("Apres : (%d, %d)\n", mlx->player->pos.x, mlx->player->pos.y);
 }
 
 enum e_key_map	get_key(int key)
@@ -73,6 +42,7 @@ int	handle_keys(int key, t_mlx *mlx)
 	enum e_key_map e_key;
 
 	e_key = get_key(key);
+	printf("chunk under player : %d (%d)\n", find_chunk(mlx->canvas, mlx->player->pos.x, mlx->player->pos.y));
 	if (e_key != NB_KEYS)
 		mlx->exec_on_key[e_key](mlx);
 	return (0);
@@ -243,7 +213,7 @@ void	draw_to_chunk(t_canvas *canvas, int chunk, t_pict *src)
 	{
 		dst = canvas->chunks[chunk].addr +
 			y * canvas->nl_offset;
-		ft_memcpy(dst, src->addr, (canvas->chunks[chunk].size_x)
+		ft_memcpy(dst, src->addr, ((canvas->chunks[chunk].size_x))
 			* canvas->pict->oct_per_pixel);
 		y++;
 	}
@@ -253,29 +223,35 @@ int	find_chunk(t_canvas *canvas, int x, int y)
 {
 	int	chunk;
 
-	chunk = (y / SIZE_CHUNK) * canvas->nb_chunks_x +
-		x / SIZE_CHUNK;
-
+	chunk = ((y - 1) / SIZE_CHUNK) * canvas->nb_chunks_x +
+		(x - 1) / SIZE_CHUNK;
 	return (chunk);
 }
 
-int	draw_on_canvas_image(t_mlx *mlx, t_pict *pict,
+int	draw_on_canvas_image(t_canvas *canvas, t_pict *pict,
 						t_vector2 pos, int is_alpha_sensitive)
 {
-	int				width;
-	int				height;
 	char			*dst;
-	int				x;
 	int				y;
 
-	width = pict->width;
-	height = pict->height;
 	// printf("w %d/h %d\n", width, height);
 	// dst = mlx->canvas->addr + pos.y * mlx->canvas->line_length + pos.x * mlx->canvas->oct_per_pixel;
+	y = 0;
 	if (!is_alpha_sensitive)
-		ft_memcpy(mlx->canvas->pict->addr, pict->addr, height * pict->line_length + width * pict->oct_per_pixel);
+	{
+		while (y < pict->height)
+		{
+			dst = canvas->chunks[0].addr +
+				(y + pos.y) * canvas->nl_offset + canvas->pict->oct_per_pixel * pos.x;
+			ft_memcpy(dst, pict->addr + pict->line_length * y, pict->width
+				* canvas->pict->oct_per_pixel);
+			y++;
+		}
+
+		// ft_memcpy(canvas->pict->addr, pict->addr, height * pict->line_length + width * pict->oct_per_pixel);
+	}
 	else
-		blend_images(mlx->canvas->pict, pict);
+		blend_images(canvas->pict, pict);
 	return (0);
 }
 
@@ -285,14 +261,13 @@ int	draw_layers(t_mlx *mlx)
 	//draw_on_canvas_image(mlx, mlx->layers[e_lbackground], (t_vector2){0, 0}, 0);
 	//blend_images(mlx->canvas->pict, mlx->layers[e_ltile]);
 	
-
-	//find_chunk(mlx->canvas, 100, 100);
 	
-	//debug_calculate(mlx, mlx->layers[e_ldebug]);
-	//blend_images(mlx->canvas->pict, mlx->layers[e_ldebug]);
 
-
-	// draw_on_canvas_image(mlx, mlx->layers[e_ldebug], (t_vector2){0, 0}, 0);
+	draw_to_chunk(mlx->canvas, find_chunk(mlx->canvas, mlx->player->pos.x, mlx->player->pos.y), mlx->layers[e_ltile]);
+	draw_on_canvas_image(mlx->canvas, mlx->layers[e_lplayer], (t_vector2){mlx->player->pos.x, mlx->player->pos.y}, 0);
+	// debug_calculate(mlx, mlx->layers[e_ldebug]);
+	// blend_images(mlx->canvas->pict, mlx->layers[e_ldebug]);
+	// ft_bzero(mlx->canvas->pict->addr, mlx->canvas->height * mlx->canvas->width * mlx->canvas->pict->oct_per_pixel);
 	mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->canvas->pict->img, 0, 0);
 
 	// mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->layers[e_ldebug]->img, 0, 0);
@@ -307,9 +282,11 @@ int	on_update(t_mlx *mlx)
 	static unsigned int	frame = 0;
 	static int			fps = 0;
 
-	calculate_fps(&mlx->fps);
-	// calculate_player(mlx);
 	draw_layers(mlx);
+
+	calculate_fps(&mlx->fps);
+	calculate_player(mlx);
+	
 
 	if (frame % FRAME_RATE_DRAW_SPEED == 0)
 	{
@@ -386,7 +363,7 @@ int main(int argc, char const *argv[])
 	bettermlx_get_data_addr(mlx.layers[e_lplayer]);
 	bettermlx_get_data_addr(mlx.layers[e_ltile]);
 	bettermlx_get_data_addr(mlx.layers[e_ldebug]);
-	draw_rectangle(&mlx, (t_vector2){0 ,0}, (t_vector2){100, 100}, 0xFFFF00000);
+	draw_rectangle(&mlx, (t_vector2){0 ,0}, (t_vector2){100, 100}, 0xFFFF0000);
 	calculate_background(&mlx);
 	
 	//mlx_key_hook(mlx.window, handle_keys, &mlx);

@@ -11,6 +11,7 @@ SRC = $(addprefix $(SRC_DIR), \
 	utils.c \
 	rotation.c \
 	bettermlx.c \
+	player_move.c \
 	main.c)
 
 OBJ = $(patsubst $(SRC_DIR)%.c,$(OBJ_DIR)%.o,$(SRC))
