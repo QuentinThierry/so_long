@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bettermlx.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:25:20 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/11 03:03:04 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/12 16:18:00 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ void	blend_images(t_pict *back, t_pict *front)
 	int				height;
 
 	i = 0;
-	width = min(back->width, front->width);
-	height = min(back->height, front->height);
+	width = min(back->size.x, front->size.x);
+	height = min(back->size.y, front->size.y);
 	while (i < width)
 	{
 		j = 0;
@@ -90,6 +90,8 @@ void	bettermlx_get_data_addr(t_pict *pict)
 	pict->oct_per_pixel = img->bpp / 8;
 	pict->line_length = img->size_line;
 	pict->endian = img->image->byte_order;
-	pict->width = img->width;
-	pict->height = img->height;
+	pict->size.x = img->width;
+	pict->size.y = img->height;
+	pict->origin.x = 0;
+	pict->origin.y = 0;
 }

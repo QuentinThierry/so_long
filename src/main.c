@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/12 02:05:19 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/12 19:42:08 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@ enum e_key_map	get_key(int key)
 	return (NB_KEYS);
 }
 
-int	handle_keys(int key, t_mlx *mlx)
+int	handle_keys(int key, t_game *game)
 {
 	enum e_key_map e_key;
 
 	e_key = get_key(key);
-	//printf("chunk under player : %d (%d)\n", find_chunk(mlx->canvas, mlx->player->pos.x, mlx->player->pos.y));
+	find_chunk_under(game->canvas, game->layers[e_lplayer]);
 	if (e_key != NB_KEYS)
-		mlx->exec_on_key[e_key](mlx);
+		game->exec_on_key[e_key](game);
 	return (0);
 }
 
@@ -61,59 +61,49 @@ void	calculate_fps(int *fps)
 	prev_time = tmp;
 }
 
-void	draw_rectangle(t_mlx *mlx, t_vector2 pos, t_vector2 size, int color)
+void	draw_rectangle(t_pict *pict, t_vector2 pos, t_vector2 size, int color)
 {
 	int	i;
 	int	j;
 
 	i = 0;
-	while (i < size.x)
+	printf("drew at %d %d\n", pos.x, pos.y);
+	while (i < size.x && i < pict->size.x)
 	{
 		j = 0;
-		while (j < size.y)
+		while (j < size.y && i < pict->size.y)
 		{
-			my_mlx_pixel_put(mlx->layers[e_ltile], pos.x + i, pos.y + j, color);
+			my_mlx_pixel_put(pict, pos.x + i, pos.y + j, color);
 			j++;
 		}
 		i++;
 	}
 }
 
-void	show_fps(t_mlx *mlx, t_vector2 pos, int fps)
+void	show_fps(t_game *mlx, t_vector2 pos, int fps)
 {
 	mlx_string_put(mlx->mlx, mlx->window, pos.x + mlx->offset_x,
 		pos.y + mlx->offset_y, 0xFFFFFFFF, ft_itoa(fps));
 }
 
-int	calculate_background(t_mlx *mlx)
+int	calculate_background(t_game *game)
 {
 	int	x;
 	int	y;
 
-	//x = 0;
-	//while (x < SCREEN_WIDTH)
-	//{
-	//	y = 0;
-	//	while (y < SCREEN_HEIGHT)
-	//	{
-	//		my_mlx_pixel_put(mlx->layers[e_lbackground], x, y, 0xFF5F0000);
-	//		y++;
-	//	}
-	//	x++;
-	//}
-
 	y = 0;
-	while (y < mlx->canvas->nb_chunks_y)
+	while (y < game->canvas->nb_chunks.y)
 	{
 		x = 0;
-		while (x < mlx->canvas->nb_chunks_x)
+		while (x < game->canvas->nb_chunks.x)
 		{
-			//printf("y : %d x : %d\n", y, x);
-			draw_to_chunk(mlx->canvas, x + mlx->canvas->nb_chunks_x * y, mlx->layers[e_ltile]);
+			draw_to_chunk(game->canvas, x + game->canvas->nb_chunks.x * y, game->layers[e_ltile]);
+			game->canvas->chunks_to_redraw[x + game->canvas->nb_chunks.x * y] = 1;
 			x++;
 		}
 		y++;
 	}
+	ft_bzero(game->canvas->chunks_to_redraw, game->canvas->nb_chunks.x * game->canvas->nb_chunks.y * sizeof(bool));
 	return (0);
 }
 
@@ -123,12 +113,12 @@ void	move_pixel(t_pict *pict, t_vector2 delta)
 	int				y;
 
 	y = 0;
-	while (y < pict->height)
+	while (y < pict->size.y)
 	{
 		x = 0;
-		while (x < pict->width)
+		while (x < pict->size.x)
 		{
-			if (!(x + delta.x > pict->width && y + delta.y > pict->height))
+			if (!(x + delta.x > pict->size.x && y + delta.y > pict->size.y))
 			{
 				memmove(
 					pict->addr + (y * pict->line_length)
@@ -137,9 +127,6 @@ void	move_pixel(t_pict *pict, t_vector2 delta)
 								+ ((x + delta.x) * pict->oct_per_pixel),
 					delta.x
 				);
-				
-
-
 				x++;
 			}
 		}
@@ -148,7 +135,7 @@ void	move_pixel(t_pict *pict, t_vector2 delta)
 }
 
 // crash
-int	calculate_player(t_mlx *mlx)
+int	calculate_player(t_game *game)
 {
 	int	i;
 	int	j;
@@ -175,79 +162,39 @@ int	init_chunks(t_canvas *canvas)
 	char	*address;
 
 	address = canvas->pict->addr;
-	canvas->width = canvas->pict->width;
-	canvas->height = canvas->pict->height;
-	canvas->nb_chunks_x = canvas->width / SIZE_CHUNK + (canvas->width % SIZE_CHUNK != 0);
-	canvas->nb_chunks_y = canvas->height / SIZE_CHUNK + (canvas->height % SIZE_CHUNK != 0);
-	canvas->chunks = malloc(sizeof(t_chunk) * canvas->nb_chunks_x * canvas->nb_chunks_y);
+	canvas->size.x = canvas->pict->size.x;
+	canvas->size.y = canvas->pict->size.y;
+	canvas->nb_chunks.x = canvas->size.x / SIZE_CHUNK + (canvas->size.x % SIZE_CHUNK != 0);
+	canvas->nb_chunks.y = canvas->size.y / SIZE_CHUNK + (canvas->size.y % SIZE_CHUNK != 0);
+	canvas->chunks = malloc(sizeof(t_chunk) * canvas->nb_chunks.x * canvas->nb_chunks.y);
 	y = 0;
-	while (y < canvas->nb_chunks_y)
+	while (y < canvas->nb_chunks.y)
 	{
 		x = 0;
-		while (x < canvas->nb_chunks_x)
+		while (x < canvas->nb_chunks.x)
 		{
-			canvas->nl_offset = canvas->pict->oct_per_pixel * canvas->width;
-			canvas->chunks[y * canvas->nb_chunks_x + x].addr = address +
+			canvas->nl_offset = canvas->pict->oct_per_pixel * canvas->size.x;
+			canvas->chunks[y * canvas->nb_chunks.x + x].addr = address +
 				(y * SCREEN_WIDTH * SIZE_CHUNK * canvas->pict->oct_per_pixel) +
 				(SIZE_CHUNK * x * canvas->pict->oct_per_pixel);
-			if (x == canvas->nb_chunks_x - 1 && canvas->width % SIZE_CHUNK != 0)
-				canvas->chunks[y * canvas->nb_chunks_x + x].size_x = (canvas->width % SIZE_CHUNK);
+			if (x == canvas->nb_chunks.x - 1 && canvas->size.x % SIZE_CHUNK != 0)
+				canvas->chunks[y * canvas->nb_chunks.x + x].size_x = (canvas->size.x % SIZE_CHUNK);
 			else
-				canvas->chunks[y * canvas->nb_chunks_x + x].size_x = SIZE_CHUNK;
-			if (y == canvas->nb_chunks_y - 1 && (canvas->height % SIZE_CHUNK) != 0)
-				canvas->chunks[y * canvas->nb_chunks_x + x].size_y = (canvas->height % SIZE_CHUNK);
+				canvas->chunks[y * canvas->nb_chunks.x + x].size_x = SIZE_CHUNK;
+			if (y == canvas->nb_chunks.y - 1 && (canvas->size.y % SIZE_CHUNK) != 0)
+				canvas->chunks[y * canvas->nb_chunks.x + x].size_y = (canvas->size.y % SIZE_CHUNK);
 			else
-				canvas->chunks[y * canvas->nb_chunks_x + x].size_y = SIZE_CHUNK;
+				canvas->chunks[y * canvas->nb_chunks.x + x].size_y = SIZE_CHUNK;
+			canvas->chunks[y * canvas->nb_chunks.x + x].pos = (t_vector2){
+				x * canvas->chunks[y * canvas->nb_chunks.x + x].size_x,
+				y * canvas->chunks[y * canvas->nb_chunks.x + x].size_y};
 			x++;
 		}
 		y++;
 	}
-	canvas->chunks_to_redraw = malloc(sizeof(bool) * canvas->nb_chunks_x * canvas->nb_chunks_y);
-	ft_bzero(canvas->chunks_to_redraw, canvas->nb_chunks_x * canvas->nb_chunks_y);
+	canvas->chunks_to_redraw = malloc(sizeof(bool) * canvas->nb_chunks.x * canvas->nb_chunks.y);
+	ft_bzero(canvas->chunks_to_redraw, canvas->nb_chunks.x * canvas->nb_chunks.y);
 	return (0);
-}
-
-void	debug_draw_chunks(t_canvas *canvas, t_pict *debug_image)
-{
-	int	x;
-	int	y;
-
-	y = 0;
-	while (y < canvas->nb_chunks_y)
-	{
-		x = 0;
-		while (x < canvas->nb_chunks_x)
-		{
-			*(unsigned int *)(debug_image->addr +
-				canvas->nl_offset * y * SIZE_CHUNK +
-				canvas->pict->oct_per_pixel *
-				(canvas->chunks[y * canvas->nb_chunks_x + x].size_x) * x)
-				= GREEN;
-			x++;
-		}
-		y++;
-	}
-}
-
-void	debug_calculate(t_mlx *mlx, t_pict *debug_image)
-{
-	debug_draw_chunks(mlx->canvas, debug_image);
-}
-
-void	refresh_chunks(t_mlx *mlx)
-{
-	int	nb_chunks;
-	int	i;
-
-	i = 0;
-	nb_chunks = mlx->canvas->nb_chunks_x * mlx->canvas->nb_chunks_y;
-	while (i < nb_chunks)
-	{
-		if (mlx->canvas->chunks_to_redraw[i])
-			draw_to_chunk(mlx->canvas, i, mlx->layers[e_ltile]);
-		i++;
-	}
-	ft_bzero(mlx->canvas->chunks_to_redraw, nb_chunks * sizeof(bool));
 }
 
 void	draw_to_chunk(t_canvas *canvas, int chunk, t_pict *src)
@@ -266,12 +213,41 @@ void	draw_to_chunk(t_canvas *canvas, int chunk, t_pict *src)
 	}
 }
 
-void	find_chunk(t_canvas *canvas, int x, int y)
+void	recalculate_chunks(t_game *game)
 {
-	canvas->chunks_to_redraw[
-		((y - 1) / SIZE_CHUNK) * canvas->nb_chunks_x +
-		(x - 1) / SIZE_CHUNK
-		] = 1;
+	int	nb_chunks;
+	int	i;
+
+	i = 0;
+	nb_chunks = game->canvas->nb_chunks.x * game->canvas->nb_chunks.y;
+	while (i < nb_chunks)
+	{
+		if (game->canvas->chunks_to_redraw[i])
+			draw_to_chunk(game->canvas, i, game->layers[e_ltile]);
+		i++;
+	}
+}
+
+void	find_chunk_under(t_canvas *canvas, t_pict *pict)
+{
+	int	x;
+	int	y;
+
+	x = pict->origin.x;
+	y = pict->origin.y;
+	while (x < pict->origin.x + pict->size.x + SIZE_CHUNK)
+	{
+		y = 0;
+		while (y < pict->origin.y + pict->size.y + SIZE_CHUNK)
+		{
+			canvas->chunks_to_redraw[
+				((y - 1) / SIZE_CHUNK) * canvas->nb_chunks.x +
+				(x - 1) / SIZE_CHUNK
+				] = 1;
+			y += SIZE_CHUNK;
+		}
+		x += SIZE_CHUNK;
+	}
 }
 
 int	draw_on_canvas_image(t_canvas *canvas, t_pict *pict,
@@ -283,11 +259,11 @@ int	draw_on_canvas_image(t_canvas *canvas, t_pict *pict,
 	y = 0;
 	if (!is_alpha_sensitive)
 	{
-		while (y < pict->height)
+		while (y < pict->size.y)
 		{
 			dst = canvas->chunks[0].addr +
 				(y + pos.y) * canvas->nl_offset + canvas->pict->oct_per_pixel * pos.x;
-			ft_memcpy(dst, pict->addr + pict->line_length * y, pict->width
+			ft_memcpy(dst, pict->addr + pict->line_length * y, pict->size.x
 				* canvas->pict->oct_per_pixel);
 			y++;
 		}
@@ -297,51 +273,56 @@ int	draw_on_canvas_image(t_canvas *canvas, t_pict *pict,
 	return (0);
 }
 
-int	draw_layers(t_mlx *mlx)
+int	draw_layers(t_game *game)
 {
-	//move_pixel(mlx->imgs[e_lbackground]->img, vector(10, 10), vector(100,100));
-	//draw_on_canvas_image(mlx, mlx->layers[e_lbackground], (t_vector2){0, 0}, 0);
-	//blend_images(mlx->canvas->pict, mlx->layers[e_ltile]);
+	// move_pixel(mlx->imgs[e_lbackground]->img, vector(10, 10), vector(100,100));
+	// draw_on_canvas_image(mlx->canvas, mlx->layers[e_lbackground], (t_vector2){0, 0}, 0);
+	// blend_images(mlx->canvas->pict, mlx->layers[e_ltile]);
 	
-	refresh_chunks(mlx);
-	draw_on_canvas_image(mlx->canvas, mlx->layers[e_lplayer], (t_vector2){mlx->player->pos.x, mlx->player->pos.y}, 0);
+	// find_chunk_under(game->canvas, game->layers[e_lplayer]);
+	recalculate_chunks(game);
 	
-	// debug_calculate(mlx, mlx->layers[e_ldebug]);
-	// blend_images(mlx->canvas->pict, mlx->layers[e_ldebug]);
-	//ft_bzero(mlx->canvas->pict->addr, mlx->canvas->height * mlx->canvas->width * mlx->canvas->pict->oct_per_pixel);
+	debug_calculate(game, game->layers[e_ldebug]);
+	
+	
+	
+	draw_on_canvas_image(game->canvas, game->layers[e_lplayer], (t_vector2){game->player->pos->x, game->player->pos->y}, 0);
+	// blend_images(game->canvas->pict, game->layers[e_ldebug]);
+	// ft_bzero(mlx->canvas->pict->addr, mlx->canvas->size.y * mlx->canvas->size.x * mlx->canvas->pict->oct_per_pixel);
 
-	mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->canvas->pict->img, 0, 0);
+	mlx_put_image_to_window(game->mlx, game->window, game->canvas->pict->img, 0, 0);
+
+	ft_bzero(game->canvas->chunks_to_redraw, game->canvas->nb_chunks.x * game->canvas->nb_chunks.y * sizeof(bool));
 
 	// mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->layers[e_ldebug]->img, 0, 0);
 	// mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->layers[e_lplayer]->img, mlx->player->pos.x, mlx->player->pos.y);
 	// mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->layers[e_ltile]->img, 0, 0);
-	//printf("Color 200, 200 : %#x\n", get_color_at(mlx->imgs[e_lbackground], vector(200, 200)));
 	return (0);
 }
 
-int	on_update(t_mlx *mlx)
+int	on_update(t_game *game)
 {
 	static unsigned int	frame = 0;
 	static int			fps = 0;
 
-	draw_layers(mlx);
+	draw_layers(game);
 
-	calculate_fps(&mlx->fps);
-	calculate_player(mlx);
+	calculate_fps(&game->fps);
+	calculate_player(game);
 
 	if (frame % FRAME_RATE_DRAW_SPEED == 0)
 	{
-		fps = mlx->fps;
+		fps = game->fps;
 		frame = 0;
 	}
-	show_fps(mlx, (t_vector2){FPS_POSX, FPS_POSY}, fps);
+	show_fps(game, (t_vector2){FPS_POSX, FPS_POSY}, fps);
 	frame++;
 	return (0);
 }
 
-t_mlx	init_values()
+t_game	init_values()
 {
-	t_mlx	mlx;
+	t_game	mlx;
 	mlx.mlx = NULL;
 	mlx.window = NULL;
 	mlx.canvas = malloc(sizeof(t_canvas));
@@ -352,8 +333,7 @@ t_mlx	init_values()
 	mlx.layers[e_ltile] = malloc(sizeof(t_pict));
 	mlx.layers[e_ldebug] = malloc(sizeof(t_pict));
 	mlx.player = malloc(sizeof(t_player));
-	mlx.player->pos.x = 0;
-	mlx.player->pos.y = 0;
+	mlx.player->pos = &mlx.layers[e_lplayer]->origin;
 	mlx.player->rot.x = 0;
 	mlx.player->rot.y = 0;
 	mlx.exec_on_key[e_W] = &exec_on_w;
@@ -368,53 +348,53 @@ t_mlx	init_values()
 	return (mlx);
 }
 
-int	on_start(t_mlx *mlx)
+int	on_start(t_game *game)
 {
 	int	img_width = 200;
 	int	img_height = 200;
 
-	*mlx = init_values();
+	*game = init_values();
 	// if (!mlx->img)
 	// 	return (1); // free all img
-	mlx->mlx = mlx_init();
-	mlx->window = mlx_new_window(mlx->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "Trop cool");
-	mlx->canvas->pict->img = mlx_new_image(mlx->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
-	mlx->layers[e_lbackground]->img = mlx_new_image(mlx->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
-	mlx->layers[e_lfps]->img = mlx_new_image(mlx->mlx, 100, 100);
-	mlx->layers[e_ltile]->img = mlx_new_image(mlx->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
-	mlx->layers[e_ldebug]->img = mlx_new_image(mlx->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
-	mlx->layers[e_lplayer]->img = mlx_xpm_file_to_image(mlx->mlx, "assets/abeille.xpm", &img_width, &img_height);
+	game->mlx = mlx_init();
+	game->window = mlx_new_window(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "Trop cool");
+	game->canvas->pict->img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+	game->layers[e_lbackground]->img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+	game->layers[e_lfps]->img = mlx_new_image(game->mlx, 100, 100);
+	game->layers[e_ltile]->img = mlx_new_image(game->mlx, SIZE_CHUNK, SIZE_CHUNK);
+	game->layers[e_ldebug]->img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+	game->layers[e_lplayer]->img = mlx_xpm_file_to_image(game->mlx, "assets/abeille.xpm", &img_width, &img_height);
 	return (0);
 }
 
 int main(int argc, char const *argv[])
 {
-	t_mlx	mlx;
+	t_game	game;
 	//int		i;
 	//int		j;
 
 	//i = 100;
 	//j = 100;
-	if(on_start(&mlx))
+	if(on_start(&game))
 		return (1);
-	bettermlx_get_data_addr(mlx.canvas->pict);
-	init_chunks(mlx.canvas);
-	bettermlx_get_data_addr(mlx.layers[e_lfps]);
-	bettermlx_get_data_addr(mlx.layers[e_lbackground]);
-	bettermlx_get_data_addr(mlx.layers[e_lplayer]);
-	bettermlx_get_data_addr(mlx.layers[e_ltile]);
-	bettermlx_get_data_addr(mlx.layers[e_ldebug]);
-	draw_rectangle(&mlx, (t_vector2){0 ,0}, (t_vector2){0, 0}, 0xFFFF0000);
-	calculate_background(&mlx);
-	move_pixel(mlx.layers[e_lplayer], (t_vector2){0, 0});
+	bettermlx_get_data_addr(game.canvas->pict);
+	init_chunks(game.canvas);
+	bettermlx_get_data_addr(game.layers[e_lfps]);
+	bettermlx_get_data_addr(game.layers[e_lbackground]);
+	bettermlx_get_data_addr(game.layers[e_lplayer]);
+	bettermlx_get_data_addr(game.layers[e_ltile]);
+	bettermlx_get_data_addr(game.layers[e_ldebug]);
+	draw_rectangle(game.layers[e_ltile], (t_vector2){0 ,0}, (t_vector2){SIZE_CHUNK, SIZE_CHUNK}, 0xFF7F0000);
+	calculate_background(&game);
+	// move_pixel(mlx.layers[e_lplayer], (t_vector2){0, 0});
 
 	
 	
 	//mlx_key_hook(mlx.window, handle_keys, &mlx);
 
-	mlx_hook(mlx.window, KeyPress, KeyPressMask, &handle_keys, &mlx);
-	mlx_loop_hook(mlx.mlx, on_update, &mlx.mlx);
-	mlx_loop(mlx.mlx);
+	mlx_hook(game.window, KeyPress, KeyPressMask, &handle_keys, &game);
+	mlx_loop_hook(game.mlx, on_update, &game.mlx);
+	mlx_loop(game.mlx);
 
 	(void)argc;
 	(void)argv;
