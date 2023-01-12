@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/11 19:17:30 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/12 01:42:57 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@
 # define PI 3.141592654
 
 // --=======----=======-- FPS --=======----=======--
-# define FRAME_RATE_DRAW_SPEED 100
+# define FRAME_RATE_DRAW_SPEED 10
 # define FPS_POSX 10
 # define FPS_POSY 20
 # define FPS_WIDTH 35
@@ -168,7 +168,7 @@ void			exec_on_w(t_mlx *mlx);
 void			rotate_player(t_player *player, int angle);
 
 // bettermlx.c;
-unsigned int	get_color_at(t_pict *img, t_vector2 pos);
+unsigned int	get_color_at(t_pict *pict, t_vector2 pos);
 void			blend_images(t_pict *back, t_pict *front);
 void			bettermlx_get_data_addr(t_pict *pict);
 

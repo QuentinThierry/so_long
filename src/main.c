@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/11 19:53:17 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/12 02:05:19 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
-void	my_mlx_pixel_put(t_pict *pict, int x, int y, int color)
+void	my_mlx_pixel_put(t_pict *pict, int x, int y, unsigned int color)
 {
 	char	*dst;
 
@@ -42,7 +42,7 @@ int	handle_keys(int key, t_mlx *mlx)
 	enum e_key_map e_key;
 
 	e_key = get_key(key);
-	printf("chunk under player : %d (%d)\n", find_chunk(mlx->canvas, mlx->player->pos.x, mlx->player->pos.y));
+	//printf("chunk under player : %d (%d)\n", find_chunk(mlx->canvas, mlx->player->pos.x, mlx->player->pos.y));
 	if (e_key != NB_KEYS)
 		mlx->exec_on_key[e_key](mlx);
 	return (0);
@@ -117,6 +117,36 @@ int	calculate_background(t_mlx *mlx)
 	return (0);
 }
 
+void	move_pixel(t_pict *pict, t_vector2 delta)
+{
+	int				x;
+	int				y;
+
+	y = 0;
+	while (y < pict->height)
+	{
+		x = 0;
+		while (x < pict->width)
+		{
+			if (!(x + delta.x > pict->width && y + delta.y > pict->height))
+			{
+				memmove(
+					pict->addr + (y * pict->line_length)
+								+ (x * pict->oct_per_pixel),
+					pict->addr + ((y + delta.y) * pict->line_length)
+								+ ((x + delta.x) * pict->oct_per_pixel),
+					delta.x
+				);
+				
+
+
+				x++;
+			}
+		}
+		y++;
+	}
+}
+
 // crash
 int	calculate_player(t_mlx *mlx)
 {
@@ -129,7 +159,6 @@ int	calculate_player(t_mlx *mlx)
 		j = 0;
 		while (j < PLAYER_SIZE_Y)
 		{
-			//move_pixel(mlx->imgs[e_lplayer]->img, vector(i, j), vector(10,10));
 			//my_mlx_pixel_put(mlx->imgs[e_lplayer]->img, 10, 10, 0x00FF00);
 			j++;
 		}
@@ -173,6 +202,8 @@ int	init_chunks(t_canvas *canvas)
 		}
 		y++;
 	}
+	canvas->chunks_to_redraw = malloc(sizeof(bool) * canvas->nb_chunks_x * canvas->nb_chunks_y);
+	ft_bzero(canvas->chunks_to_redraw, canvas->nb_chunks_x * canvas->nb_chunks_y);
 	return (0);
 }
 
@@ -188,8 +219,8 @@ void	debug_draw_chunks(t_canvas *canvas, t_pict *debug_image)
 		while (x < canvas->nb_chunks_x)
 		{
 			*(unsigned int *)(debug_image->addr +
-				canvas->nl_offset * y * SIZE_CHUNK + 
-				canvas->pict->oct_per_pixel * 
+				canvas->nl_offset * y * SIZE_CHUNK +
+				canvas->pict->oct_per_pixel *
 				(canvas->chunks[y * canvas->nb_chunks_x + x].size_x) * x)
 				= GREEN;
 			x++;
@@ -201,6 +232,22 @@ void	debug_draw_chunks(t_canvas *canvas, t_pict *debug_image)
 void	debug_calculate(t_mlx *mlx, t_pict *debug_image)
 {
 	debug_draw_chunks(mlx->canvas, debug_image);
+}
+
+void	refresh_chunks(t_mlx *mlx)
+{
+	int	nb_chunks;
+	int	i;
+
+	i = 0;
+	nb_chunks = mlx->canvas->nb_chunks_x * mlx->canvas->nb_chunks_y;
+	while (i < nb_chunks)
+	{
+		if (mlx->canvas->chunks_to_redraw[i])
+			draw_to_chunk(mlx->canvas, i, mlx->layers[e_ltile]);
+		i++;
+	}
+	ft_bzero(mlx->canvas->chunks_to_redraw, nb_chunks * sizeof(bool));
 }
 
 void	draw_to_chunk(t_canvas *canvas, int chunk, t_pict *src)
@@ -219,13 +266,12 @@ void	draw_to_chunk(t_canvas *canvas, int chunk, t_pict *src)
 	}
 }
 
-int	find_chunk(t_canvas *canvas, int x, int y)
+void	find_chunk(t_canvas *canvas, int x, int y)
 {
-	int	chunk;
-
-	chunk = ((y - 1) / SIZE_CHUNK) * canvas->nb_chunks_x +
-		(x - 1) / SIZE_CHUNK;
-	return (chunk);
+	canvas->chunks_to_redraw[
+		((y - 1) / SIZE_CHUNK) * canvas->nb_chunks_x +
+		(x - 1) / SIZE_CHUNK
+		] = 1;
 }
 
 int	draw_on_canvas_image(t_canvas *canvas, t_pict *pict,
@@ -234,8 +280,6 @@ int	draw_on_canvas_image(t_canvas *canvas, t_pict *pict,
 	char			*dst;
 	int				y;
 
-	// printf("w %d/h %d\n", width, height);
-	// dst = mlx->canvas->addr + pos.y * mlx->canvas->line_length + pos.x * mlx->canvas->oct_per_pixel;
 	y = 0;
 	if (!is_alpha_sensitive)
 	{
@@ -247,8 +291,6 @@ int	draw_on_canvas_image(t_canvas *canvas, t_pict *pict,
 				* canvas->pict->oct_per_pixel);
 			y++;
 		}
-
-		// ft_memcpy(canvas->pict->addr, pict->addr, height * pict->line_length + width * pict->oct_per_pixel);
 	}
 	else
 		blend_images(canvas->pict, pict);
@@ -261,13 +303,13 @@ int	draw_layers(t_mlx *mlx)
 	//draw_on_canvas_image(mlx, mlx->layers[e_lbackground], (t_vector2){0, 0}, 0);
 	//blend_images(mlx->canvas->pict, mlx->layers[e_ltile]);
 	
-	
-
-	draw_to_chunk(mlx->canvas, find_chunk(mlx->canvas, mlx->player->pos.x, mlx->player->pos.y), mlx->layers[e_ltile]);
+	refresh_chunks(mlx);
 	draw_on_canvas_image(mlx->canvas, mlx->layers[e_lplayer], (t_vector2){mlx->player->pos.x, mlx->player->pos.y}, 0);
+	
 	// debug_calculate(mlx, mlx->layers[e_ldebug]);
 	// blend_images(mlx->canvas->pict, mlx->layers[e_ldebug]);
-	// ft_bzero(mlx->canvas->pict->addr, mlx->canvas->height * mlx->canvas->width * mlx->canvas->pict->oct_per_pixel);
+	//ft_bzero(mlx->canvas->pict->addr, mlx->canvas->height * mlx->canvas->width * mlx->canvas->pict->oct_per_pixel);
+
 	mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->canvas->pict->img, 0, 0);
 
 	// mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->layers[e_ldebug]->img, 0, 0);
@@ -286,7 +328,6 @@ int	on_update(t_mlx *mlx)
 
 	calculate_fps(&mlx->fps);
 	calculate_player(mlx);
-	
 
 	if (frame % FRAME_RATE_DRAW_SPEED == 0)
 	{
@@ -363,8 +404,11 @@ int main(int argc, char const *argv[])
 	bettermlx_get_data_addr(mlx.layers[e_lplayer]);
 	bettermlx_get_data_addr(mlx.layers[e_ltile]);
 	bettermlx_get_data_addr(mlx.layers[e_ldebug]);
-	draw_rectangle(&mlx, (t_vector2){0 ,0}, (t_vector2){100, 100}, 0xFFFF0000);
+	draw_rectangle(&mlx, (t_vector2){0 ,0}, (t_vector2){0, 0}, 0xFFFF0000);
 	calculate_background(&mlx);
+	move_pixel(mlx.layers[e_lplayer], (t_vector2){0, 0});
+
+	
 	
 	//mlx_key_hook(mlx.window, handle_keys, &mlx);
 
