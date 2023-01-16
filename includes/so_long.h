@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/12 19:23:37 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/16 20:15:29 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@
 # define PI 3.141592654
 
 // --=======----=======-- FPS --=======----=======--
-# define FRAME_RATE_DRAW_SPEED 1000
+# define FRAME_RATE_DRAW_SPEED 100
 # define FPS_POSX 10
 # define FPS_POSY 20
 # define FPS_WIDTH 35
@@ -167,7 +167,7 @@ void			rotate_player(t_player *player, int angle);
 
 // bettermlx.c;
 unsigned int	get_color_at(t_pict *pict, t_vector2 pos);
-void			blend_images(t_pict *back, t_pict *front);
+void			blend_images(t_pict *back, t_pict *front, t_vector2 pos);
 void			bettermlx_get_data_addr(t_pict *pict);
 
 // player_move.c
@@ -176,6 +176,9 @@ void	exec_on_a(t_game *mlx);
 void	exec_on_s(t_game *mlx);
 void	exec_on_d(t_game *mlx);
 void	exec_on_e(t_game *mlx);
+
+// image_flip.c
+void	flip_image_y(t_pict *pict);
 
 // debug.c
 void	debug_calculate(t_game *game, t_pict *debug_image);

@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 18:50:40 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/12 19:38:22 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/16 17:13:40 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ void	debug_draw_chunks_border(t_canvas *canvas)
 				canvas->pict->oct_per_pixel *
 				(canvas->chunks[y * canvas->nb_chunks.x + x].size_x) * x)
 				= GREEN;
-			x++;
+			++x;
 		}
-		y++;
+		++y;
 	}
 }
 
@@ -43,13 +43,13 @@ void	debug_draw_hover_chunks(t_canvas *canvas)
 	{
 		if (canvas->chunks_to_redraw[i] == 1)
 		{
-			// printf("ici (%d) : %d %d\n", i, canvas->chunks[i].pos.x, canvas->chunks[i].pos.y);
 			draw_rectangle(canvas->pict, 
-			(t_vector2){canvas->chunks[i].pos.x, 
-			canvas->chunks[i].pos.y}, (t_vector2){SIZE_CHUNK, SIZE_CHUNK},
-			0xFF008000);
+				(t_vector2){canvas->chunks[i].pos.x, 
+				canvas->chunks[i].pos.y}, (t_vector2){
+				canvas->chunks[i].size_x, canvas->chunks[i].size_y},
+				0xFF008000);
 		}
-		i++;
+		++i;
 	}
 }
 

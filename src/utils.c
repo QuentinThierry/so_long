@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 00:05:30 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/12 18:58:01 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/16 14:21:01 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*ft_itoa(int n)
 	return (res);
 }
 
-int	min(int value1, int value2)
+inline int	min(int value1, int value2)
 {
 	if (value1 < value2)
 		return (value1);
