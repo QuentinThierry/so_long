@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/17 00:51:33 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/17 19:59:19 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
+#include <X11/X.h>
 
 void	my_mlx_pixel_put(t_pict *pict, int x, int y, unsigned int color)
 {
@@ -37,28 +38,35 @@ enum e_key_map	get_key(int key)
 	return (NB_KEYS);
 }
 
-int	handle_keys(int key, t_game *game)
+int	press_key(int key, t_game *game)
 {
 	enum e_key_map e_key;
 
 	e_key = get_key(key);
-	find_chunk_under(game->canvas, game->layers[e_lplayer]);
-	if (e_key != NB_KEYS)
-		game->exec_on_key[e_key](game);
-	find_chunk_under(game->canvas, game->layers[e_lplayer]);
+	if (e_key < NB_KEYS)
+		game->press_on_key[e_key](game, 0);
 	return (0);
 }
 
-void	calculate_fps(int *fps)
+int release_key(int key, t_game *game)
+{
+	enum e_key_map e_key;
+
+	e_key = get_key(key);
+	if (e_key < NB_KEYS)
+		game->press_on_key[e_key](game, 1);
+	return (0);
+}
+
+void	calculate_fps(int *fps, double *elapsed)
 {
 	static struct timeval	prev_time = {0, 0};
 	struct timeval			tmp;
-	double					elapsed;
 	
 	gettimeofday(&tmp, NULL);
-	elapsed = (((double)(tmp.tv_usec - prev_time.tv_usec) / CLOCKS_PER_SEC));
-	elapsed += tmp.tv_sec - prev_time.tv_sec;
-	*fps = (int)(1.0 / elapsed);
+	*elapsed = (((double)(tmp.tv_usec - prev_time.tv_usec) / CLOCKS_PER_SEC));
+	*elapsed += tmp.tv_sec - prev_time.tv_sec;
+	*fps = (int)(1.0 / *elapsed);
 	prev_time = tmp;
 }
 
@@ -80,10 +88,10 @@ void	draw_rectangle(t_pict *pict, t_vector2 pos, t_vector2 size, int color)
 	}
 }
 
-void	show_fps(t_game *mlx, t_vector2 pos, int fps)
+void	show_fps(t_game *game, t_vector2 pos, int fps)
 {
-	mlx_string_put(mlx->mlx, mlx->window, pos.x + mlx->offset_x,
-		pos.y + mlx->offset_y, 0xFFFFFFFF, ft_itoa(fps));
+	mlx_string_put(game->mlx, game->window, pos.x + game->offset_x,
+		pos.y + game->offset_y, 0xFFFFFFFF, ft_itoa(fps));
 }
 
 int	calculate_background(t_game *game)
@@ -277,28 +285,16 @@ int	draw_on_canvas_image(t_canvas *canvas, t_pict *pict,
 
 int	draw_layers(t_game *game)
 {
-	// move_pixel(mlx->imgs[e_lbackground]->img, vector(10, 10), vector(100,100));
-	// draw_on_canvas_image(mlx->canvas, mlx->layers[e_lbackground], (t_vector2){0, 0}, 0);
-	// blend_images(mlx->canvas->pict, mlx->layers[e_ltile]);
-	
-	// find_chunk_under(game->canvas, game->layers[e_lplayer]);
 	recalculate_chunks(game);
 	
 	debug_calculate(game, game->layers[e_ldebug]);
-	
-	// blend_images(game->canvas->pict, game->layers[e_ldebug]);
-	
-	
+
 	draw_on_canvas_image(game->canvas, game->layers[e_lplayer], (t_vector2){game->player->pos->x, game->player->pos->y}, 1);
-	// ft_bzero(mlx->canvas->pict->addr, mlx->canvas->size.y * mlx->canvas->size.x * mlx->canvas->pict->oct_per_pixel);
 
 	mlx_put_image_to_window(game->mlx, game->window, game->canvas->pict->img, 0, 0);
 
 	ft_bzero(game->canvas->chunks_to_redraw, game->canvas->nb_chunks.x * game->canvas->nb_chunks.y * sizeof(bool));
 
-	// mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->layers[e_ldebug]->img, 0, 0);
-	// mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->layers[e_lplayer]->img, mlx->player->pos.x, mlx->player->pos.y);
-	// mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->layers[e_ltile]->img, 0, 0);
 	return (0);
 }
 
@@ -307,10 +303,11 @@ int	on_update(t_game *game)
 	static unsigned int	frame = 0;
 	static int			fps = 0;
 
+	move_player(game);
 	draw_layers(game);
 
-	calculate_fps(&game->fps);
-	calculate_player(game);
+	calculate_fps(&game->fps, &game->elapsed);
+	// calculate_player(game);
 
 	if (frame % FRAME_RATE_DRAW_SPEED == 0)
 	{
@@ -324,30 +321,33 @@ int	on_update(t_game *game)
 
 t_game	init_values()
 {
-	t_game	mlx;
-	mlx.mlx = NULL;
-	mlx.window = NULL;
-	mlx.canvas = malloc(sizeof(t_canvas));
-	mlx.canvas->pict = malloc(sizeof(t_pict));
-	mlx.layers[e_lbackground] = malloc(sizeof(t_pict));
-	mlx.layers[e_lfps] = malloc(sizeof(t_pict));
-	mlx.layers[e_lplayer] = malloc(sizeof(t_pict));
-	mlx.layers[e_ltile] = malloc(sizeof(t_pict));
-	mlx.layers[e_ldebug] = malloc(sizeof(t_pict));
-	mlx.player = malloc(sizeof(t_player));
-	mlx.player->pos = &mlx.layers[e_lplayer]->origin;
-	mlx.player->rot.x = 0;
-	mlx.player->rot.y = 0;
-	mlx.exec_on_key[e_W] = &exec_on_w;
-	mlx.exec_on_key[e_A] = &exec_on_a;
-	mlx.exec_on_key[e_S] = &exec_on_s;
-	mlx.exec_on_key[e_D] = &exec_on_d;
-	mlx.exec_on_key[e_E] = &exec_on_e;
-	mlx.exec_on_key[e_ESC] = &exec_on_w;
-	mlx.fps = 0;
-	mlx.offset_x = 0;
-	mlx.offset_y = 0;
-	return (mlx);
+	t_game	game;
+
+	game.mlx = NULL;
+	game.window = NULL;
+	game.canvas = malloc(sizeof(t_canvas));
+	game.canvas->pict = malloc(sizeof(t_pict));
+	game.layers[e_lbackground] = malloc(sizeof(t_pict));
+	game.layers[e_lfps] = malloc(sizeof(t_pict));
+	game.layers[e_lplayer] = malloc(sizeof(t_pict));
+	game.layers[e_ltile] = malloc(sizeof(t_pict));
+	game.layers[e_ldebug] = malloc(sizeof(t_pict));
+	game.player = malloc(sizeof(t_player));
+	game.player->pos = &game.layers[e_lplayer]->origin;
+	game.player->exact_pos = (t_fvector2){0., 0.};
+	game.player->dir.x = 0;
+	game.player->dir.y = 0;
+	game.elapsed = 0;
+	game.press_on_key[e_W] = &press_on_w;
+	game.press_on_key[e_A] = &press_on_a;
+	game.press_on_key[e_S] = &press_on_s;
+	game.press_on_key[e_D] = &press_on_d;
+	game.press_on_key[e_E] = &press_on_e;
+	game.press_on_key[e_ESC] = &press_on_w;
+	game.fps = 10;
+	game.offset_x = 0;
+	game.offset_y = 0;
+	return (game);
 }
 
 int	on_start(t_game *game)
@@ -372,11 +372,7 @@ int	on_start(t_game *game)
 int main(int argc, char const *argv[])
 {
 	t_game	game;
-	//int		i;
-	//int		j;
 
-	//i = 100;
-	//j = 100;
 	if(on_start(&game))
 		return (1);
 	bettermlx_get_data_addr(game.canvas->pict);
@@ -388,12 +384,9 @@ int main(int argc, char const *argv[])
 	bettermlx_get_data_addr(game.layers[e_ldebug]);
 	draw_rectangle(game.layers[e_ltile], (t_vector2){0 ,0}, (t_vector2){SIZE_CHUNK, SIZE_CHUNK}, 0xFF7F0000);
 	calculate_background(&game);
-	// move_pixel(mlx.layers[e_lplayer], (t_vector2){0, 0});
 
-	
-	//mlx_key_hook(mlx.window, handle_keys, &mlx);
-
-	mlx_hook(game.window, KeyPress, KeyPressMask, &handle_keys, &game);
+	mlx_hook(game.window, KeyPress, KeyPressMask, &press_key, &game);
+	mlx_hook(game.window, KeyRelease, KeyReleaseMask, &release_key, &game);
 	mlx_loop_hook(game.mlx, on_update, &game.mlx);
 	mlx_loop(game.mlx);
 

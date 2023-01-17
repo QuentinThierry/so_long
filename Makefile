@@ -1,5 +1,5 @@
 NAME = so_long
-CFLAGS = -g3 -Wall -Wextra #-Werror
+CFLAGS = -g3 -Wall -Wextra #-Ofast #-Werror
 DEPS = $(INCLUDES)so_long.h Makefile
 INCLUDES = includes/
 SRC_DIR = src/
@@ -9,7 +9,6 @@ LIBS = -L$(INCLUDES)mlx -lmlx -lXext -lX11 -lm
 
 SRC = $(addprefix $(SRC_DIR), \
 	utils.c \
-	rotation.c \
 	bettermlx.c \
 	player_move.c \
 	image_flip.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/17 00:43:37 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/17 17:10:43 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,14 @@
 # define PI 3.141592654
 
 // --=======----=======-- FPS --=======----=======--
-# define FRAME_RATE_DRAW_SPEED 100
+# define FRAME_RATE_DRAW_SPEED 5
 # define FPS_POSX 10
 # define FPS_POSY 20
 # define FPS_WIDTH 35
 # define FPS_HEIGHT 10
 
 // --=======----=======-- PLAYER --=======----=======--
-# define SPEED 20
+# define SPEED 250
 
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
@@ -92,17 +92,24 @@ typedef struct s_vector2
 	int	y;
 }	t_vector2;
 
+typedef struct s_fvector2
+{
+	float	x;
+	float	y;
+}	t_fvector2;
+
 typedef struct s_game
 {
 	void			*mlx;
 	void			*window;
+	double			elapsed;
 	struct s_canvas	*canvas;
 	struct s_pict	*layers[5];
 	struct s_player	*player;
-	void			(*exec_on_key[NB_KEYS])(struct s_game *);
 	int				fps;
 	int				offset_x;
 	int				offset_y;
+	void			(*press_on_key[NB_KEYS])(struct s_game *, int);
 }	t_game;
 
 typedef struct s_pict
@@ -137,7 +144,8 @@ typedef struct s_chunk
 typedef struct s_player
 {
 	t_vector2	*pos;
-	t_vector2	rot;
+	t_fvector2	exact_pos;
+	t_vector2	dir;
 }	t_player;
 
 typedef union u_color
@@ -158,6 +166,8 @@ char			*ft_itoa(int n);
 int				min(int value1, int value2);
 void			*ft_memcpy(void *dest, const void *src, size_t n);
 void			ft_bzero(void *dest, size_t n);
+char			*get_address_at(t_pict *pict, int x, int y);
+
 
 // keys.c
 void			exec_on_w(t_game *mlx);
@@ -172,11 +182,12 @@ void			blend_images(t_pict *back, t_pict *front, t_vector2 pos);
 void			bettermlx_get_data_addr(t_pict *pict);
 
 // player_move.c
-void	exec_on_w(t_game *mlx);
-void	exec_on_a(t_game *mlx);
-void	exec_on_s(t_game *mlx);
-void	exec_on_d(t_game *mlx);
-void	exec_on_e(t_game *mlx);
+void	move_player(t_game *game);
+void	press_on_w(t_game *game, int is_release);
+void	press_on_a(t_game *game, int is_release);
+void	press_on_s(t_game *game, int is_release);
+void	press_on_d(t_game *game, int is_release);
+void	press_on_e(t_game *game, int is_release);
 
 // image_flip.c
 void	flip_image_y(t_pict *pict);

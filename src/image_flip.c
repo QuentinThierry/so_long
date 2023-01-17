@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   image_flip.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:06:33 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/17 00:30:49 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/17 18:42:02 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ void	flip_image_y(t_pict *pict)
 		x = 0;
 		while (x < size_x / 2)
 		{
-			tmp = *(unsigned int*)(pict->addr + x * pict->oct_per_pixel + (y) * pict->line_length);
-			*(unsigned int*)(pict->addr + (x * pict->oct_per_pixel) + (y) * pict->line_length) = 
-				*(unsigned int*)(pict->addr + (size_x - x) * pict->oct_per_pixel + (y) * pict->line_length);
-				*(unsigned int*)(pict->addr + (size_x - x) * pict->oct_per_pixel + (y) * pict->line_length)
+			tmp = *(unsigned int*)(get_address_at(pict, x, y));
+			*(unsigned int*)(get_address_at(pict, x, y)) = 
+				*(unsigned int*)(get_address_at(pict, size_x - x, y));
+				*(unsigned int*)(get_address_at(pict, size_x - x, y))
 				= tmp;
 			++x;
 		}
@@ -57,10 +57,10 @@ void flip_image_x(t_pict *pict)
 		y = 0;
 		while (y < size_y / 2)
 		{
-			tmp = *(unsigned int*)(pict->addr + x * pict->oct_per_pixel + (y) * pict->line_length);
-			*(unsigned int*)(pict->addr + (x * pict->oct_per_pixel) + (y) * pict->line_length) = 
-				*(unsigned int*)(pict->addr + (x * pict->oct_per_pixel) + (size_y - y) * pict->line_length);
-				*(unsigned int*)(pict->addr + (x * pict->oct_per_pixel) + (size_y - y) * pict->line_length)
+			tmp = *(unsigned int*)(get_address_at(pict, x, y));
+			*(unsigned int*)(get_address_at(pict, x, y)) = 
+				*(unsigned int*)(get_address_at(pict, size_x - x, y));
+				*(unsigned int*)(get_address_at(pict, size_x - x, y))
 				= tmp;
 			++y;
 		}
