@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/17 17:10:43 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/17 20:07:35 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,23 +181,30 @@ unsigned int	get_color_at(t_pict *pict, t_vector2 pos);
 void			blend_images(t_pict *back, t_pict *front, t_vector2 pos);
 void			bettermlx_get_data_addr(t_pict *pict);
 
+// chunks.c
+int				init_chunks(t_canvas *canvas);
+void			draw_to_chunk(t_canvas *canvas, int chunk, t_pict *src);
+void			draw_to_chunk(t_canvas *canvas, int chunk, t_pict *src);
+void			recalculate_chunks(t_game *game);
+void			find_chunk_under(t_canvas *canvas, t_pict *pict);
+
 // player_move.c
-void	move_player(t_game *game);
-void	press_on_w(t_game *game, int is_release);
-void	press_on_a(t_game *game, int is_release);
-void	press_on_s(t_game *game, int is_release);
-void	press_on_d(t_game *game, int is_release);
-void	press_on_e(t_game *game, int is_release);
+void			move_player(t_game *game);
+void			press_on_w(t_game *game, int is_release);
+void			press_on_a(t_game *game, int is_release);
+void			press_on_s(t_game *game, int is_release);
+void			press_on_d(t_game *game, int is_release);
+void			press_on_e(t_game *game, int is_release);
 
 // image_flip.c
-void	flip_image_y(t_pict *pict);
-void	flip_image_x(t_pict *pict);
+void			flip_image_y(t_pict *pict);
+void			flip_image_x(t_pict *pict);
 
 // debug.c
-void	debug_calculate(t_game *game, t_pict *debug_image);
+void			debug_calculate(t_game *game, t_pict *debug_image);
 
 // main.c
-void	draw_rectangle(t_pict *pict, t_vector2 pos, t_vector2 size, int color);
+void			draw_rectangle(t_pict *pict, t_vector2 pos, t_vector2 size, int color);
 
 
 #endif
