@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/16 20:15:29 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/17 00:43:37 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,7 @@ void			exec_on_w(t_game *mlx);
 
 // rotation.c
 void			rotate_player(t_player *player, int angle);
+void			rotate_image(t_pict *pict, double angle);
 
 // bettermlx.c;
 unsigned int	get_color_at(t_pict *pict, t_vector2 pos);
@@ -179,6 +180,7 @@ void	exec_on_e(t_game *mlx);
 
 // image_flip.c
 void	flip_image_y(t_pict *pict);
+void	flip_image_x(t_pict *pict);
 
 // debug.c
 void	debug_calculate(t_game *game, t_pict *debug_image);

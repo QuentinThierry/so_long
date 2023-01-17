@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player_move.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 18:30:53 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/16 20:15:37 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/17 00:57:00 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,9 @@ void	exec_on_d(t_game *game)
 
 void	exec_on_e(t_game *game)
 {
-	flip_image_y(game->layers[e_lplayer]);
+	rotate_image(game->layers[e_lplayer], 1);
+
+	//flip_image_x(game->layers[e_lplayer]);
 	//printf("Avant : (%d, %d)\n", mlx->player->pos.x, mlx->player->pos.y);
-	// rotate_player(game->player, 1);
 	//printf("Apres : (%d, %d)\n", mlx->player->pos.x, mlx->player->pos.y);
 }
