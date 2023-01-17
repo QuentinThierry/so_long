@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 18:50:40 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/16 17:13:40 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/17 23:06:40 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	debug_draw_hover_chunks(t_canvas *canvas)
 	}
 }
 
-void	debug_calculate(t_game *game, t_pict *debug_image)
+void	debug_calculate(t_game *game)
 {
 	debug_draw_chunks_border(game->canvas);
 	

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/17 20:07:35 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/17 23:06:45 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,7 @@ void			flip_image_y(t_pict *pict);
 void			flip_image_x(t_pict *pict);
 
 // debug.c
-void			debug_calculate(t_game *game, t_pict *debug_image);
+void			debug_calculate(t_game *game);
 
 // main.c
 void			draw_rectangle(t_pict *pict, t_vector2 pos, t_vector2 size, int color);
