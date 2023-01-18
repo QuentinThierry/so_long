@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 14:19:42 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/18 19:53:16 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/18 23:00:07 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	free_tab2d(char ***to_free, int size_y)
 	int	i;
 
 	i = 0;
-	while (i <= size_y)
+	while (i < size_y)
 	{
 		free((*to_free)[i]);
 		i++;
@@ -77,10 +77,10 @@ static char **list_to_map(t_list *list, int *x, int *y)
 	int		i;
 	
 	*y = ft_lstsize(list);
-	if (*y <= 1)
+	if (*y < 3)
 		return (NULL);
 	*x = ft_strlen(list->content);
-	if (*x <= 1)
+	if (*x < 3)
 		return (NULL);
 	if (!is_rectangle(list, *x))
 		return (NULL);
@@ -145,7 +145,6 @@ bool	parse_map(const char *file_name, char ***map)
 {
 	int		fd;
 	int		i;
-	int		j;
 	int		x;
 	int		y;
 
@@ -156,7 +155,9 @@ bool	parse_map(const char *file_name, char ***map)
 		return (false);
 	*map = read_map(fd, &x, &y);
 	if (!*map)
-		return (false);
+		return (close(fd), false);
+	
+
 
 	close(fd);
 	return (true);

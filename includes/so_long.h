@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/18 19:27:25 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/18 22:55:48 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ typedef struct s_game
 	struct s_canvas	*canvas;
 	struct s_pict	*layers[6];
 	struct s_player	*player;
+	char			**map;
 	int				fps;
 	int				offset_x;
 	int				offset_y;

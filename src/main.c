@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/18 19:50:37 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/18 23:01:42 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,9 +227,9 @@ int	on_start(t_game *game)
 int main(int argc, char const *argv[])
 {
 	t_game	game;
-	char	**map;
 
-	if (argc != 2 || !parse_map(argv[1], &map))
+	game.map = NULL;
+	if (argc != 2 || !parse_map(argv[1], &game.map))
 	{
 		write(1, "Error\nMap entry is not valid.\n", 30);
 		return (1);
@@ -237,7 +237,7 @@ int main(int argc, char const *argv[])
 	printf("Oui!\n");
 
 
-	free_tab2d(&map, 4);
+	free_tab2d(&game.map, 3);
 	// if(on_start(&game))
 	// 	return (1);
 	// bettermlx_get_data_addr(game.canvas->pict);
