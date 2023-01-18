@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/18 14:16:26 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/18 19:50:37 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,7 @@ int	on_update(t_game *game)
 	draw_layers(game);
 	calculate_fps(&game->fps, &game->elapsed);
 
+
 	if (frame % FRAME_RATE_DRAW_SPEED == 0)
 	{
 		fps = game->fps;
@@ -212,7 +213,7 @@ int	on_start(t_game *game)
 	// if (!mlx->img)
 	// 	return (1); // free all
 	game->mlx = mlx_init();
-	XAutoRepeatOff(((t_xvar *)(game->mlx))->display);
+	// XAutoRepeatOn(((t_xvar *)(game->mlx))->display);
 	game->window = mlx_new_window(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "Trop cool");
 	game->canvas->pict->img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	game->layers[e_lbackground]->img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -226,25 +227,36 @@ int	on_start(t_game *game)
 int main(int argc, char const *argv[])
 {
 	t_game	game;
+	char	**map;
 
-	if(on_start(&game))
+	if (argc != 2 || !parse_map(argv[1], &map))
+	{
+		write(1, "Error\nMap entry is not valid.\n", 30);
 		return (1);
-	bettermlx_get_data_addr(game.canvas->pict);
-	init_chunks(game.canvas);
-	bettermlx_get_data_addr(game.layers[e_lfps]);
-	bettermlx_get_data_addr(game.layers[e_lbackground]);
-	bettermlx_get_data_addr(game.layers[e_lplayer]);
-	bettermlx_get_data_addr(game.layers[e_ltile]);
-	bettermlx_get_data_addr(game.layers[e_ldebug]);
-	draw_rectangle(game.layers[e_ltile], (t_vector2){0 ,0}, (t_vector2){SIZE_CHUNK, SIZE_CHUNK}, 0xFF7F0000);
-	calculate_background(&game);
+	}
+	printf("Oui!\n");
 
-	mlx_hook(game.window, KeyPress, KeyPressMask, &press_key, &game);
-	mlx_hook(game.window, KeyRelease, KeyReleaseMask, &release_key, &game);
-	mlx_loop_hook(game.mlx, on_update, &game.mlx);
-	mlx_loop(game.mlx);
+
+	free_tab2d(&map, 4);
+	// if(on_start(&game))
+	// 	return (1);
+	// bettermlx_get_data_addr(game.canvas->pict);
+	// init_chunks(game.canvas);
+	// bettermlx_get_data_addr(game.layers[e_lfps]);
+	// bettermlx_get_data_addr(game.layers[e_lbackground]);
+	// bettermlx_get_data_addr(game.layers[e_lplayer]);
+	// bettermlx_get_data_addr(game.layers[e_ltile]);
+	// bettermlx_get_data_addr(game.layers[e_ldebug]);
+	// draw_rectangle(game.layers[e_ltile], (t_vector2){0 ,0}, (t_vector2){SIZE_CHUNK, SIZE_CHUNK}, 0xFF7F0000);
+	// calculate_background(&game);
+
+	// mlx_hook(game.window, KeyPress, KeyPressMask, &press_key, &game);
+	// mlx_hook(game.window, KeyRelease, KeyReleaseMask, &release_key, &game);
+	// mlx_loop_hook(game.mlx, on_update, &game.mlx);
+	// mlx_loop(game.mlx);
 
 	(void)argc;
 	(void)argv;
-	return 0;
+	(void)game;
+	return (0);
 }

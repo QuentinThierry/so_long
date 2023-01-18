@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/18 14:16:18 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/18 19:27:25 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <X11/X.h>
 # include <X11/Xlib.h>
 # include <X11/extensions/Xrender.h>
+# include <fcntl.h>
 # include "mlx/mlx.h"
 # include "mlx/mlx_int.h"
 
@@ -88,6 +89,12 @@ enum e_key_map
 	e_E,
 	e_ESC
 };
+
+typedef struct s_list
+{
+	char			*content;
+	struct s_list	*next;
+}	t_list;
 
 typedef struct s_vector2
 {
@@ -170,7 +177,19 @@ int				min(int value1, int value2);
 void			*ft_memcpy(void *dest, const void *src, size_t n);
 void			ft_bzero(void *dest, size_t n);
 char			*get_address_at(t_pict *pict, int x, int y);
+size_t			ft_strlen(const char *s);
+int				equals(char	*s1, char *s2);
 
+// list.c
+t_list			*ft_lstnew(char *content);
+int				ft_lstsize(t_list *lst);
+void			ft_lstadd_back(t_list **lst, t_list *elem);
+void			free_list(t_list **lst);
+
+
+// parsing.c
+bool			parse_map(const char *file_name, char ***map);
+void			free_tab2d(char ***to_free, int size_y);
 
 // keys.c
 void			exec_on_w(t_game *mlx);

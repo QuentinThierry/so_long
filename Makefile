@@ -1,6 +1,6 @@
 NAME = so_long
 CFLAGS = -g3 -Wall -Wextra #-Ofast #-Werror
-DEPS = $(INCLUDES)so_long.h Makefile
+DEPS = $(INCLUDES)so_long.h $(INCLUDES)get_next_line.h Makefile
 INCLUDES = includes/
 SRC_DIR = src/
 OBJ_DIR = obj/
@@ -8,6 +8,8 @@ CC = gcc
 LIBS = -L$(INCLUDES)mlx -lmlx -lXext -lX11 -lm
 
 SRC = $(addprefix $(SRC_DIR), \
+	get_next_line.c \
+	get_next_line_utils.c \
 	utils.c \
 	bettermlx.c \
 	player_move.c \
@@ -15,6 +17,8 @@ SRC = $(addprefix $(SRC_DIR), \
 	image_operations.c \
 	colors.c \
 	chunks.c \
+	parsing.c \
+	list_utils.c \
 	debug.c \
 	main.c)
 
