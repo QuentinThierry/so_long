@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 18:50:40 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/17 23:06:40 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/18 14:16:45 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
+#include <strings.h>
 
 void	debug_draw_chunks_border(t_canvas *canvas)
 {
@@ -43,11 +44,11 @@ void	debug_draw_hover_chunks(t_canvas *canvas)
 	{
 		if (canvas->chunks_to_redraw[i] == 1)
 		{
-			draw_rectangle(canvas->pict, 
+			draw_rectangle(canvas->pict,
 				(t_vector2){canvas->chunks[i].pos.x, 
 				canvas->chunks[i].pos.y}, (t_vector2){
 				canvas->chunks[i].size_x, canvas->chunks[i].size_y},
-				0xFF008000);
+				0x80008000);
 		}
 		++i;
 	}

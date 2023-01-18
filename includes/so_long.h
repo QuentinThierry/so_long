@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/17 23:06:45 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/18 14:16:18 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,9 @@
 // --=======----=======-- PLAYER --=======----=======--
 # define SPEED 250
 
+// --=======----=======-- DEBUG --=======----=======--
+# define ISDEBUG 0 // no use
+
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 enum e_layers
@@ -104,7 +107,7 @@ typedef struct s_game
 	void			*window;
 	double			elapsed;
 	struct s_canvas	*canvas;
-	struct s_pict	*layers[5];
+	struct s_pict	*layers[6];
 	struct s_player	*player;
 	int				fps;
 	int				offset_x;
@@ -177,8 +180,6 @@ void			rotate_player(t_player *player, int angle);
 void			rotate_image(t_pict *pict, double angle);
 
 // bettermlx.c;
-unsigned int	get_color_at(t_pict *pict, t_vector2 pos);
-void			blend_images(t_pict *back, t_pict *front, t_vector2 pos);
 void			bettermlx_get_data_addr(t_pict *pict);
 
 // chunks.c
@@ -199,6 +200,15 @@ void			press_on_e(t_game *game, int is_release);
 // image_flip.c
 void			flip_image_y(t_pict *pict);
 void			flip_image_x(t_pict *pict);
+
+// image_operations.c
+int				draw_image_on_canvas(t_canvas *canvas, t_pict *pict,
+						t_vector2 pos, int is_alpha_sensitive);
+void			clear_image(t_pict *pict);
+
+// colors.c
+unsigned int	get_color_at(t_pict *pict, t_vector2 pos);
+void			blend_images(t_pict *back, t_pict *front, t_vector2 pos);
 
 // debug.c
 void			debug_calculate(t_game *game);

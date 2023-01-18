@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 18:30:53 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/17 19:58:58 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/18 14:15:31 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	press_on_d(t_game *game, int is_release)
 
 void	press_on_e(t_game *game, int is_release)
 {
+	clear_image(game->layers[e_ldebug]);
 	(void)game;
 	(void)is_release;
 	//printf("Avant : (%d, %d)\n", mlx->player->pos.x, mlx->player->pos.y);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/17 23:28:07 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/18 14:16:26 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int	press_key(int key, t_game *game)
 {
 	enum e_key_map e_key;
 
-	printf("Press\n");
 	e_key = get_key(key);
 	if (e_key < NB_KEYS)
 		game->press_on_key[e_key](game, 0);
@@ -52,7 +51,6 @@ int release_key(int key, t_game *game)
 {
 	enum e_key_map e_key;
 
-	printf("Release\n");
 	e_key = get_key(key);
 	if (e_key < NB_KEYS)
 		game->press_on_key[e_key](game, 1);
@@ -143,34 +141,12 @@ void	move_pixel(t_pict *pict, t_vector2 delta)
 	}
 }
 
-int	draw_on_canvas_image(t_canvas *canvas, t_pict *pict,
-						t_vector2 pos, int is_alpha_sensitive)
-{
-	char	*dst;
-	int		y;
-
-	y = 0;
-	if (!is_alpha_sensitive)
-	{
-		while (y < pict->size.y)
-		{
-			dst = canvas->chunks[0].addr +
-				(y + pos.y) * canvas->nl_offset + canvas->pict->oct_per_pixel * pos.x;
-			ft_memcpy(dst, pict->addr + pict->line_length * y, pict->size.x
-				* canvas->pict->oct_per_pixel);
-			y++;
-		}
-	}
-	else
-		blend_images(canvas->pict, pict, pos);
-	return (0);
-}
-
 int	draw_layers(t_game *game)
 {
 	recalculate_chunks(game);
 	debug_calculate(game);
-	draw_on_canvas_image(game->canvas, game->layers[e_lplayer], (t_vector2){game->player->pos->x, game->player->pos->y}, 1);
+	draw_image_on_canvas(game->canvas, game->layers[e_lplayer], (t_vector2){game->player->pos->x, game->player->pos->y}, 1);
+
 	mlx_put_image_to_window(game->mlx, game->window, game->canvas->pict->img, 0, 0);
 	ft_bzero(game->canvas->chunks_to_redraw, game->canvas->nb_chunks.x * game->canvas->nb_chunks.y * sizeof(bool));
 
@@ -237,7 +213,6 @@ int	on_start(t_game *game)
 	// 	return (1); // free all
 	game->mlx = mlx_init();
 	XAutoRepeatOff(((t_xvar *)(game->mlx))->display);
-	//XkbSetDetectableAutoRepeat(((t_xvar *)(game->mlx))->display, 1, NULL);
 	game->window = mlx_new_window(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "Trop cool");
 	game->canvas->pict->img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	game->layers[e_lbackground]->img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
