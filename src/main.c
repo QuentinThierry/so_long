@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/18 23:01:42 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/18 23:30:35 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,8 +236,7 @@ int main(int argc, char const *argv[])
 	}
 	printf("Oui!\n");
 
-
-	free_tab2d(&game.map, 3);
+	free_tab2d(&game.map, 4);
 	// if(on_start(&game))
 	// 	return (1);
 	// bettermlx_get_data_addr(game.canvas->pict);

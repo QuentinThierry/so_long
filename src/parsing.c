@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 14:19:42 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/18 23:00:07 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/19 01:01:33 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,10 +141,75 @@ static char	**read_map(int fd, int *x, int *y)
 	return (map);
 }
 
+bool	is_closed(char **map, int x, int y)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while(i < x)
+	{
+		j = 0;
+		if (map[0][i] != '1' || map[y-1][i] != '1')
+			return (false);
+		while ((i == 0 || i == x-1) && j < y-1)
+		{
+			if (map[j][i] != '1')
+				return (false);
+			j++;
+		}
+		i++;
+	}
+	return (true);
+}
+
+static int	change_flag(char letter, int flag)
+{
+	if (letter == 'E')
+	{
+		if ((flag & 0x1) != 0)
+			return (-1);
+		flag |= 0x1;
+	}
+	if (letter == 'P')
+	{
+		if ((flag & 0x2) != 0)
+			return (-1);
+		flag |= 0x2;
+	}
+	if (letter == 'C')
+		flag |= 0x4;
+	return (flag);
+}
+
+static bool	has_all_elem_once(char **map, int x, int y)
+{
+	int	flag;
+	int		i;
+	int		j;
+
+	j = 0;
+	flag = 0;
+	while (j < y)
+	{
+		i = 0;
+		while (i < x)
+		{
+			flag = change_flag(map[j][i], flag);
+			if (flag == -1)
+				return (false);
+			i++;
+		}
+		j++;
+	}
+	if ((flag & 0x07) != 0x07)
+		return (false);
+	return (true);
+}
+
 bool	parse_map(const char *file_name, char ***map)
 {
 	int		fd;
-	int		i;
 	int		x;
 	int		y;
 
@@ -156,9 +221,10 @@ bool	parse_map(const char *file_name, char ***map)
 	*map = read_map(fd, &x, &y);
 	if (!*map)
 		return (close(fd), false);
-	
-
-
+	if(!is_closed(*map, x, y))
+		return (close(fd), free_tab2d(map, y), false);
+	if(!has_all_elem_once(*map, x, y))
+		return (close(fd), free_tab2d(map, y), false);
 	close(fd);
 	return (true);
 }
