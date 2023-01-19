@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 20:03:30 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/19 14:30:36 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/19 16:12:06 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	draw_to_chunk(t_canvas *canvas, int chunk, t_pict *src)
 	{
 		dst = canvas->chunks[chunk].addr +
 			y * canvas->nl_offset;
-		ft_memcpy(dst, src->addr, ((canvas->chunks[chunk].size_x))
+		ft_memcpy(dst, src->addr, (canvas->chunks[chunk].size_x)
 			* canvas->pict->oct_per_pixel);
 		y++;
 	}
@@ -79,7 +79,7 @@ void	recalculate_chunks(t_level *lvl)
 	while (i < nb_chunks)
 	{
 		if (lvl->canvas->chunks_to_redraw[i])
-			draw_to_chunk(lvl->canvas, i, lvl->layers[e_ltile]);
+			draw_to_chunk(lvl->canvas, i, lvl->images[e_ground]);
 		i++;
 	}
 }

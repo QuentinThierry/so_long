@@ -11,6 +11,7 @@ SRC = $(addprefix $(SRC_DIR), \
 	get_next_line.c \
 	get_next_line_utils.c \
 	utils.c \
+	load_images.c \
 	bettermlx.c \
 	player_move.c \
 	image_flip.c \

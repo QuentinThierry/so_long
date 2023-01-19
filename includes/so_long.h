@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/19 14:33:00 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/19 15:44:28 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,13 @@ enum e_layers
 	e_lfps,
 	e_lplayer,
 	e_ltile,
-	e_ldebug
+	e_ldebug,
+	e_ground,
+	e_wall,
+	e_collec,
+	e_ennemy,
+	e_player,
+	e_exit
 };
 
 enum e_key_map
@@ -136,7 +142,7 @@ typedef struct s_level
 	struct s_canvas		*canvas;
 	char				**map;
 	struct s_player		*player;
-	struct s_pict		*layers[6];
+	struct s_pict		*images[16];
 }	t_level;
 
 typedef struct s_canvas
@@ -192,6 +198,8 @@ int				ft_lstsize(t_list *lst);
 void			ft_lstadd_back(t_list **lst, t_list *elem);
 void			free_list(t_list **lst);
 
+// load_images.c
+void	load_images(t_game *game);
 
 // parsing.c
 bool			parse_map(const char *file_name, char ***map);
