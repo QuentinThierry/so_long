@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 18:30:53 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/18 22:40:43 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/19 14:29:42 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,49 +14,49 @@
 
 void	move_player(t_game *game)
 {
-	find_chunk_under(game->canvas, game->layers[e_lplayer]);
-	game->player->exact_pos.x += (double)(game->player->dir.x) * SPEED * game->elapsed;
-	game->player->exact_pos.y += (double)(game->player->dir.y) * SPEED * game->elapsed;
-	game->player->pos->x = floor(game->player->exact_pos.x);
-	game->player->pos->y = floor(game->player->exact_pos.y);
-	find_chunk_under(game->canvas, game->layers[e_lplayer]);
+	find_chunk_under(game->lvl->canvas, game->lvl->layers[e_lplayer]);
+	game->lvl->player->exact_pos.x += (double)(game->lvl->player->dir.x) * SPEED * game->elapsed;
+	game->lvl->player->exact_pos.y += (double)(game->lvl->player->dir.y) * SPEED * game->elapsed;
+	game->lvl->player->pos->x = floor(game->lvl->player->exact_pos.x);
+	game->lvl->player->pos->y = floor(game->lvl->player->exact_pos.y);
+	find_chunk_under(game->lvl->canvas, game->lvl->layers[e_lplayer]);
 }
 
 void	press_on_w(t_game *game, int is_release)
 {
 	if (!is_release)
-		game->player->dir.y += -1;
+		game->lvl->player->dir.y += -1;
 	else
-		game->player->dir.y += 1;
+		game->lvl->player->dir.y += 1;
 }
 
 void	press_on_a(t_game *game, int is_release)
 {
 	if (!is_release)
-		game->player->dir.x += -1;
+		game->lvl->player->dir.x += -1;
 	else
-		game->player->dir.x += 1;
+		game->lvl->player->dir.x += 1;
 }
 
 void	press_on_s(t_game *game, int is_release)
 {
 	if (!is_release)
-		game->player->dir.y += 1;
+		game->lvl->player->dir.y += 1;
 	else
-		game->player->dir.y += -1;
+		game->lvl->player->dir.y += -1;
 }
 
 void	press_on_d(t_game *game, int is_release)
 {
 	if (!is_release)
-		game->player->dir.x += 1;
+		game->lvl->player->dir.x += 1;
 	else
-		game->player->dir.x += -1;
+		game->lvl->player->dir.x += -1;
 }
 
 void	press_on_e(t_game *game, int is_release)
 {
-	clear_image(game->layers[e_ldebug]);
+	clear_image(game->lvl->layers[e_ldebug]);
 	(void)game;
 	(void)is_release;
 	//printf("Avant : (%d, %d)\n", mlx->player->pos.x, mlx->player->pos.y);

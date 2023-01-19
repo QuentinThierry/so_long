@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/18 22:55:48 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/19 14:33:00 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,11 +113,8 @@ typedef struct s_game
 	void			*mlx;
 	void			*window;
 	double			elapsed;
-	struct s_canvas	*canvas;
-	struct s_pict	*layers[6];
-	struct s_player	*player;
-	char			**map;
 	int				fps;
+	struct s_level	*lvl;
 	int				offset_x;
 	int				offset_y;
 	void			(*press_on_key[NB_KEYS])(struct s_game *, int);
@@ -133,6 +130,14 @@ typedef struct s_pict
 	int					oct_per_pixel;
 	int					endian;
 }	t_pict;
+
+typedef struct s_level
+{
+	struct s_canvas		*canvas;
+	char				**map;
+	struct s_player		*player;
+	struct s_pict		*layers[6];
+}	t_level;
 
 typedef struct s_canvas
 {
@@ -206,7 +211,7 @@ void			bettermlx_get_data_addr(t_pict *pict);
 int				init_chunks(t_canvas *canvas);
 void			draw_to_chunk(t_canvas *canvas, int chunk, t_pict *src);
 void			draw_to_chunk(t_canvas *canvas, int chunk, t_pict *src);
-void			recalculate_chunks(t_game *game);
+void			recalculate_chunks(t_level *lvl);
 void			find_chunk_under(t_canvas *canvas, t_pict *pict);
 
 // player_move.c
@@ -231,7 +236,7 @@ unsigned int	get_color_at(t_pict *pict, t_vector2 pos);
 void			blend_images(t_pict *back, t_pict *front, t_vector2 pos);
 
 // debug.c
-void			debug_calculate(t_game *game);
+void			debug_calculate(t_level *lvl);
 
 // main.c
 void			draw_rectangle(t_pict *pict, t_vector2 pos, t_vector2 size, int color);

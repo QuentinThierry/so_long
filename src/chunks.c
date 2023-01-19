@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   chunks.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 20:03:30 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/17 20:04:48 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/19 14:30:36 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,17 +69,17 @@ void	draw_to_chunk(t_canvas *canvas, int chunk, t_pict *src)
 	}
 }
 
-void	recalculate_chunks(t_game *game)
+void	recalculate_chunks(t_level *lvl)
 {
 	int	nb_chunks;
 	int	i;
 
 	i = 0;
-	nb_chunks = game->canvas->nb_chunks.x * game->canvas->nb_chunks.y;
+	nb_chunks = lvl->canvas->nb_chunks.x * lvl->canvas->nb_chunks.y;
 	while (i < nb_chunks)
 	{
-		if (game->canvas->chunks_to_redraw[i])
-			draw_to_chunk(game->canvas, i, game->layers[e_ltile]);
+		if (lvl->canvas->chunks_to_redraw[i])
+			draw_to_chunk(lvl->canvas, i, lvl->layers[e_ltile]);
 		i++;
 	}
 }
