@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/19 15:44:28 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/20 18:52:02 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@
 # define PI 3.141592654
 
 // --=======----=======-- FPS --=======----=======--
-# define FRAME_RATE_DRAW_SPEED 5
+# define FRAME_RATE_DRAW_SPEED 250
 # define FPS_POSX 10
 # define FPS_POSY 20
 # define FPS_WIDTH 35
@@ -140,7 +140,8 @@ typedef struct s_pict
 typedef struct s_level
 {
 	struct s_canvas		*canvas;
-	char				**map;
+	char				*map;
+	struct s_vector2	map_size;
 	struct s_player		*player;
 	struct s_pict		*images[16];
 }	t_level;
@@ -199,10 +200,10 @@ void			ft_lstadd_back(t_list **lst, t_list *elem);
 void			free_list(t_list **lst);
 
 // load_images.c
-void	load_images(t_game *game);
+void			load_images_default(t_game *game);
 
 // parsing.c
-bool			parse_map(const char *file_name, char ***map);
+bool			parse_map(const char *file_name, char **map, t_vector2 *map_size);
 void			free_tab2d(char ***to_free, int size_y);
 
 // keys.c
@@ -216,7 +217,7 @@ void			rotate_image(t_pict *pict, double angle);
 void			bettermlx_get_data_addr(t_pict *pict);
 
 // chunks.c
-int				init_chunks(t_canvas *canvas);
+int				init_chunks(t_level *lvl);
 void			draw_to_chunk(t_canvas *canvas, int chunk, t_pict *src);
 void			draw_to_chunk(t_canvas *canvas, int chunk, t_pict *src);
 void			recalculate_chunks(t_level *lvl);

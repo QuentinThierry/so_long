@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   load_images.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:39:38 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/19 16:06:56 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/20 18:59:31 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
-void	load_images(t_game *game)
+void	load_images_default(t_game *game)
 {
 	int	size;
 
@@ -24,7 +24,7 @@ void	load_images(t_game *game)
 	game->lvl->images[e_exit] = malloc(sizeof(t_pict));
 	
 	game->lvl->images[e_ground]->img = mlx_xpm_file_to_image(game->mlx,
-			"assets/default/test.xpm", &size, &size);
+			"assets/default/default_ground.xpm", &size, &size);
 	game->lvl->images[e_wall]->img = mlx_xpm_file_to_image(game->mlx,
 			"assets/default/default_wall.xpm", &size, &size);
 	game->lvl->images[e_collec]->img = mlx_xpm_file_to_image(game->mlx,

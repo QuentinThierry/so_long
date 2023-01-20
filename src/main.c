@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/19 16:13:07 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/20 19:09:38 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,24 +93,17 @@ void	show_fps(t_game *game, t_vector2 pos, int fps)
 		pos.y + game->offset_y, 0xFFFFFFFF, ft_itoa(fps));
 }
 
-int	calculate_background(t_game *game)
+int	init_background(t_game *game)
 {
-	int	x;
-	int	y;
+	int	i;
 
-	y = 0;
-	while (y < game->lvl->canvas->nb_chunks.y)
+	i = 0;
+	while (i < game->lvl->canvas->nb_chunks.y * game->lvl->canvas->nb_chunks.x)
 	{
-		x = 0;
-		while (x < game->lvl->canvas->nb_chunks.x)
-		{
-			draw_to_chunk(game->lvl->canvas, x + game->lvl->canvas->nb_chunks.x * y, game->lvl->images[e_ground]);
-			game->lvl->canvas->chunks_to_redraw[x + game->lvl->canvas->nb_chunks.x * y] = 1;
-			x++;
-		}
-		y++;
+		game->lvl->canvas->chunks_to_redraw[i] = 1;
+		i++;
 	}
-	ft_bzero(game->lvl->canvas->chunks_to_redraw, game->lvl->canvas->nb_chunks.x * game->lvl->canvas->nb_chunks.y * sizeof(bool));
+	recalculate_chunks(game->lvl);
 	return (0);
 }
 
@@ -144,7 +137,7 @@ void	move_pixel(t_pict *pict, t_vector2 delta)
 int	draw_layers(t_game *game)
 {
 	recalculate_chunks(game->lvl);
-	debug_calculate(game->lvl);
+	// debug_calculate(game->lvl);
 	draw_image_on_canvas(game->lvl->canvas, game->lvl->images[e_lplayer], (t_vector2){game->lvl->player->pos->x, game->lvl->player->pos->y}, 1);
 
 	mlx_put_image_to_window(game->mlx, game->window, game->lvl->canvas->pict->img, 0, 0);
@@ -206,58 +199,68 @@ t_game	init_values()
 	return (game);
 }
 
-int	on_start(t_game *game)
+int	on_start(t_game *game, char *map, t_vector2 map_size)
 {
 	int	img_width = 64;
 	int	img_height = 64;
+	int	canvas_x;
+	int	canvas_y;
 
 	*game = init_values();
 	// if (!mlx->img)
 	// 	return (1); // free all
 	game->mlx = mlx_init();
-	//mlx_do_key_autorepeatoff(game->mlx);
-	//XAutoRepeatOn(((t_xvar *)(game->mlx))->display);
+	game->lvl->map = map;
+	game->lvl->map_size = map_size;
+	canvas_x = map_size.x * SIZE_CHUNK;
+	canvas_y = map_size.y * SIZE_CHUNK;
 	game->window = mlx_new_window(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "Trop cool");
-	game->lvl->canvas->pict->img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
-	game->lvl->images[e_lbackground]->img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+	game->lvl->canvas->pict->img = mlx_new_image(game->mlx, canvas_x, canvas_y);
+	game->lvl->images[e_lbackground]->img = mlx_new_image(game->mlx, canvas_x, canvas_y);
 	game->lvl->images[e_lfps]->img = mlx_new_image(game->mlx, 100, 100);
-	//game->lvl->images[e_ground]->img = mlx_new_image(game->mlx, SIZE_CHUNK, SIZE_CHUNK);
-	game->lvl->images[e_ldebug]->img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+	game->lvl->images[e_ldebug]->img = mlx_new_image(game->mlx, canvas_x, canvas_y);
 	game->lvl->images[e_lplayer]->img = mlx_xpm_file_to_image(game->mlx, "assets/default/abeille.xpm", &img_width, &img_height);
+	// mlx_do_key_autorepeaton(game->mlx);
 	return (0);
 }
 
 int main(int argc, char const *argv[])
 {
-	t_game	game;
+	t_game		game;
+	char		*map;
+	t_vector2	map_size;
 
-	if(on_start(&game))
+	if (argc == 0 || argc > 3)
 		return (1);
-	if (argc == 0 || argc > 3 || !parse_map(argv[1], &game.lvl->map))
+	if (!parse_map(argv[1],&map, &map_size))
 	{
 		write(1, "Error\nMap entry is not valid.\n", 30);
 		return (1);
 	}
-	printf("Oui!\n");
-
-	load_images(&game);
+	if(on_start(&game, map, map_size))
+		return (1);
+	load_images_default(&game);
 	//game.lvl->images[e_ground] = game.lvl->images[e_ground];
 	bettermlx_get_data_addr(game.lvl->canvas->pict);
 	bettermlx_get_data_addr(game.lvl->images[e_lfps]);
 	bettermlx_get_data_addr(game.lvl->images[e_lbackground]);
 	bettermlx_get_data_addr(game.lvl->images[e_lplayer]);
+	bettermlx_get_data_addr(game.lvl->images[e_wall]);
 	bettermlx_get_data_addr(game.lvl->images[e_ground]);
 	bettermlx_get_data_addr(game.lvl->images[e_ldebug]);
+	bettermlx_get_data_addr(game.lvl->images[e_exit]);
 
-	init_chunks(game.lvl->canvas);
+	init_chunks(game.lvl);
 	//draw_rectangle(game.lvl->images[e_ground], (t_vector2){0 ,0}, (t_vector2){SIZE_CHUNK, SIZE_CHUNK}, 0xFF7F0000);
-	calculate_background(&game);
+	init_background(&game);
 
 	mlx_hook(game.window, KeyPress, KeyPressMask, &press_key, &game);
 	mlx_hook(game.window, KeyRelease, KeyReleaseMask, &release_key, &game);
 	mlx_loop_hook(game.mlx, on_update, &game.mlx);
 	mlx_loop(game.mlx);
 
+
+	mlx_do_key_autorepeaton(game.mlx);
 	(void)argc;
 	(void)argv;
 	(void)game;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 14:19:42 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/19 14:27:43 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/20 17:56:28 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,8 +207,32 @@ static bool	has_all_elem_once(char **map, int x, int y)
 	return (true);
 }
 
-bool	parse_map(const char *file_name, char ***map)
+char	*map2D_to_1D(char **map2D, t_vector2 map_size)
 {
+	char	*map;
+	int		x;
+	int		y;
+
+	map = malloc(sizeof(char) * map_size.x * map_size.y);
+	if (!map)
+		return (NULL);
+	y = 0;
+	while (y < map_size.y)
+	{
+		x = 0;
+		while(x < map_size.x)
+		{
+			map[y * map_size.x + x] = map2D[y][x];
+			x++;
+		}
+		y++;
+	}
+	return (map);
+}
+
+bool	parse_map(const char *file_name, char **map, t_vector2 *map_size)
+{
+	char	**map2D;
 	int		fd;
 	int		x;
 	int		y;
@@ -218,13 +242,18 @@ bool	parse_map(const char *file_name, char ***map)
 	fd = open(file_name, O_RDONLY);
 	if(fd == -1)
 		return (false);
-	*map = read_map(fd, &x, &y);
-	if (!*map)
-		return (close(fd), false);
-	if(!is_closed(*map, x, y))
-		return (close(fd), free_tab2d(map, y), false);
-	if(!has_all_elem_once(*map, x, y))
-		return (close(fd), free_tab2d(map, y), false);
+	map2D = read_map(fd, &x, &y);
 	close(fd);
+	if (!*map2D)
+		return (false);
+	if(!is_closed(map2D, x, y))
+		return (free_tab2d(&map2D, y), false);
+	if(!has_all_elem_once(map2D, x, y))
+		return (free_tab2d(&map2D, y), false);
+	*map_size = (t_vector2){x, y};
+	*map = map2D_to_1D(map2D, *map_size);
+	free_tab2d(&map2D, y);
+	if (!*map)
+		return (false);
 	return (true);
 }
