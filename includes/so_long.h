@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/21 17:03:55 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/21 19:54:24 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@
 # define PI 3.141592654
 
 // --=======----=======-- FPS --=======----=======--
-# define FRAME_RATE_DRAW_SPEED 500
+# define FRAME_RATE_DRAW_SPEED 1
 # define FPS_POSX 10
 # define FPS_POSY 20
 # define FPS_WIDTH 35

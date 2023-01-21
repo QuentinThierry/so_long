@@ -6,14 +6,12 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 14:19:42 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/20 17:56:28 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/21 18:37:39 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 #include "../includes/get_next_line.h"
-#include <string.h>
-
 
 static bool	is_ber(const char *file_name)
 {
@@ -237,6 +235,7 @@ bool	parse_map(const char *file_name, char **map, t_vector2 *map_size)
 	int		x;
 	int		y;
 
+	x = 0;
 	if(!is_ber(file_name))
 		return (false);
 	fd = open(file_name, O_RDONLY);

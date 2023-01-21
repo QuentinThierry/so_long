@@ -6,11 +6,12 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 20:03:30 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/21 16:39:08 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/21 18:58:22 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
+#include <stdio.h>
 
 int	init_chunks(t_level *lvl)
 {
@@ -106,6 +107,7 @@ void	find_chunk_under(t_canvas *canvas, t_pict *pict)
 	end_x = (pict->pos.x + pict->size.x) / SIZE_CHUNK;
 	end_y = (pict->pos.y + pict->size.y) / SIZE_CHUNK;
 	// printf("%d %d\n", canvas->draw_pos.x, canvas->draw_pos.y);
+	// fflush(stdout);
 	while (x <= end_x)
 	{
 		y = pict->pos.y / SIZE_CHUNK;

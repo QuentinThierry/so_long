@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 18:30:53 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/21 17:11:22 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/21 19:34:25 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	press_on_w(t_game *game, int is_release)
 		game->lvl->player->dir.y += 1;
 	else
 		game->lvl->player->dir.y += -1;
+	
 }
 
 void	press_on_a(t_game *game, int is_release)
@@ -59,6 +60,4 @@ void	press_on_e(t_game *game, int is_release)
 	clear_image(game->lvl->images[e_ldebug]);
 	(void)game;
 	(void)is_release;
-	//printf("Avant : (%d, %d)\n", mlx->player->pos.x, mlx->player->pos.y);
-	//printf("Apres : (%d, %d)\n", mlx->player->pos.x, mlx->player->pos.y);
 }
