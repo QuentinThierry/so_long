@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 20:03:30 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/20 19:03:58 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/21 16:39:08 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,13 +101,14 @@ void	find_chunk_under(t_canvas *canvas, t_pict *pict)
 	int	end_x;
 	int	end_y;
 
-	x = pict->origin.x / SIZE_CHUNK;
-	y = pict->origin.y / SIZE_CHUNK;
-	end_x = (pict->origin.x + pict->size.x) / SIZE_CHUNK;
-	end_y = (pict->origin.y + pict->size.y) / SIZE_CHUNK;
+	x = pict->pos.x / SIZE_CHUNK;
+	y = pict->pos.y / SIZE_CHUNK;
+	end_x = (pict->pos.x + pict->size.x) / SIZE_CHUNK;
+	end_y = (pict->pos.y + pict->size.y) / SIZE_CHUNK;
+	// printf("%d %d\n", canvas->draw_pos.x, canvas->draw_pos.y);
 	while (x <= end_x)
 	{
-		y = pict->origin.y / SIZE_CHUNK;
+		y = pict->pos.y / SIZE_CHUNK;
 		while (y <= end_y)
 		{
 			canvas->chunks_to_redraw[

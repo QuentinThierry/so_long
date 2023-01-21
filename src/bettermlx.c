@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bettermlx.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:25:20 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/19 15:46:35 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/21 16:39:08 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@ void	bettermlx_get_data_addr(t_pict *pict)
 	pict->endian = img->image->byte_order;
 	pict->size.x = img->width;
 	pict->size.y = img->height;
-	pict->origin.x = 0;
-	pict->origin.y = 0;
+	pict->pos.x = 0;
+	pict->pos.y = 0;
 }

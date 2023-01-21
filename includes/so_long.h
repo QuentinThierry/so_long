@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/20 18:52:02 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/21 17:03:55 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@
 # define PI 3.141592654
 
 // --=======----=======-- FPS --=======----=======--
-# define FRAME_RATE_DRAW_SPEED 250
+# define FRAME_RATE_DRAW_SPEED 500
 # define FPS_POSX 10
 # define FPS_POSY 20
 # define FPS_WIDTH 35
@@ -121,8 +121,6 @@ typedef struct s_game
 	double			elapsed;
 	int				fps;
 	struct s_level	*lvl;
-	int				offset_x;
-	int				offset_y;
 	void			(*press_on_key[NB_KEYS])(struct s_game *, int);
 }	t_game;
 
@@ -131,7 +129,7 @@ typedef struct s_pict
 	void				*img;
 	char				*addr;
 	struct s_vector2	size;
-	struct s_vector2	origin;
+	struct s_vector2	pos;
 	int					line_length;
 	int					oct_per_pixel;
 	int					endian;
@@ -153,6 +151,8 @@ typedef struct s_canvas
 	bool				*chunks_to_redraw;
 	struct s_vector2	nb_chunks;
 	struct s_vector2	size;
+	struct s_vector2	draw_pos;
+	struct s_fvector2	draw_exact_pos;
 	int					nl_offset;
 }	t_canvas;
 
@@ -167,7 +167,6 @@ typedef struct s_chunk
 typedef struct s_player
 {
 	t_vector2	*pos;
-	t_fvector2	exact_pos;
 	t_vector2	dir;
 }	t_player;
 
@@ -237,7 +236,7 @@ void			flip_image_x(t_pict *pict);
 
 // image_operations.c
 int				draw_image_on_canvas(t_canvas *canvas, t_pict *pict,
-						t_vector2 pos, int is_alpha_sensitive);
+								t_vector2 pos, int is_alpha_sensitive);
 void			clear_image(t_pict *pict);
 
 // colors.c
