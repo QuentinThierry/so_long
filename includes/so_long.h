@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/21 19:54:24 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/22 23:16:42 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@
 # define GREEN 0xFF00FF00
 # define BLUE 0xFF0000FF
 # define WHITE 0xFFFFFFFF
+# define BLACK 0xFF000000
 
 // --=======----=======-- KEY_MAP --=======----=======--
 # define PLAYER_SIZE_X 100

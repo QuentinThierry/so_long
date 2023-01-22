@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/21 20:12:07 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/22 23:16:53 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	draw_rectangle(t_pict *pict, t_vector2 pos, t_vector2 size, int color)
 void	show_fps(t_game *game, t_vector2 pos, int fps)
 {
 	mlx_string_put(game->mlx, game->window, pos.x,
-		pos.y, 0x0, ft_itoa(fps));
+		pos.y, WHITE, ft_itoa(fps));
 }
 
 int	init_background(t_game *game)
@@ -104,10 +104,8 @@ int	init_background(t_game *game)
 		game->lvl->canvas->chunks_to_redraw[i] = 1;
 		if (game->lvl->map[i] == 'P')
 		{
-			printf("i : %d\n", i);
-			fflush(stdout);
-			game->lvl->canvas->draw_pos.x = (i % 8) * SIZE_CHUNK;
-			game->lvl->canvas->draw_pos.y = (i / 8) * SIZE_CHUNK;
+			game->lvl->canvas->draw_pos.x = (SCREEN_WIDTH / 2 - game->lvl->images[e_lplayer]->size.x / 2) - (i % 8) * SIZE_CHUNK;
+			game->lvl->canvas->draw_pos.y = (SCREEN_HEIGHT / 2 - game->lvl->images[e_lplayer]->size.x / 2) - (i / 8) * SIZE_CHUNK;
 			game->lvl->canvas->draw_exact_pos.x = game->lvl->canvas->draw_pos.x;
 			game->lvl->canvas->draw_exact_pos.y = game->lvl->canvas->draw_pos.y;
 		}
@@ -234,7 +232,7 @@ int	on_start(t_game *game, char *map, t_vector2 map_size)
 	game->lvl->images[e_lbackground]->img = mlx_new_image(game->mlx, canvas_x, canvas_y);
 	game->lvl->images[e_lfps]->img = mlx_new_image(game->mlx, 100, 100);
 	game->lvl->images[e_ldebug]->img = mlx_new_image(game->mlx, canvas_x, canvas_y);
-	game->lvl->images[e_lplayer]->img = mlx_xpm_file_to_image(game->mlx, "assets/default/petite_abeille.xpm", &img_width, &img_height);
+	game->lvl->images[e_lplayer]->img = mlx_xpm_file_to_image(game->mlx, "assets/default/default_abeille.xpm", &img_width, &img_height);
 	// mlx_do_key_autorepeaton(game->mlx);
 	return (0);
 }
