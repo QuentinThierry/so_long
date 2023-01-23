@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 20:03:30 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/21 18:58:22 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/23 16:15:29 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,17 +52,6 @@ int	init_chunks(t_level *lvl)
 	lvl->canvas->chunks_to_redraw = malloc(sizeof(bool) * lvl->canvas->nb_chunks.x * lvl->canvas->nb_chunks.y);
 	ft_bzero(lvl->canvas->chunks_to_redraw, lvl->canvas->nb_chunks.x * lvl->canvas->nb_chunks.y);
 	return (0);
-}
-
-t_pict	*image_at_chunk(t_level *lvl, int chunk)
-{
-	if (lvl->map[chunk] == '0')
-		return (lvl->images[e_ground]);
-	if (lvl->map[chunk] == '1')
-		return (lvl->images[e_wall]);
-	if (lvl->map[chunk] == 'E')
-		return (lvl->images[e_exit]);
-	return (lvl->images[e_ground]);
 }
 
 void	draw_to_chunk(t_canvas *canvas, int chunk, t_pict *src)

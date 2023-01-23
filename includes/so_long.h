@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/22 23:16:42 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/23 19:51:45 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@
 # define NB_KEYS 7
 
 // --=======----=======-- COLORS --=======----=======--
-
 # define ALPHA_MASK 0xFF000000
 # define RED 0xFFFF0000
 # define GREEN 0xFF00FF00
@@ -58,17 +57,18 @@
 # define PI 3.141592654
 
 // --=======----=======-- FPS --=======----=======--
-# define FRAME_RATE_DRAW_SPEED 1
+# define FRAME_RATE_DRAW_SPEED 100
 # define FPS_POSX 10
 # define FPS_POSY 20
 # define FPS_WIDTH 35
 # define FPS_HEIGHT 10
+# define FPS_COLOR BLACK
 
 // --=======----=======-- PLAYER --=======----=======--
 # define SPEED 250
 
 // --=======----=======-- DEBUG --=======----=======--
-# define ISDEBUG 0 // no use
+# define ISDEBUG 0
 
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
@@ -222,6 +222,14 @@ void			draw_to_chunk(t_canvas *canvas, int chunk, t_pict *src);
 void			draw_to_chunk(t_canvas *canvas, int chunk, t_pict *src);
 void			recalculate_chunks(t_level *lvl);
 void			find_chunk_under(t_canvas *canvas, t_pict *pict);
+
+// chunk_utils.c
+t_pict			*image_at_chunk(t_level *lvl, int chunk);
+char			letter_at_chunk(t_level *lvl, int chunk);
+int				pos_to_chunk(t_level *lvl, int x, int y);
+
+// collision.c
+int				check_collision(t_game *game);
 
 // player_move.c
 void			move_player(t_game *game);
