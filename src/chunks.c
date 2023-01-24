@@ -6,12 +6,11 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 20:03:30 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/23 16:15:29 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/24 14:59:28 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
-#include <stdio.h>
 
 int	init_chunks(t_level *lvl)
 {
@@ -49,7 +48,7 @@ int	init_chunks(t_level *lvl)
 		}
 		y++;
 	}
-	lvl->canvas->chunks_to_redraw = malloc(sizeof(bool) * lvl->canvas->nb_chunks.x * lvl->canvas->nb_chunks.y);
+	lvl->canvas->chunks_to_redraw = malloc(sizeof(int) * lvl->canvas->nb_chunks.x * lvl->canvas->nb_chunks.y);
 	ft_bzero(lvl->canvas->chunks_to_redraw, lvl->canvas->nb_chunks.x * lvl->canvas->nb_chunks.y);
 	return (0);
 }

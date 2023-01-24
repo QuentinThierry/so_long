@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/23 19:51:45 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/24 17:51:06 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <sys/time.h>
 # include <math.h>
 # include <time.h>
-# include <stdbool.h>
 # include <X11/X.h>
 # include <X11/Xlib.h>
 # include <X11/extensions/Xrender.h>
@@ -53,9 +52,6 @@
 # define PLAYER_SIZE_X 100
 # define PLAYER_SIZE_Y 100
 
-// --=======----=======-- MATHS --=======----=======--
-# define PI 3.141592654
-
 // --=======----=======-- FPS --=======----=======--
 # define FRAME_RATE_DRAW_SPEED 100
 # define FPS_POSX 10
@@ -63,6 +59,9 @@
 # define FPS_WIDTH 35
 # define FPS_HEIGHT 10
 # define FPS_COLOR BLACK
+
+// --=======----=======-- MAP --=======----=======--
+# define COLLISION_ERROR_DELTA 2
 
 // --=======----=======-- PLAYER --=======----=======--
 # define SPEED 250
@@ -125,17 +124,6 @@ typedef struct s_game
 	void			(*press_on_key[NB_KEYS])(struct s_game *, int);
 }	t_game;
 
-typedef struct s_pict
-{
-	void				*img;
-	char				*addr;
-	struct s_vector2	size;
-	struct s_vector2	pos;
-	int					line_length;
-	int					oct_per_pixel;
-	int					endian;
-}	t_pict;
-
 typedef struct s_level
 {
 	struct s_canvas		*canvas;
@@ -149,13 +137,24 @@ typedef struct s_canvas
 {
 	struct s_pict		*pict;
 	struct s_chunk		*chunks;
-	bool				*chunks_to_redraw;
+	int					*chunks_to_redraw;
 	struct s_vector2	nb_chunks;
 	struct s_vector2	size;
 	struct s_vector2	draw_pos;
 	struct s_fvector2	draw_exact_pos;
 	int					nl_offset;
 }	t_canvas;
+
+typedef struct s_pict
+{
+	void				*img;
+	char				*addr;
+	struct s_vector2	size;
+	struct s_vector2	pos;
+	int					line_length;
+	int					oct_per_pixel;
+	int					endian;
+}	t_pict;
 
 typedef struct s_chunk
 {
@@ -203,7 +202,7 @@ void			free_list(t_list **lst);
 void			load_images_default(t_game *game);
 
 // parsing.c
-bool			parse_map(const char *file_name, char **map, t_vector2 *map_size);
+int				parse_map(const char *file_name, char **map, t_vector2 *map_size);
 void			free_tab2d(char ***to_free, int size_y);
 
 // keys.c
@@ -227,6 +226,7 @@ void			find_chunk_under(t_canvas *canvas, t_pict *pict);
 t_pict			*image_at_chunk(t_level *lvl, int chunk);
 char			letter_at_chunk(t_level *lvl, int chunk);
 int				pos_to_chunk(t_level *lvl, int x, int y);
+void			clear_chunks_to_redraw(t_canvas *canvas);
 
 // collision.c
 int				check_collision(t_game *game);

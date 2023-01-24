@@ -6,12 +6,11 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/23 19:46:52 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/24 17:51:24 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
-#include <stdio.h>
 
 void	my_mlx_pixel_put(t_pict *pict, int x, int y, unsigned int color)
 {
@@ -112,7 +111,7 @@ int	init_background(t_game *game)
 		i++;
 	}
 	recalculate_chunks(game->lvl);
-	ft_bzero(game->lvl->canvas->chunks_to_redraw, game->lvl->canvas->nb_chunks.x * game->lvl->canvas->nb_chunks.y * sizeof(bool));
+	clear_chunks_to_redraw(game->lvl->canvas);
 	return (0);
 }
 
@@ -151,8 +150,7 @@ int	draw_layers(t_game *game)
 	draw_image_on_canvas(game->lvl->canvas, game->lvl->images[e_lplayer], game->lvl->images[e_lplayer]->pos, 1);
 
 	mlx_put_image_to_window(game->mlx, game->window, game->lvl->canvas->pict->img, game->lvl->canvas->draw_pos.x, game->lvl->canvas->draw_pos.y);
-	ft_bzero(game->lvl->canvas->chunks_to_redraw, game->lvl->canvas->nb_chunks.x * game->lvl->canvas->nb_chunks.y * sizeof(bool));
-
+	clear_chunks_to_redraw(game->lvl->canvas);
 	return (0);
 }
 

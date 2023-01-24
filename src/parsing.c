@@ -6,23 +6,23 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 14:19:42 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/21 18:37:39 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/24 14:50:37 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 #include "../includes/get_next_line.h"
 
-static bool	is_ber(const char *file_name)
+static int	is_ber(const char *file_name)
 {
 	size_t	size;
 
 	size = ft_strlen(file_name);
 	if (size <= 3)
-		return (false);
+		return (0);
 	if (equals((char *)(file_name + (size - 4)), ".ber"))
-		return (true);
-	return (false);
+		return (1);
+	return (0);
 }
 
 void	free_tab2d(char ***to_free, int size_y)
@@ -58,15 +58,15 @@ static char	*get_line_as_tab(char *line)
 	return (res);
 }
 
-static bool is_rectangle(t_list *list, int size)
+static int is_rectangle(t_list *list, int size)
 {
 	while (list)
 	{
 		if (size != (int)ft_strlen(list->content))
-			return (false);
+			return (0);
 		list = list->next;
 	}
-	return (true);
+	return (1);
 }
 
 static char **list_to_map(t_list *list, int *x, int *y)
@@ -139,7 +139,7 @@ static char	**read_map(int fd, int *x, int *y)
 	return (map);
 }
 
-bool	is_closed(char **map, int x, int y)
+int	is_closed(char **map, int x, int y)
 {
 	int	i;
 	int	j;
@@ -149,16 +149,16 @@ bool	is_closed(char **map, int x, int y)
 	{
 		j = 0;
 		if (map[0][i] != '1' || map[y-1][i] != '1')
-			return (false);
+			return (0);
 		while ((i == 0 || i == x-1) && j < y-1)
 		{
 			if (map[j][i] != '1')
-				return (false);
+				return (0);
 			j++;
 		}
 		i++;
 	}
-	return (true);
+	return (1);
 }
 
 static int	change_flag(char letter, int flag)
@@ -180,7 +180,7 @@ static int	change_flag(char letter, int flag)
 	return (flag);
 }
 
-static bool	has_all_elem_once(char **map, int x, int y)
+static int	has_all_elem_once(char **map, int x, int y)
 {
 	int	flag;
 	int		i;
@@ -195,14 +195,14 @@ static bool	has_all_elem_once(char **map, int x, int y)
 		{
 			flag = change_flag(map[j][i], flag);
 			if (flag == -1)
-				return (false);
+				return (0);
 			i++;
 		}
 		j++;
 	}
 	if ((flag & 0x07) != 0x07)
-		return (false);
-	return (true);
+		return (0);
+	return (1);
 }
 
 char	*map2D_to_1D(char **map2D, t_vector2 map_size)
@@ -228,7 +228,7 @@ char	*map2D_to_1D(char **map2D, t_vector2 map_size)
 	return (map);
 }
 
-bool	parse_map(const char *file_name, char **map, t_vector2 *map_size)
+int	parse_map(const char *file_name, char **map, t_vector2 *map_size)
 {
 	char	**map2D;
 	int		fd;
@@ -237,22 +237,22 @@ bool	parse_map(const char *file_name, char **map, t_vector2 *map_size)
 
 	x = 0;
 	if(!is_ber(file_name))
-		return (false);
+		return (0);
 	fd = open(file_name, O_RDONLY);
 	if(fd == -1)
-		return (false);
+		return (0);
 	map2D = read_map(fd, &x, &y);
 	close(fd);
 	if (!*map2D)
-		return (false);
+		return (0);
 	if(!is_closed(map2D, x, y))
-		return (free_tab2d(&map2D, y), false);
+		return (free_tab2d(&map2D, y), 0);
 	if(!has_all_elem_once(map2D, x, y))
-		return (free_tab2d(&map2D, y), false);
+		return (free_tab2d(&map2D, y), 0);
 	*map_size = (t_vector2){x, y};
 	*map = map2D_to_1D(map2D, *map_size);
 	free_tab2d(&map2D, y);
 	if (!*map)
-		return (false);
-	return (true);
+		return (0);
+	return (1);
 }
