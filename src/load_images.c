@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:39:38 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/21 17:10:43 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/24 18:05:15 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	load_images_default(t_game *game)
 	game->lvl->images[e_ground] = malloc(sizeof(t_pict));
 	game->lvl->images[e_wall] = malloc(sizeof(t_pict));
 	game->lvl->images[e_collec] = malloc(sizeof(t_pict));
-	game->lvl->images[e_player] = malloc(sizeof(t_pict));
+	// game->lvl->images[e_player] = malloc(sizeof(t_pict));
 	game->lvl->images[e_exit] = malloc(sizeof(t_pict));
 	
 	game->lvl->images[e_ground]->img = mlx_xpm_file_to_image(game->mlx,

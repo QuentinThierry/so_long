@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 20:03:30 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/24 14:59:28 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/24 19:10:38 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ int	init_chunks(t_level *lvl)
 				(y * lvl->canvas->size.x * SIZE_CHUNK * lvl->canvas->pict->oct_per_pixel) +
 				(SIZE_CHUNK * x * lvl->canvas->pict->oct_per_pixel);
 			if (x == lvl->canvas->nb_chunks.x - 1 && lvl->canvas->size.x % SIZE_CHUNK != 0)
-				lvl->canvas->chunks[y * lvl->canvas->nb_chunks.x + x].size_x = (lvl->canvas->size.x % SIZE_CHUNK);
+				lvl->canvas->chunks[y * lvl->canvas->nb_chunks.x + x].size.x = (lvl->canvas->size.x % SIZE_CHUNK);
 			else
-				lvl->canvas->chunks[y * lvl->canvas->nb_chunks.x + x].size_x = SIZE_CHUNK;
+				lvl->canvas->chunks[y * lvl->canvas->nb_chunks.x + x].size.x = SIZE_CHUNK;
 			if (y == lvl->canvas->nb_chunks.y - 1 && (lvl->canvas->size.y % SIZE_CHUNK) != 0)
-				lvl->canvas->chunks[y * lvl->canvas->nb_chunks.x + x].size_y = (lvl->canvas->size.y % SIZE_CHUNK);
+				lvl->canvas->chunks[y * lvl->canvas->nb_chunks.x + x].size.y = (lvl->canvas->size.y % SIZE_CHUNK);
 			else
-				lvl->canvas->chunks[y * lvl->canvas->nb_chunks.x + x].size_y = SIZE_CHUNK;
+				lvl->canvas->chunks[y * lvl->canvas->nb_chunks.x + x].size.y = SIZE_CHUNK;
 			lvl->canvas->chunks[y * lvl->canvas->nb_chunks.x + x].pos = (t_vector2){
 				x * SIZE_CHUNK, y * SIZE_CHUNK};
 			x++;
@@ -59,11 +59,11 @@ void	draw_to_chunk(t_canvas *canvas, int chunk, t_pict *src)
 	char	*dst;
 
 	y = 0;
-	while (y < canvas->chunks[chunk].size_y)
+	while (y < canvas->chunks[chunk].size.y)
 	{
 		dst = canvas->chunks[chunk].addr +
 			y * canvas->nl_offset;
-		ft_memcpy(dst, src->addr + src->line_length * y, (canvas->chunks[chunk].size_x) * canvas->pict->oct_per_pixel);
+		ft_memcpy(dst, src->addr + src->line_length * y, (canvas->chunks[chunk].size.x) * canvas->pict->oct_per_pixel);
 		y++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/24 17:51:24 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/24 22:59:19 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,8 @@ int	init_background(t_game *game)
 		game->lvl->canvas->chunks_to_redraw[i] = 1;
 		if (game->lvl->map[i] == 'P')
 		{
-			game->lvl->canvas->draw_pos.x = (SCREEN_WIDTH / 2 - game->lvl->images[e_lplayer]->size.x / 2) - (i % game->lvl->canvas->nb_chunks.x) * SIZE_CHUNK;
-			game->lvl->canvas->draw_pos.y = (SCREEN_HEIGHT / 2 - game->lvl->images[e_lplayer]->size.y / 2) - (i / game->lvl->canvas->nb_chunks.x) * SIZE_CHUNK;
+			game->lvl->canvas->draw_pos.x = (SCREEN_WIDTH / 2 - game->lvl->images[e_player]->size.x / 2) - (i % game->lvl->canvas->nb_chunks.x) * SIZE_CHUNK;
+			game->lvl->canvas->draw_pos.y = (SCREEN_HEIGHT / 2 - game->lvl->images[e_player]->size.y / 2) - (i / game->lvl->canvas->nb_chunks.x) * SIZE_CHUNK;
 			game->lvl->canvas->draw_exact_pos.x = game->lvl->canvas->draw_pos.x;
 			game->lvl->canvas->draw_exact_pos.y = game->lvl->canvas->draw_pos.y;
 		}
@@ -147,7 +147,7 @@ int	draw_layers(t_game *game)
 	recalculate_chunks(game->lvl);
 	if (ISDEBUG)
 		debug_calculate(game->lvl);
-	draw_image_on_canvas(game->lvl->canvas, game->lvl->images[e_lplayer], game->lvl->images[e_lplayer]->pos, 1);
+	draw_image_on_canvas(game->lvl->canvas, game->lvl->images[e_player], game->lvl->images[e_player]->pos, 1);
 
 	mlx_put_image_to_window(game->mlx, game->window, game->lvl->canvas->pict->img, game->lvl->canvas->draw_pos.x, game->lvl->canvas->draw_pos.y);
 	clear_chunks_to_redraw(game->lvl->canvas);
@@ -156,10 +156,17 @@ int	draw_layers(t_game *game)
 
 void	calculate_player_pos(t_game *game)
 {
-	game->lvl->images[e_lplayer]->pos = (t_vector2)
+	game->lvl->images[e_player]->pos = (t_vector2)
 	{
-		(SCREEN_WIDTH / 2 - game->lvl->images[e_lplayer]->size.x / 2) - game->lvl->canvas->draw_pos.x,
-		(SCREEN_HEIGHT / 2 - game->lvl->images[e_lplayer]->size.y / 2) - game->lvl->canvas->draw_pos.y
+		(SCREEN_WIDTH / 2 - game->lvl->images[e_player]->size.x / 2) - game->lvl->canvas->draw_pos.x,
+		(SCREEN_HEIGHT / 2 - game->lvl->images[e_player]->size.y / 2) - game->lvl->canvas->draw_pos.y
+	};
+	game->lvl->player->collider->pos = game->lvl->images[e_player]->pos;
+	game->lvl->player->collider->size = game->lvl->images[e_player]->size;
+	game->lvl->player->collider->pos_size = (t_vector2)
+	{
+		game->lvl->player->collider->pos.x + game->lvl->images[e_player]->size.x,
+		game->lvl->player->collider->pos.y + game->lvl->images[e_player]->size.y
 	};
 }
 
@@ -167,9 +174,13 @@ int	on_update(t_game *game)
 {
 	static unsigned int	frame = 0;
 	static int			fps = 0;
+	t_collider			*collider;
 
 	move_player(game);
 	calculate_player_pos(game);
+	
+	collider = check_player_collision(game->lvl);
+
 	draw_layers(game);
 	calculate_fps(&game->fps, &game->elapsed);
 
@@ -194,13 +205,12 @@ t_game	init_values()
 	game.lvl->canvas->pict = malloc(sizeof(t_pict));
 	game.lvl->canvas->draw_pos = (t_vector2){0, 0};
 	game.lvl->canvas->draw_exact_pos = (t_fvector2){0., 0.};
-	game.lvl->images[e_lbackground] = malloc(sizeof(t_pict));
-	game.lvl->images[e_lfps] = malloc(sizeof(t_pict));
-	game.lvl->images[e_lplayer] = malloc(sizeof(t_pict));
+	game.lvl->images[e_fps] = malloc(sizeof(t_pict));
+	game.lvl->images[e_player] = malloc(sizeof(t_pict));
 	game.lvl->images[e_ground] = malloc(sizeof(t_pict));
-	game.lvl->images[e_ldebug] = malloc(sizeof(t_pict));
 	game.lvl->player = malloc(sizeof(t_player));
-	game.lvl->player->pos = &game.lvl->images[e_lplayer]->pos;
+	game.lvl->player->collider = malloc(sizeof(t_collider));
+	game.lvl->player->pos = &game.lvl->images[e_player]->pos;
 	game.lvl->player->dir.x = 0;
 	game.lvl->player->dir.y = 0;
 	game.lvl->map = NULL;
@@ -225,19 +235,23 @@ int	on_start(t_game *game, char *map, t_vector2 map_size)
 	*game = init_values();
 	// if (!mlx->img)
 	// 	return (1); // free all
+
+	// init general
 	game->mlx = mlx_init();
+	// init map
 	game->lvl->map = map;
 	game->lvl->map_size = map_size;
 	canvas_x = map_size.x * SIZE_CHUNK;
 	canvas_y = map_size.y * SIZE_CHUNK;
-	game->lvl->canvas->draw_pos = (t_vector2){0, 0};
+
+	// init images and window
 	game->window = mlx_new_window(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "so_long");
 	game->lvl->canvas->pict->img = mlx_new_image(game->mlx, canvas_x, canvas_y);
-	game->lvl->images[e_lbackground]->img = mlx_new_image(game->mlx, canvas_x, canvas_y);
-	game->lvl->images[e_lfps]->img = mlx_new_image(game->mlx, 100, 100);
-	game->lvl->images[e_ldebug]->img = mlx_new_image(game->mlx, canvas_x, canvas_y);
-	game->lvl->images[e_lplayer]->img = mlx_xpm_file_to_image(game->mlx, "assets/default/default_abeille.xpm", &img_width, &img_height);
+	game->lvl->images[e_fps]->img = mlx_new_image(game->mlx, 100, 100);
+	game->lvl->images[e_player]->img = mlx_xpm_file_to_image(game->mlx, "assets/default/default_abeille.xpm", &img_width, &img_height);
 
+	// others
+	game->lvl->canvas->draw_pos = (t_vector2){0, 0};
 	calculate_player_pos(game);
 	// mlx_do_key_autorepeaton(game->mlx);
 	return (0);
@@ -261,21 +275,28 @@ int main(int argc, char const *argv[])
 	load_images_default(&game);
 	//game.lvl->images[e_ground] = game.lvl->images[e_ground];
 	bettermlx_get_data_addr(game.lvl->canvas->pict);
-	bettermlx_get_data_addr(game.lvl->images[e_lfps]);
-	bettermlx_get_data_addr(game.lvl->images[e_lbackground]);
-	bettermlx_get_data_addr(game.lvl->images[e_lplayer]);
+	bettermlx_get_data_addr(game.lvl->images[e_fps]);
+	bettermlx_get_data_addr(game.lvl->images[e_player]);
 	bettermlx_get_data_addr(game.lvl->images[e_wall]);
 	bettermlx_get_data_addr(game.lvl->images[e_ground]);
-	bettermlx_get_data_addr(game.lvl->images[e_ldebug]);
 	bettermlx_get_data_addr(game.lvl->images[e_exit]);
 
 	init_chunks(game.lvl);
 	init_background(&game);
+
+	// init collision
+	init_collisions(game.lvl);
+
+	//init player collision
+	game.lvl->player->collider->id = 0;
+	game.lvl->player->collider->pos = game.lvl->images[e_player]->pos;
+	game.lvl->player->collider->size = game.lvl->images[e_player]->size;
+
+
 	mlx_hook(game.window, KeyPress, KeyPressMask, &press_key, &game);
 	mlx_hook(game.window, KeyRelease, KeyReleaseMask, &release_key, &game);
 	mlx_loop_hook(game.mlx, on_update, &game.mlx);
 	mlx_loop(game.mlx);
-
 
 	mlx_do_key_autorepeaton(game.mlx);
 	(void)argc;

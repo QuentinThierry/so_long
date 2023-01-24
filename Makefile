@@ -15,6 +15,7 @@ SRC = $(addprefix $(SRC_DIR), \
 	bettermlx.c \
 	player_move.c \
 	chunks_utils.c \
+	init_collision.c \
 	collision.c \
 	image_flip.c \
 	image_operations.c \

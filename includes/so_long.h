@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/24 17:51:06 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/24 22:23:59 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,18 +71,14 @@
 
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-enum e_layers
+enum e_images
 {
-	e_lbackground,
-	e_lfps,
-	e_lplayer,
-	e_ltile,
-	e_ldebug,
+	e_fps,
+	e_player,
 	e_ground,
 	e_wall,
 	e_collec,
 	e_ennemy,
-	e_player,
 	e_exit
 };
 
@@ -131,6 +127,9 @@ typedef struct s_level
 	struct s_vector2	map_size;
 	struct s_player		*player;
 	struct s_pict		*images[16];
+	struct s_collider	*stat_collision;
+	struct s_collider	*dyn_collision;
+
 }	t_level;
 
 typedef struct s_canvas
@@ -144,6 +143,14 @@ typedef struct s_canvas
 	struct s_fvector2	draw_exact_pos;
 	int					nl_offset;
 }	t_canvas;
+
+typedef struct s_collider
+{
+	int					id;
+	struct s_vector2	pos;
+	struct s_vector2	size;
+	struct s_vector2	pos_size;
+}	t_collider;
 
 typedef struct s_pict
 {
@@ -159,13 +166,13 @@ typedef struct s_pict
 typedef struct s_chunk
 {
 	char		*addr;
-	int			size_x;
-	int			size_y;
+	t_vector2	size;
 	t_vector2	pos;
 }	t_chunk;
 
 typedef struct s_player
 {
+	t_collider	*collider;
 	t_vector2	*pos;
 	t_vector2	dir;
 }	t_player;
@@ -228,8 +235,11 @@ char			letter_at_chunk(t_level *lvl, int chunk);
 int				pos_to_chunk(t_level *lvl, int x, int y);
 void			clear_chunks_to_redraw(t_canvas *canvas);
 
+// init_collision.c
+int				init_collisions(t_level *lvl);
+
 // collision.c
-int				check_collision(t_game *game);
+t_collider		 *check_player_collision(t_level *lvl);
 
 // player_move.c
 void			move_player(t_game *game);
