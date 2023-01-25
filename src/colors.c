@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:01:50 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/20 16:24:10 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/25 18:06:09 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ static void	change_color(t_pict *pict, t_vector2 pos, unsigned int color)
 	*(unsigned int*)(dst) = color;
 }
 
-static u_color	get_blended_color(u_color c_back, u_color c_front)
+static t_color	get_blended_color(t_color c_back, t_color c_front)
 {
-	u_color	res;
+	t_color	res;
 	float	alpha_back;
 	float	alpha_front;
 
@@ -50,8 +50,8 @@ void	blend_images(t_pict *back, t_pict *front, t_vector2 pos)
 {
 	int				y;
 	int				x;
-	u_color			c_back;
-	u_color			c_front;
+	t_color			c_back;
+	t_color			c_front;
 	int				width;
 	int				height;
 
@@ -63,10 +63,10 @@ void	blend_images(t_pict *back, t_pict *front, t_vector2 pos)
 		x = 0;
 		while (x < width)
 		{
-			c_front = (u_color)get_color_at(front, (t_vector2){x, y});
+			c_front = (t_color)get_color_at(front, (t_vector2){x, y});
 			if (c_front.alpha != 0)
 			{
-				c_back = (u_color)get_color_at(back, (t_vector2){pos.x + x, pos.y + y});
+				c_back = (t_color)get_color_at(back, (t_vector2){pos.x + x, pos.y + y});
 				c_back = get_blended_color(c_back, c_front);
 				change_color(back, (t_vector2){pos.x + x, pos.y + y}, c_back.color);
 			}

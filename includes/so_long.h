@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/25 16:11:01 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/25 19:06:40 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,13 @@
 # define PLAYER_SIZE_Y 100
 
 // --=======----=======-- FPS --=======----=======--
-# define FRAME_RATE_DRAW_SPEED 100
+# define FPS_VSYNC 0.00828
+# define FRAME_RATE_DRAW_SPEED 20
 # define FPS_POSX 10
 # define FPS_POSY 20
 # define FPS_WIDTH 35
 # define FPS_HEIGHT 10
 # define FPS_COLOR BLACK
-
-// --=======----=======-- MAP --=======----=======--
-# define COLLISION_ERROR_DELTA 2
 
 // --=======----=======-- PLAYER --=======----=======--
 # define SPEED 250
@@ -79,7 +77,8 @@ enum e_images
 	e_wall,
 	e_collec,
 	e_ennemy,
-	e_exit
+	e_exit,
+	e_background
 };
 
 enum e_key_map
@@ -179,16 +178,15 @@ typedef struct s_player
 
 typedef union u_color
 {
-	unsigned int color;
+	unsigned int	color;
 	struct
 	{
-		unsigned char blue;
-		unsigned char green;
-		unsigned char red;
-		unsigned char alpha;
+		unsigned char	blue;
+		unsigned char	green;
+		unsigned char	red;
+		unsigned char	alpha;
 	};
-}	u_color;
-
+}	t_color;
 
 // utils.c
 char			*ft_itoa(int n);
@@ -209,7 +207,8 @@ void			free_list(t_list **lst);
 void			load_images_default(t_game *game);
 
 // parsing.c
-int				parse_map(const char *file_name, char **map, t_vector2 *map_size);
+int				parse_map(const char *file_name, char **map,
+					t_vector2 *map_size);
 void			free_tab2d(char ***to_free, int size_y);
 
 // keys.c
@@ -238,8 +237,8 @@ int				init_collisions(t_level *lvl);
 t_collider		*check_player_collision(t_level *lvl);
 
 // player_move.c
-void			move_player(t_game *game);
-void			reverse_move_player(t_game *game);
+void			move_player(t_game *game, int is_x, int is_y);
+void			reverse_move_player(t_game *game, int is_x, int is_y);
 void			press_on_w(t_game *game, int is_release);
 void			press_on_a(t_game *game, int is_release);
 void			press_on_s(t_game *game, int is_release);
@@ -252,7 +251,7 @@ void			flip_image_x(t_pict *pict);
 
 // image_operations.c
 int				draw_image_on_canvas(t_canvas *canvas, t_pict *pict,
-								t_vector2 pos, int is_alpha_sensitive);
+					t_vector2 pos, int is_alpha_sensitive);
 void			clear_image(t_pict *pict);
 
 // colors.c
@@ -263,7 +262,7 @@ void			blend_images(t_pict *back, t_pict *front, t_vector2 pos);
 void			debug_calculate(t_level *lvl);
 
 // main.c
-void			draw_rectangle(t_pict *pict, t_vector2 pos, t_vector2 size, int color);
-
+void			draw_rectangle(t_pict *pict, t_vector2 pos,
+					t_vector2 size, int color);
 
 #endif
