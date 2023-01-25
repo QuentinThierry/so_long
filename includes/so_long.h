@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/24 22:23:59 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/25 16:11:01 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,9 +147,9 @@ typedef struct s_canvas
 typedef struct s_collider
 {
 	int					id;
-	struct s_vector2	pos;
+	struct s_vector2	min;
 	struct s_vector2	size;
-	struct s_vector2	pos_size;
+	struct s_vector2	max;
 }	t_collider;
 
 typedef struct s_pict
@@ -215,11 +215,7 @@ void			free_tab2d(char ***to_free, int size_y);
 // keys.c
 void			exec_on_w(t_game *mlx);
 
-// rotation.c
-void			rotate_player(t_player *player, int angle);
-void			rotate_image(t_pict *pict, double angle);
-
-// bettermlx.c;
+// bettermlx.c
 void			bettermlx_get_data_addr(t_pict *pict);
 
 // chunks.c
@@ -239,10 +235,11 @@ void			clear_chunks_to_redraw(t_canvas *canvas);
 int				init_collisions(t_level *lvl);
 
 // collision.c
-t_collider		 *check_player_collision(t_level *lvl);
+t_collider		*check_player_collision(t_level *lvl);
 
 // player_move.c
 void			move_player(t_game *game);
+void			reverse_move_player(t_game *game);
 void			press_on_w(t_game *game, int is_release);
 void			press_on_a(t_game *game, int is_release);
 void			press_on_s(t_game *game, int is_release);

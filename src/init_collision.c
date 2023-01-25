@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 16:04:49 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/24 22:41:19 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/25 15:14:25 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ static int	create_static_collisions(t_level *lvl)
 		if (lvl->map[i] == '1')
 		{
 			lvl->stat_collision[j].id = j + 1;
-			lvl->stat_collision[j].pos = lvl->canvas->chunks[i].pos;
+			lvl->stat_collision[j].min = lvl->canvas->chunks[i].pos;
 			lvl->stat_collision[j].size = lvl->canvas->chunks[i].size;
-			lvl->stat_collision[j].pos_size = (t_vector2)
+			lvl->stat_collision[j].max = (t_vector2)
 			{
 				lvl->canvas->chunks[i].pos.x + lvl->canvas->chunks[i].size.x,
 				lvl->canvas->chunks[i].pos.y + lvl->canvas->chunks[i].size.y

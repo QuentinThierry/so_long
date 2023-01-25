@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/24 22:59:19 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/25 16:12:15 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,19 @@ void	draw_rectangle(t_pict *pict, t_vector2 pos, t_vector2 size, int color)
 		++x;
 	}
 }
-
+// a changer
 void	show_fps(t_game *game, t_vector2 pos, int fps)
 {
+	int	i = 0;
+	int	j = 0;
+	while (j < FPS_HEIGHT)
+	{
+		i = 0;
+		while (i < FPS_WIDTH)
+			mlx_pixel_put(game->mlx, game->window, FPS_POSX + i++, FPS_POSY - j, WHITE);
+		j++;
+	}
+	
 	mlx_string_put(game->mlx, game->window, pos.x,
 		pos.y, FPS_COLOR, ft_itoa(fps));
 }
@@ -161,12 +171,12 @@ void	calculate_player_pos(t_game *game)
 		(SCREEN_WIDTH / 2 - game->lvl->images[e_player]->size.x / 2) - game->lvl->canvas->draw_pos.x,
 		(SCREEN_HEIGHT / 2 - game->lvl->images[e_player]->size.y / 2) - game->lvl->canvas->draw_pos.y
 	};
-	game->lvl->player->collider->pos = game->lvl->images[e_player]->pos;
+	game->lvl->player->collider->min = game->lvl->images[e_player]->pos;
 	game->lvl->player->collider->size = game->lvl->images[e_player]->size;
-	game->lvl->player->collider->pos_size = (t_vector2)
+	game->lvl->player->collider->max = (t_vector2)
 	{
-		game->lvl->player->collider->pos.x + game->lvl->images[e_player]->size.x,
-		game->lvl->player->collider->pos.y + game->lvl->images[e_player]->size.y
+		game->lvl->player->collider->min.x + game->lvl->images[e_player]->size.x,
+		game->lvl->player->collider->min.y + game->lvl->images[e_player]->size.y
 	};
 }
 
@@ -178,12 +188,10 @@ int	on_update(t_game *game)
 
 	move_player(game);
 	calculate_player_pos(game);
-	
-	collider = check_player_collision(game->lvl);
-
+	if (check_player_collision(game->lvl))
+		reverse_move_player(game);
 	draw_layers(game);
 	calculate_fps(&game->fps, &game->elapsed);
-
 	if (frame % FRAME_RATE_DRAW_SPEED == 0)
 	{
 		fps = game->fps;
@@ -248,7 +256,7 @@ int	on_start(t_game *game, char *map, t_vector2 map_size)
 	game->window = mlx_new_window(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "so_long");
 	game->lvl->canvas->pict->img = mlx_new_image(game->mlx, canvas_x, canvas_y);
 	game->lvl->images[e_fps]->img = mlx_new_image(game->mlx, 100, 100);
-	game->lvl->images[e_player]->img = mlx_xpm_file_to_image(game->mlx, "assets/default/default_abeille.xpm", &img_width, &img_height);
+	game->lvl->images[e_player]->img = mlx_xpm_file_to_image(game->mlx, "assets/default/cube.xpm", &img_width, &img_height);
 
 	// others
 	game->lvl->canvas->draw_pos = (t_vector2){0, 0};
@@ -289,7 +297,7 @@ int main(int argc, char const *argv[])
 
 	//init player collision
 	game.lvl->player->collider->id = 0;
-	game.lvl->player->collider->pos = game.lvl->images[e_player]->pos;
+	game.lvl->player->collider->min = game.lvl->images[e_player]->pos;
 	game.lvl->player->collider->size = game.lvl->images[e_player]->size;
 
 
