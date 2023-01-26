@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/25 19:06:40 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/26 18:53:12 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 # include "mlx/mlx_int.h"
 
 // --=======----=======-- WINDOWS --=======----=======--
-# define SCREEN_WIDTH 1920
-# define SCREEN_HEIGHT 1080
+# define SCREEN_WIDTH 1024
+# define SCREEN_HEIGHT 720
 # define SIZE_CHUNK 64
 
 // --=======----=======-- KEY_MAP --=======----=======--
@@ -53,8 +53,8 @@
 # define PLAYER_SIZE_Y 100
 
 // --=======----=======-- FPS --=======----=======--
-# define FPS_VSYNC 0.00828
-# define FRAME_RATE_DRAW_SPEED 20
+# define FPS_VSYNC 0.000000828
+# define FRAME_RATE_DRAW_SPEED 200
 # define FPS_POSX 10
 # define FPS_POSY 20
 # define FPS_WIDTH 35
@@ -123,6 +123,7 @@ typedef struct s_level
 {
 	struct s_canvas		*canvas;
 	char				*map;
+	struct s_pict		*camera;
 	struct s_vector2	map_size;
 	struct s_player		*player;
 	struct s_pict		*images[16];
@@ -138,8 +139,8 @@ typedef struct s_canvas
 	int					*chunks_to_redraw;
 	struct s_vector2	nb_chunks;
 	struct s_vector2	size;
-	struct s_vector2	draw_pos;
-	struct s_fvector2	draw_exact_pos;
+	struct s_vector2	origin;
+	struct s_fvector2	exact_origin;
 	int					nl_offset;
 }	t_canvas;
 
@@ -158,7 +159,7 @@ typedef struct s_pict
 	struct s_vector2	size;
 	struct s_vector2	pos;
 	int					line_length;
-	int					oct_per_pixel;
+	int					opp;
 	int					endian;
 }	t_pict;
 
@@ -213,6 +214,9 @@ void			free_tab2d(char ***to_free, int size_y);
 
 // keys.c
 void			exec_on_w(t_game *mlx);
+
+// camera.c
+void			render_camera(t_level *lvl, t_vector2 pos);
 
 // bettermlx.c
 void			bettermlx_get_data_addr(t_pict *pict);

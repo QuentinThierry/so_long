@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:01:50 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/25 18:06:09 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/26 18:29:07 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ unsigned int	get_color_at(t_pict *pict, t_vector2 pos)
 {
 	char	*dst;
 
-	dst = pict->addr + (pos.y * pict->line_length + pos.x * pict->oct_per_pixel);
+	dst = pict->addr + (pos.y * pict->line_length + pos.x * pict->opp);
 	return (*(unsigned int*)(dst));
 }
 
@@ -24,7 +24,7 @@ static void	change_color(t_pict *pict, t_vector2 pos, unsigned int color)
 {
 	char	*dst;
 
-	dst = pict->addr + (pos.y * pict->line_length + pos.x * pict->oct_per_pixel);
+	dst = pict->addr + (pos.y * pict->line_length + pos.x * pict->opp);
 	*(unsigned int*)(dst) = color;
 }
 

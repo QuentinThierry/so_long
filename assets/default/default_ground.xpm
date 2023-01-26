@@ -6,7 +6,7 @@ static char *de0c750badd14afdda376070326fbaeb7jM6S8K3n6hAAjlk[] = {
 ". c red",
 "X c #FF0404",
 "o c #FFABAB",
-"O c white",
+"O c #00FFFFFF",
 "+ c #FF0202",
 /* pixels */
 " .XoOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOoX..",

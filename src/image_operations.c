@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:02:24 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/21 16:42:17 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/26 18:28:49 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ int	draw_image_on_canvas(t_canvas *canvas, t_pict *pict,
 		while (y < pict->size.y)
 		{
 			dst = canvas->chunks[0].addr + (y + pos.y) * canvas->nl_offset
-				+ canvas->pict->oct_per_pixel * pos.x;
+				+ canvas->pict->opp * pos.x;
 			ft_memcpy(dst, pict->addr + pict->line_length * y,
-				pict->size.x * canvas->pict->oct_per_pixel);
+				pict->size.x * canvas->pict->opp);
 			y++;
 		}
 	}
@@ -43,8 +43,8 @@ void	clear_image(t_pict *pict)
 	y = 0;
 	while (y < pict->size.y)
 	{
-		ft_bzero(pict->addr + y * pict->size.x * pict->oct_per_pixel,
-			pict->size.x * pict->oct_per_pixel);
+		ft_bzero(pict->addr + y * pict->size.x * pict->opp,
+			pict->size.x * pict->opp);
 		y++;
 	}
 }

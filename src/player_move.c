@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 18:30:53 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/25 17:31:35 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/26 18:45:17 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,17 @@ void	move_player(t_game *game, int is_x, int is_y)
 		return ;
 	if (is_x)
 	{
-		new_posx = game->lvl->canvas->draw_exact_pos.x +
+		new_posx = game->lvl->canvas->exact_origin.x +
 				(double)(game->lvl->player->dir.x) * SPEED * game->elapsed;
-		game->lvl->canvas->draw_exact_pos.x = new_posx;
-		game->lvl->canvas->draw_pos.x = floor(new_posx);
+		game->lvl->canvas->exact_origin.x = new_posx;
+		game->lvl->canvas->origin.x = floor(new_posx);
 	}
 	if (is_y)
 	{
-		new_posy = game->lvl->canvas->draw_exact_pos.y +
+		new_posy = game->lvl->canvas->exact_origin.y +
 				(double)(game->lvl->player->dir.y) * SPEED * game->elapsed;
-		game->lvl->canvas->draw_exact_pos.y = new_posy;
-		game->lvl->canvas->draw_pos.y = floor(new_posy);
+		game->lvl->canvas->exact_origin.y = new_posy;
+		game->lvl->canvas->origin.y = floor(new_posy);
 	}
 	find_chunk_under(game->lvl->canvas, game->lvl->images[e_player]);
 }
@@ -47,17 +47,17 @@ void	reverse_move_player(t_game *game, int is_x, int is_y)
 		return ;
 	if (is_x)
 	{
-		new_posx = game->lvl->canvas->draw_exact_pos.x -
+		new_posx = game->lvl->canvas->exact_origin.x -
 				(double)(game->lvl->player->dir.x) * SPEED * game->elapsed;
-		game->lvl->canvas->draw_exact_pos.x = new_posx;
-		game->lvl->canvas->draw_pos.x = floor(new_posx);
+		game->lvl->canvas->exact_origin.x = new_posx;
+		game->lvl->canvas->origin.x = floor(new_posx);
 	}
 	if (is_y)
 	{
-		new_posy = game->lvl->canvas->draw_exact_pos.y -
+		new_posy = game->lvl->canvas->exact_origin.y -
 				(double)(game->lvl->player->dir.y) * SPEED * game->elapsed;
-		game->lvl->canvas->draw_exact_pos.y = new_posy;
-		game->lvl->canvas->draw_pos.y = floor(new_posy);
+		game->lvl->canvas->exact_origin.y = new_posy;
+		game->lvl->canvas->origin.y = floor(new_posy);
 	}
 	find_chunk_under(game->lvl->canvas, game->lvl->images[e_player]);
 }

@@ -17,6 +17,7 @@ SRC = $(addprefix $(SRC_DIR), \
 	chunks_utils.c \
 	init_collision.c \
 	collision.c \
+	camera.c \
 	image_flip.c \
 	image_operations.c \
 	colors.c \

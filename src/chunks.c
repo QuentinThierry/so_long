@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 20:03:30 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/24 19:10:38 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/26 18:29:32 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ int	init_chunks(t_level *lvl)
 		x = 0;
 		while (x < lvl->canvas->nb_chunks.x)
 		{
-			lvl->canvas->nl_offset = lvl->canvas->pict->oct_per_pixel * lvl->canvas->size.x;
+			lvl->canvas->nl_offset = lvl->canvas->pict->opp * lvl->canvas->size.x;
 			lvl->canvas->chunks[y * lvl->canvas->nb_chunks.x + x].addr = address +
-				(y * lvl->canvas->size.x * SIZE_CHUNK * lvl->canvas->pict->oct_per_pixel) +
-				(SIZE_CHUNK * x * lvl->canvas->pict->oct_per_pixel);
+				(y * lvl->canvas->size.x * SIZE_CHUNK * lvl->canvas->pict->opp) +
+				(SIZE_CHUNK * x * lvl->canvas->pict->opp);
 			if (x == lvl->canvas->nb_chunks.x - 1 && lvl->canvas->size.x % SIZE_CHUNK != 0)
 				lvl->canvas->chunks[y * lvl->canvas->nb_chunks.x + x].size.x = (lvl->canvas->size.x % SIZE_CHUNK);
 			else
@@ -63,7 +63,7 @@ void	draw_to_chunk(t_canvas *canvas, int chunk, t_pict *src)
 	{
 		dst = canvas->chunks[chunk].addr +
 			y * canvas->nl_offset;
-		ft_memcpy(dst, src->addr + src->line_length * y, (canvas->chunks[chunk].size.x) * canvas->pict->oct_per_pixel);
+		ft_memcpy(dst, src->addr + src->line_length * y, (canvas->chunks[chunk].size.x) * canvas->pict->opp);
 		y++;
 	}
 }
@@ -94,8 +94,6 @@ void	find_chunk_under(t_canvas *canvas, t_pict *pict)
 	y = pict->pos.y / SIZE_CHUNK;
 	end_x = (pict->pos.x + pict->size.x) / SIZE_CHUNK;
 	end_y = (pict->pos.y + pict->size.y) / SIZE_CHUNK;
-	// printf("%d %d\n", canvas->draw_pos.x, canvas->draw_pos.y);
-	// fflush(stdout);
 	while (x <= end_x)
 	{
 		y = pict->pos.y / SIZE_CHUNK;

@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 00:05:30 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/26 18:08:40 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/26 18:28:49 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	ft_bzero(void *dest, size_t n)
 
 inline char	*get_address_at(t_pict *pict, int x, int y)
 {
-	return (pict->addr + (y * pict->line_length) + (x * pict->oct_per_pixel));
+	return (pict->addr + (y * pict->line_length) + (x * pict->opp));
 }
 
 size_t	ft_strlen(const char *s)

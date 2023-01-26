@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 18:50:40 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/24 19:11:19 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/26 18:29:41 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	debug_draw_chunks_border(t_canvas *canvas)
 		{
 			*(unsigned int *)(canvas->chunks[0].addr +
 				canvas->nl_offset * y * SIZE_CHUNK +
-				canvas->pict->oct_per_pixel *
+				canvas->pict->opp *
 				(canvas->chunks[y * canvas->nb_chunks.x + x].size.x) * x)
 				= GREEN;
 			++x;
