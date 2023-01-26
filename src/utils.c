@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 00:05:30 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/20 17:28:20 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/26 18:08:40 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,13 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	size_t	i;
 
 	i = 0;
-	while (i < n - sizeof(size_t))
+	if (n > sizeof(size_t))
 	{
-		*(size_t *)(dest + i) = *(size_t *)(src + i);
-		i += sizeof(size_t);
+		while (i < n - sizeof(size_t))
+		{
+			*(size_t *)(dest + i) = *(size_t *)(src + i);
+			i += sizeof(size_t);
+		}
 	}
 	while (i != n)
 	{
@@ -83,10 +86,13 @@ void	ft_bzero(void *dest, size_t n)
 	size_t	i;
 
 	i = 0;
-	while (i < n - sizeof(size_t))
+	if (n > sizeof(size_t))
 	{
-		*(size_t *)(dest + i) = 0;
-		i += sizeof(size_t);
+		while (i < n - sizeof(size_t))
+		{
+			*(size_t *)(dest + i) = 0;
+			i += sizeof(size_t);
+		}
 	}
 	while (i != n)
 	{

@@ -26,8 +26,8 @@
 # include "mlx/mlx_int.h"
 
 // --=======----=======-- WINDOWS --=======----=======--
-# define SCREEN_WIDTH 1024
-# define SCREEN_HEIGHT 720
+# define SCREEN_WIDTH 1920
+# define SCREEN_HEIGHT 1080
 # define SIZE_CHUNK 64
 
 // --=======----=======-- KEY_MAP --=======----=======--
