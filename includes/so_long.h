@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/26 18:53:12 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/27 20:22:36 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 # include "mlx/mlx_int.h"
 
 // --=======----=======-- WINDOWS --=======----=======--
-# define SCREEN_WIDTH 1024
-# define SCREEN_HEIGHT 720
+# define SCREEN_WIDTH 1920
+# define SCREEN_HEIGHT 1080
 # define SIZE_CHUNK 64
 
 // --=======----=======-- KEY_MAP --=======----=======--
@@ -53,6 +53,7 @@
 # define PLAYER_SIZE_Y 100
 
 // --=======----=======-- FPS --=======----=======--
+// # define FPS_VSYNC 0.00828
 # define FPS_VSYNC 0.000000828
 # define FRAME_RATE_DRAW_SPEED 200
 # define FPS_POSX 10
@@ -62,7 +63,7 @@
 # define FPS_COLOR BLACK
 
 // --=======----=======-- PLAYER --=======----=======--
-# define SPEED 250
+# define SPEED 500
 
 // --=======----=======-- DEBUG --=======----=======--
 # define ISDEBUG 0
@@ -188,6 +189,9 @@ typedef union u_color
 		unsigned char	alpha;
 	};
 }	t_color;
+
+// others
+void	my_mlx_pixel_put(t_pict *pict, int x, int y, unsigned int color);
 
 // utils.c
 char			*ft_itoa(int n);

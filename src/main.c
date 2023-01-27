@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/26 19:05:40 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/27 19:41:20 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	press_key(int key, t_game *game)
 		game->press_on_key[e_key](game, 0);
 	return (0);
 }
+
 
 int release_key(int key, t_game *game)
 {
@@ -94,6 +95,7 @@ void	draw_rectangle(t_pict *pict, t_vector2 pos, t_vector2 size, int color)
 		++x;
 	}
 }
+
 // a changer
 void	show_fps(t_game *game, t_vector2 pos, int fps)
 {
@@ -162,17 +164,16 @@ void	move_pixel(t_pict *pict, t_vector2 delta)
 
 int	draw_layers(t_game *game)
 {
-	// draw_image_on_canvas(game->lvl->canvas, game->lvl->images[e_background], (t_vector2){0, 0}, 0);
+	// draw_image_on_canvas(game->lvl->cadraw_image_on_canvas()nvas, game->lvl->images[e_background], (t_vector2){0, 0}, 0);
 	recalculate_chunks(game->lvl);
 	if (ISDEBUG)
 		debug_calculate(game->lvl);
 
-	// draw_image_on_canvas(game->lvl->canvas, game->lvl->images[e_background], (t_vector2){0, 0}, 1);
+	// draw_image_on_canvas(game->lvl->canvas, game->lvl->images[e_background], (t_vector2){0, 0}, 0);
 
 	draw_image_on_canvas(game->lvl->canvas, game->lvl->images[e_player], game->lvl->images[e_player]->pos, 1);
 	// draw_image_on_canvas(game->lvl->canvas, game->lvl->canvas->pict, (t_vector2){0, 0}, 0);
 	// mlx_put_image_to_window(game->mlx, game->window, game->lvl->canvas->pict->img, game->lvl->canvas->draw_pos.x, game->lvl->canvas->draw_pos.y);
-
 	// mlx_put_image_to_window(game->mlx, game->window, game->lvl->canvas->pict->img, game->lvl->canvas->draw_pos.x, game->lvl->canvas->draw_pos.y);
 	render_camera(game->lvl, (t_vector2) {
 		game->lvl->player->pos->x - SCREEN_WIDTH / 2,
