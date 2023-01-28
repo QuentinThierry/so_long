@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:39:38 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/24 18:05:15 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/28 19:22:32 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,19 @@
 
 void	load_images_default(t_game *game)
 {
-	int	size;
-
-	size = SIZE_CHUNK;
 	game->lvl->images[e_ground] = malloc(sizeof(t_pict));
 	game->lvl->images[e_wall] = malloc(sizeof(t_pict));
 	game->lvl->images[e_collec] = malloc(sizeof(t_pict));
-	// game->lvl->images[e_player] = malloc(sizeof(t_pict));
 	game->lvl->images[e_exit] = malloc(sizeof(t_pict));
 	
-	game->lvl->images[e_ground]->img = mlx_xpm_file_to_image(game->mlx,
-			"assets/default/default_ground.xpm", &size, &size);
-	game->lvl->images[e_wall]->img = mlx_xpm_file_to_image(game->mlx,
-			"assets/default/default_wall.xpm", &size, &size);
-	game->lvl->images[e_collec]->img = mlx_xpm_file_to_image(game->mlx,
-			"assets/default/default_collec.xpm", &size, &size);
-	// game->lvl->images[e_player]->img = mlx_xpm_file_to_image(game->mlx,
-	// 		"assets/default/default_player.xpm", &size, &size);
-	game->lvl->images[e_exit]->img = mlx_xpm_file_to_image(game->mlx,
-			"assets/default/default_exit.xpm", &size, &size);
+	game->lvl->images[e_ground]->img = btmlx_xpm_file_to_image(game->mlx,
+			"assets/default/default_ground.xpm", (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+	game->lvl->images[e_wall]->img = btmlx_xpm_file_to_image(game->mlx,
+			"assets/default/default_wall.xpm", (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+	game->lvl->images[e_collec]->img = btmlx_xpm_file_to_image(game->mlx,
+			"assets/default/default_collec.xpm", (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+	game->lvl->images[e_exit]->img = btmlx_xpm_file_to_image(game->mlx,
+			"assets/default/default_exit.xpm", (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	// add ennemy
 	//if (!game->lvl->images[e_ground] || !game->lvl->images[e_wall] ||
 	//	!game->lvl->images[e_collec] || !game->lvl->images[e_player] ||

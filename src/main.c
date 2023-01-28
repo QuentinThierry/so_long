@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/27 19:41:20 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/28 19:48:15 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,19 +267,13 @@ t_game	init_values()
 
 int	on_start(t_game *game, char *map, t_vector2 map_size)
 {
-	int	img_width = SIZE_CHUNK;
-	int	img_height = SIZE_CHUNK;
-	int	back_height = SCREEN_HEIGHT;
-	int	back_width = SCREEN_WIDTH;
 	int	main_x;
 	int	main_y;
 
 	*game = init_values();
-	// if (!mlx->img)
-	// 	return (1); // free all
-
 	// init general
 	game->mlx = mlx_init();
+	
 	// init map
 	game->lvl->map = map;
 	game->lvl->map_size = map_size;
@@ -290,9 +284,9 @@ int	on_start(t_game *game, char *map, t_vector2 map_size)
 	game->window = mlx_new_window(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "so_long");
 	game->lvl->canvas->pict->img = mlx_new_image(game->mlx, main_x, main_y);
 	game->lvl->camera->img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
-	game->lvl->images[e_fps]->img = mlx_new_image(game->mlx, 100, 100);
-	game->lvl->images[e_player]->img = mlx_xpm_file_to_image(game->mlx, "assets/default/cube.xpm", &img_width, &img_height);
-	game->lvl->images[e_background]->img = mlx_xpm_file_to_image(game->mlx, "assets/default/default_background.xpm", &back_width, &back_height);
+	game->lvl->images[e_fps]->img = mlx_new_image(game->mlx, FPS_WIDTH, FPS_HEIGHT);
+	game->lvl->images[e_player]->img = mlx_xpm_file_to_image(game->mlx, "assets/default/cube.xpm", &game->lvl->images[e_player]->size.x, &game->lvl->images[e_player]->size.y);
+	game->lvl->images[e_background]->img = btmlx_xpm_file_to_image(game->mlx, "assets/default/default_background.xpm", (t_vector2){SCREEN_WIDTH, SCREEN_HEIGHT});
 
 	// others
 	game->lvl->canvas->origin = (t_vector2){0, 0};
@@ -317,15 +311,14 @@ int main(int argc, char const *argv[])
 	if(on_start(&game, map, map_size))
 		return (1);
 	load_images_default(&game);
-	//game.lvl->images[e_ground] = game.lvl->images[e_ground];
-	bettermlx_get_data_addr(game.lvl->canvas->pict);
-	bettermlx_get_data_addr(game.lvl->images[e_fps]);
-	bettermlx_get_data_addr(game.lvl->images[e_player]);
-	bettermlx_get_data_addr(game.lvl->images[e_wall]);
-	bettermlx_get_data_addr(game.lvl->images[e_ground]);
-	bettermlx_get_data_addr(game.lvl->images[e_exit]);
-	bettermlx_get_data_addr(game.lvl->images[e_background]);
-	bettermlx_get_data_addr(game.lvl->camera);
+	btmlx_get_data_addr(game.lvl->canvas->pict);
+	btmlx_get_data_addr(game.lvl->images[e_fps]);
+	btmlx_get_data_addr(game.lvl->images[e_player]);
+	btmlx_get_data_addr(game.lvl->images[e_wall]);
+	btmlx_get_data_addr(game.lvl->images[e_ground]);
+	btmlx_get_data_addr(game.lvl->images[e_exit]);
+	btmlx_get_data_addr(game.lvl->images[e_background]);
+	btmlx_get_data_addr(game.lvl->camera);
 
 	init_chunks(game.lvl);
 	init_background(&game);

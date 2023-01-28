@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/27 20:22:36 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/28 19:47:55 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 # include "mlx/mlx_int.h"
 
 // --=======----=======-- WINDOWS --=======----=======--
-# define SCREEN_WIDTH 1920
-# define SCREEN_HEIGHT 1080
+# define SCREEN_WIDTH 1024
+# define SCREEN_HEIGHT 720
 # define SIZE_CHUNK 64
 
 // --=======----=======-- KEY_MAP --=======----=======--
@@ -54,8 +54,8 @@
 
 // --=======----=======-- FPS --=======----=======--
 // # define FPS_VSYNC 0.00828
-# define FPS_VSYNC 0.000000828
-# define FRAME_RATE_DRAW_SPEED 200
+# define FPS_VSYNC 0.00828
+# define FRAME_RATE_DRAW_SPEED 1
 # define FPS_POSX 10
 # define FPS_POSY 20
 # define FPS_WIDTH 35
@@ -63,7 +63,7 @@
 # define FPS_COLOR BLACK
 
 // --=======----=======-- PLAYER --=======----=======--
-# define SPEED 500
+# define SPEED 250
 
 // --=======----=======-- DEBUG --=======----=======--
 # define ISDEBUG 0
@@ -223,7 +223,9 @@ void			exec_on_w(t_game *mlx);
 void			render_camera(t_level *lvl, t_vector2 pos);
 
 // bettermlx.c
-void			bettermlx_get_data_addr(t_pict *pict);
+void			btmlx_get_data_addr(t_pict *pict);
+t_img			*btmlx_xpm_file_to_image(void *mlx, char *path,
+					t_vector2 dst_size);
 
 // chunks.c
 int				init_chunks(t_level *lvl);
