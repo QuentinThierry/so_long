@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/29 02:22:09 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/29 21:28:59 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,7 +285,7 @@ int	on_start(t_game *game, char *map, t_vector2 map_size)
 	game->lvl->canvas->pict->img = mlx_new_image(game->mlx, main_x, main_y);
 	game->lvl->camera->img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	game->lvl->images[e_fps]->img = mlx_new_image(game->mlx, FPS_WIDTH, FPS_HEIGHT);
-	game->lvl->images[e_player]->img = mlx_xpm_file_to_image(game->mlx, "assets/default/cube.xpm", &game->lvl->images[e_player]->size.x, &game->lvl->images[e_player]->size.y);
+	game->lvl->images[e_player]->img = mlx_xpm_file_to_image(game->mlx, "assets/cube.xpm", &game->lvl->images[e_player]->size.x, &game->lvl->images[e_player]->size.y);
 	game->lvl->images[e_background]->img = btmlx_xpm_file_to_image(game->mlx, "assets/default/default_background.xpm", (t_vector2){SCREEN_WIDTH, SCREEN_HEIGHT});
 
 	// others
@@ -301,7 +301,7 @@ int main(int argc, char const *argv[])
 	char		*map;
 	t_vector2	map_size;
 
-	if (argc == 0 || argc > 3)
+	if (argc == 0 || argc > 2)
 		return (1);
 	if (!parse_map(argv[1], &map, &map_size))
 	{
