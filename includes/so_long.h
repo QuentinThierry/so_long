@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/28 19:47:55 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/29 02:21:43 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,6 +210,7 @@ void			free_list(t_list **lst);
 
 // load_images.c
 void			load_images_default(t_game *game);
+void			load_images_forest(t_game *game);
 
 // parsing.c
 int				parse_map(const char *file_name, char **map,

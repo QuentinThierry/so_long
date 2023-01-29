@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qthierry <qthierry@student.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/28 19:48:15 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/29 02:22:09 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -310,7 +310,8 @@ int main(int argc, char const *argv[])
 	}
 	if(on_start(&game, map, map_size))
 		return (1);
-	load_images_default(&game);
+	//load_images_default(&game);
+	load_images_forest(&game);
 	btmlx_get_data_addr(game.lvl->canvas->pict);
 	btmlx_get_data_addr(game.lvl->images[e_fps]);
 	btmlx_get_data_addr(game.lvl->images[e_player]);
