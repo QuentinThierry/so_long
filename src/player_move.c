@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 18:30:53 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/26 18:45:17 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/30 16:10:46 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	move_player(t_game *game, int is_x, int is_y)
 	double	new_posx;
 	double	new_posy;
 
-	find_chunk_under(game->lvl->canvas, game->lvl->images[e_player]);
+	find_chunk_under(game->lvl->canvas, game->lvl->sprites[e_player]);
 	if (!game->lvl->player->dir.x && !game->lvl->player->dir.y)
 		return ;
 	if (is_x)
@@ -34,7 +34,7 @@ void	move_player(t_game *game, int is_x, int is_y)
 		game->lvl->canvas->exact_origin.y = new_posy;
 		game->lvl->canvas->origin.y = floor(new_posy);
 	}
-	find_chunk_under(game->lvl->canvas, game->lvl->images[e_player]);
+	find_chunk_under(game->lvl->canvas, game->lvl->sprites[e_player]);
 }
 
 void	reverse_move_player(t_game *game, int is_x, int is_y)
@@ -42,7 +42,7 @@ void	reverse_move_player(t_game *game, int is_x, int is_y)
 	double	new_posx;
 	double	new_posy;
 
-	find_chunk_under(game->lvl->canvas, game->lvl->images[e_player]);
+	find_chunk_under(game->lvl->canvas, game->lvl->sprites[e_player]);
 	if (!game->lvl->player->dir.x && !game->lvl->player->dir.y)
 		return ;
 	if (is_x)
@@ -59,7 +59,7 @@ void	reverse_move_player(t_game *game, int is_x, int is_y)
 		game->lvl->canvas->exact_origin.y = new_posy;
 		game->lvl->canvas->origin.y = floor(new_posy);
 	}
-	find_chunk_under(game->lvl->canvas, game->lvl->images[e_player]);
+	find_chunk_under(game->lvl->canvas, game->lvl->sprites[e_player]);
 }
 
 void	press_on_w(t_game *game, int is_release)

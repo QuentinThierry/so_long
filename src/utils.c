@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 00:05:30 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/26 18:28:49 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/30 18:33:33 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,9 @@ void	ft_bzero(void *dest, size_t n)
 	}
 }
 
-inline char	*get_address_at(t_pict *pict, int x, int y)
+inline char	*get_address_at(t_sprite *sprite, int x, int y)
 {
-	return (pict->addr + (y * pict->line_length) + (x * pict->opp));
+	return (sprite->var[0]->addr + (y * sprite->line_length) + (x * sprite->opp));
 }
 
 size_t	ft_strlen(const char *s)
@@ -130,4 +130,16 @@ int	equals(char	*s1, char *s2)
 		i++;
 	}
 	return (1);
+}
+
+void	pre_init_variants(t_sprite *sprite)
+{
+	int	i;
+
+	i = 0;
+	while (i < NB_VARIANT)
+	{
+		sprite->var[i] = NULL;
+		i++;
+	}
 }

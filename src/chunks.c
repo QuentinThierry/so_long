@@ -6,11 +6,27 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 20:03:30 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/28 16:29:56 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/30 20:03:42 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
+
+static int	variant_proba()
+{
+	int	tmp;
+
+	tmp = rand() % 100;
+	if (tmp < 4)
+		return (4);
+	else if (tmp < 6)
+		return (3);
+	else if (tmp < 15)
+		return (2);
+	else if (tmp < 25)
+		return (1);
+	return (0);
+}
 
 int	init_chunks(t_level *lvl)
 {
@@ -18,9 +34,9 @@ int	init_chunks(t_level *lvl)
 	int		y;
 	char	*address;
 
-	address = lvl->canvas->pict->addr;
-	lvl->canvas->size.x = lvl->canvas->pict->size.x;
-	lvl->canvas->size.y = lvl->canvas->pict->size.y;
+	address = lvl->canvas->sprite->var[0]->addr;
+	lvl->canvas->size.x = lvl->canvas->sprite->size.x;
+	lvl->canvas->size.y = lvl->canvas->sprite->size.y;
 	lvl->canvas->nb_chunks.x = lvl->map_size.x;
 	lvl->canvas->nb_chunks.y = lvl->map_size.y;
 	lvl->canvas->chunks = malloc(sizeof(t_chunk) * lvl->canvas->nb_chunks.x * lvl->canvas->nb_chunks.y);
@@ -30,10 +46,11 @@ int	init_chunks(t_level *lvl)
 		x = 0;
 		while (x < lvl->canvas->nb_chunks.x)
 		{
-			lvl->canvas->nl_offset = lvl->canvas->pict->opp * lvl->canvas->size.x;
+			lvl->canvas->chunks[y * lvl->canvas->nb_chunks.x + x].variant = variant_proba();
+			lvl->canvas->nl_offset = lvl->canvas->sprite->opp * lvl->canvas->size.x;
 			lvl->canvas->chunks[y * lvl->canvas->nb_chunks.x + x].addr = address +
-				(y * lvl->canvas->size.x * SIZE_CHUNK * lvl->canvas->pict->opp) +
-				(SIZE_CHUNK * x * lvl->canvas->pict->opp);
+				(y * lvl->canvas->size.x * SIZE_CHUNK * lvl->canvas->sprite->opp) +
+				(SIZE_CHUNK * x * lvl->canvas->sprite->opp);
 			if (x == lvl->canvas->nb_chunks.x - 1 && lvl->canvas->size.x % SIZE_CHUNK != 0)
 				lvl->canvas->chunks[y * lvl->canvas->nb_chunks.x + x].size.x = (lvl->canvas->size.x % SIZE_CHUNK);
 			else
@@ -53,7 +70,7 @@ int	init_chunks(t_level *lvl)
 	return (0);
 }
 
-void	draw_to_chunk(t_canvas *canvas, int chunk, t_pict *src)
+void	draw_to_chunk(t_canvas *canvas, int chunk, t_sprite *src)
 {
 	int		y;
 	char	*dst;
@@ -63,7 +80,8 @@ void	draw_to_chunk(t_canvas *canvas, int chunk, t_pict *src)
 	{
 		dst = canvas->chunks[chunk].addr +
 			y * canvas->nl_offset;
-		ft_memcpy(dst, src->addr + src->line_length * y, (canvas->chunks[chunk].size.x) * canvas->pict->opp);
+		ft_memcpy(dst, src->var[canvas->chunks[chunk].variant]->addr +
+			src->line_length * y, (canvas->chunks[chunk].size.x) * canvas->sprite->opp);
 		y++;
 	}
 }
@@ -83,7 +101,7 @@ void	recalculate_chunks(t_level *lvl)
 	}
 }
 
-void	find_chunk_under(t_canvas *canvas, t_pict *pict)
+void	find_chunk_under(t_canvas *canvas, t_sprite *pict)
 {
 	int	x;
 	int	y;

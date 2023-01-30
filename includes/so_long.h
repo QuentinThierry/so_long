@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/29 21:22:08 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/30 20:03:25 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 # include "mlx/mlx_int.h"
 
 // --=======----=======-- WINDOWS --=======----=======--
-# define SCREEN_WIDTH 1024
-# define SCREEN_HEIGHT 720
+# define SCREEN_WIDTH 1920
+# define SCREEN_HEIGHT 1080
 # define SIZE_CHUNK 64
 
 // --=======----=======-- KEY_MAP --=======----=======--
@@ -67,6 +67,9 @@
 
 // --=======----=======-- DEBUG --=======----=======--
 # define ISDEBUG 0
+
+// --=======----=======-- TEXTURES --=======----=======--
+# define NB_VARIANT 5
 
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
@@ -124,10 +127,10 @@ typedef struct s_level
 {
 	struct s_canvas		*canvas;
 	char				*map;
-	struct s_pict		*camera;
+	struct s_sprite		*camera;
 	struct s_vector2	map_size;
 	struct s_player		*player;
-	struct s_pict		*images[16];
+	struct s_sprite		*sprites[16];
 	struct s_collider	*stat_collision;
 	struct s_collider	*dyn_collision;
 
@@ -135,7 +138,7 @@ typedef struct s_level
 
 typedef struct s_canvas
 {
-	struct s_pict		*pict;
+	struct s_sprite		*sprite;
 	struct s_chunk		*chunks;
 	int					*chunks_to_redraw;
 	struct s_vector2	nb_chunks;
@@ -153,20 +156,27 @@ typedef struct s_collider
 	struct s_vector2	max;
 }	t_collider;
 
-typedef struct s_pict
+typedef struct s_sprite
 {
-	void				*img;
-	char				*addr;
+	struct s_pict		*var[NB_VARIANT];
+	int					current_var;
 	struct s_vector2	size;
 	struct s_vector2	pos;
 	int					line_length;
 	int					opp;
 	int					endian;
+}	t_sprite;
+
+typedef struct s_pict
+{
+	void				*img;
+	char				*addr;
 }	t_pict;
 
 typedef struct s_chunk
 {
 	char		*addr;
+	int			variant;
 	t_vector2	size;
 	t_vector2	pos;
 }	t_chunk;
@@ -191,16 +201,17 @@ typedef union u_color
 }	t_color;
 
 // others
-void	my_mlx_pixel_put(t_pict *pict, int x, int y, unsigned int color);
+void	my_mlx_pixel_put(t_sprite *sprite, int x, int y, unsigned int color);
 
 // utils.c
 char			*ft_itoa(int n);
 int				min(int value1, int value2);
 void			*ft_memcpy(void *dest, const void *src, size_t n);
 void			ft_bzero(void *dest, size_t n);
-char			*get_address_at(t_pict *pict, int x, int y);
+char			*get_address_at(t_sprite *sprite, int x, int y);
 size_t			ft_strlen(const char *s);
 int				equals(char	*s1, char *s2);
+void			pre_init_variants(t_sprite *sprite);
 
 // list.c
 t_list			*ft_lstnew(char *content);
@@ -224,19 +235,19 @@ void			exec_on_w(t_game *mlx);
 void			render_camera(t_level *lvl, t_vector2 pos);
 
 // bettermlx.c
-void			btmlx_get_data_addr(t_pict *pict);
+void			btmlx_get_data_addr(t_sprite *sprite);
 t_img			*btmlx_xpm_file_to_image(void *mlx, char *path,
 					t_vector2 dst_size);
 
 // chunks.c
 int				init_chunks(t_level *lvl);
-void			draw_to_chunk(t_canvas *canvas, int chunk, t_pict *src);
-void			draw_to_chunk(t_canvas *canvas, int chunk, t_pict *src);
+void			draw_to_chunk(t_canvas *canvas, int chunk, t_sprite *src);
+void			draw_to_chunk(t_canvas *canvas, int chunk, t_sprite *src);
 void			recalculate_chunks(t_level *lvl);
-void			find_chunk_under(t_canvas *canvas, t_pict *pict);
+void			find_chunk_under(t_canvas *canvas, t_sprite *sprite);
 
 // chunk_utils.c
-t_pict			*image_at_chunk(t_level *lvl, int chunk);
+t_sprite		*image_at_chunk(t_level *lvl, int chunk);
 char			letter_at_chunk(t_level *lvl, int chunk);
 int				pos_to_chunk(t_level *lvl, int x, int y);
 void			clear_chunks_to_redraw(t_canvas *canvas);
@@ -256,24 +267,27 @@ void			press_on_s(t_game *game, int is_release);
 void			press_on_d(t_game *game, int is_release);
 void			press_on_e(t_game *game, int is_release);
 
+// animations.c
+void			calculate_animations(t_game *game);
+
 // image_flip.c
-void			flip_image_y(t_pict *pict);
-void			flip_image_x(t_pict *pict);
+void			flip_image_y(t_sprite *sprite);
+void			flip_image_x(t_sprite *sprite);
 
 // image_operations.c
-int				draw_image_on_canvas(t_canvas *canvas, t_pict *pict,
+int				draw_image_on_canvas(t_canvas *canvas, t_sprite *sprite,
 					t_vector2 pos, int is_alpha_sensitive);
-void			clear_image(t_pict *pict);
+void			clear_image(t_sprite *sprite);
 
 // colors.c
-unsigned int	get_color_at(t_pict *pict, t_vector2 pos);
-void			blend_images(t_pict *back, t_pict *front, t_vector2 pos);
+unsigned int	get_color_at(t_sprite *sprite, t_vector2 pos);
+void			blend_images(t_sprite *back, t_sprite *front, t_vector2 pos);
 
 // debug.c
 void			debug_calculate(t_level *lvl);
 
 // main.c
-void			draw_rectangle(t_pict *pict, t_vector2 pos,
+void			draw_rectangle(t_sprite *sprite, t_vector2 pos,
 					t_vector2 size, int color);
 
 #endif

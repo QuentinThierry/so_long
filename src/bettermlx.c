@@ -6,25 +6,33 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:25:20 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/28 18:44:09 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/30 18:51:56 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
-void	btmlx_get_data_addr(t_pict *pict)
+void	btmlx_get_data_addr(t_sprite *sprite)
 {
 	t_img	*img;
+	int	i;
 
-	img = pict->img;
-	pict->addr = img->data;
-	pict->opp = img->bpp / 8;
-	pict->line_length = img->size_line;
-	pict->endian = img->image->byte_order;
-	pict->size.x = img->width;
-	pict->size.y = img->height;
-	pict->pos.x = 0;
-	pict->pos.y = 0;
+	i = 0;
+	while (i < NB_VARIANT)
+	{
+		if (sprite->var[i])
+			sprite->var[i]->addr = ((t_img *)(sprite->var[i]->img))->data;
+		i++;
+	}
+	img = sprite->var[0]->img;
+	sprite->opp = img->bpp / 8;
+	sprite->line_length = img->size_line;
+	sprite->endian = img->image->byte_order;
+	sprite->size.x = img->width;
+	sprite->size.y = img->height;
+	sprite->pos.x = 0;
+	sprite->pos.y = 0;
+	sprite->current_var = 0;
 }
 
 static t_img	*resize_img(void *mlx, t_img *src,

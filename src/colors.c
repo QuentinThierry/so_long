@@ -6,25 +6,27 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:01:50 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/26 18:29:07 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/30 18:36:32 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
-unsigned int	get_color_at(t_pict *pict, t_vector2 pos)
+unsigned int	get_color_at(t_sprite *pict, t_vector2 pos)
 {
 	char	*dst;
 
-	dst = pict->addr + (pos.y * pict->line_length + pos.x * pict->opp);
+	dst = pict->var[pict->current_var]->addr +
+		(pos.y * pict->line_length + pos.x * pict->opp);
 	return (*(unsigned int*)(dst));
 }
 
-static void	change_color(t_pict *pict, t_vector2 pos, unsigned int color)
+static void	change_color(t_sprite *pict, t_vector2 pos, unsigned int color)
 {
 	char	*dst;
 
-	dst = pict->addr + (pos.y * pict->line_length + pos.x * pict->opp);
+	dst = pict->var[pict->current_var]->addr +
+		(pos.y * pict->line_length + pos.x * pict->opp);
 	*(unsigned int*)(dst) = color;
 }
 
@@ -46,7 +48,7 @@ static t_color	get_blended_color(t_color c_back, t_color c_front)
 }
 
 
-void	blend_images(t_pict *back, t_pict *front, t_vector2 pos)
+void	blend_images(t_sprite *back, t_sprite *front, t_vector2 pos)
 {
 	int				y;
 	int				x;

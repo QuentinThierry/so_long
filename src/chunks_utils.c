@@ -6,21 +6,21 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 16:15:22 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/28 16:30:25 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/30 18:29:27 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
-t_pict	*image_at_chunk(t_level *lvl, int chunk)
+t_sprite	*image_at_chunk(t_level *lvl, int chunk)
 {
 	if (lvl->map[chunk] == '0')
-		return (lvl->images[e_ground]);
+		return (lvl->sprites[e_ground]);
 	if (lvl->map[chunk] == '1')
-		return (lvl->images[e_wall]);
+		return (lvl->sprites[e_wall]);
 	if (lvl->map[chunk] == 'E')
-		return (lvl->images[e_exit]);
-	return (lvl->images[e_ground]);
+		return (lvl->sprites[e_exit]);
+	return (lvl->sprites[e_ground]);
 }
 
 char	letter_at_chunk(t_level *lvl, int chunk)

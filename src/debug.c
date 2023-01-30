@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 18:50:40 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/28 16:29:42 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/30 16:34:23 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	debug_draw_chunks_border(t_canvas *canvas)
 		{
 			*(unsigned int *)(canvas->chunks[0].addr +
 				canvas->nl_offset * y * SIZE_CHUNK +
-				canvas->pict->opp *
+				canvas->sprite->opp *
 				(canvas->chunks[y * canvas->nb_chunks.x + x].size.x) * x)
 				= GREEN;
 			++x;
@@ -43,7 +43,7 @@ void	debug_draw_hover_chunks(t_canvas *canvas)
 	{
 		if (canvas->chunks_to_redraw[i] == 1)
 		{
-			draw_rectangle(canvas->pict,
+			draw_rectangle(canvas->sprite,
 				(t_vector2){canvas->chunks[i].pos.x, 
 				canvas->chunks[i].pos.y}, (t_vector2){
 				canvas->chunks[i].size.x, canvas->chunks[i].size.y},

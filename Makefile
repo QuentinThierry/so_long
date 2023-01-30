@@ -16,6 +16,7 @@ SRC = $(addprefix $(SRC_DIR), \
 	player_move.c \
 	chunks_utils.c \
 	init_collision.c \
+	animations.c \
 	collision.c \
 	camera.c \
 	image_flip.c \

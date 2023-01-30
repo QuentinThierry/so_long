@@ -6,13 +6,13 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:06:33 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/17 18:42:02 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/30 15:53:28 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
-void	flip_image_y(t_pict *pict)
+void	flip_image_y(t_sprite *pict)
 {
 	int			x;
 	int			y;
@@ -40,7 +40,7 @@ void	flip_image_y(t_pict *pict)
 	}
 }
 
-void flip_image_x(t_pict *pict)
+void flip_image_x(t_sprite *pict)
 {
 	int			x;
 	int			y;
