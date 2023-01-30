@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/30 20:27:48 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/30 21:07:46 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,6 @@ int	on_update(t_game *game)
 
 	calculate_animations(game);
 
-
 	draw_layers(game);
 
 
@@ -223,6 +222,10 @@ t_game	init_values()
 	game.lvl->sprites[e_player] = malloc(sizeof(t_sprite));
 	pre_init_variants(game.lvl->sprites[e_player]);
 	game.lvl->sprites[e_player]->var[0] = malloc(sizeof(t_pict));
+	game.lvl->sprites[e_player]->var[1] = malloc(sizeof(t_pict));
+	game.lvl->sprites[e_player]->var[2] = malloc(sizeof(t_pict));
+	game.lvl->sprites[e_player]->var[3] = malloc(sizeof(t_pict));
+	game.lvl->sprites[e_player]->var[4] = malloc(sizeof(t_pict));
 	// game.lvl->sprites[e_ground] = malloc(sizeof(t_sprite));
 	game.lvl->sprites[e_background] = malloc(sizeof(t_sprite));
 	pre_init_variants(game.lvl->sprites[e_background]);
@@ -267,7 +270,12 @@ int	on_start(t_game *game, char *map, t_vector2 map_size)
 	game->lvl->canvas->sprite->var[0]->img = mlx_new_image(game->mlx, main_x, main_y);
 	game->lvl->camera->var[0]->img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	game->lvl->sprites[e_fps]->var[0]->img = mlx_new_image(game->mlx, FPS_WIDTH, FPS_HEIGHT);
-	game->lvl->sprites[e_player]->var[0]->img = mlx_xpm_file_to_image(game->mlx, "assets/cube.xpm", &game->lvl->sprites[e_player]->size.x, &game->lvl->sprites[e_player]->size.y);
+	game->lvl->sprites[e_player]->var[0]->img = mlx_xpm_file_to_image(game->mlx, "assets/default/default_abeille.xpm", &game->lvl->sprites[e_player]->size.x, &game->lvl->sprites[e_player]->size.y);
+	game->lvl->sprites[e_player]->var[1]->img = mlx_xpm_file_to_image(game->mlx, "assets/default/default_abeille.xpm", &game->lvl->sprites[e_player]->size.x, &game->lvl->sprites[e_player]->size.y);
+	game->lvl->sprites[e_player]->var[2]->img = mlx_xpm_file_to_image(game->mlx, "assets/default/default_abeille.xpm", &game->lvl->sprites[e_player]->size.x, &game->lvl->sprites[e_player]->size.y);
+	game->lvl->sprites[e_player]->var[3]->img = mlx_xpm_file_to_image(game->mlx, "assets/default/default_abeille.xpm", &game->lvl->sprites[e_player]->size.x, &game->lvl->sprites[e_player]->size.y);
+	game->lvl->sprites[e_player]->var[4]->img = mlx_xpm_file_to_image(game->mlx, "assets/default/default_abeille.xpm", &game->lvl->sprites[e_player]->size.x, &game->lvl->sprites[e_player]->size.y);
+
 	game->lvl->sprites[e_background]->var[0]->img = btmlx_xpm_file_to_image(game->mlx, "assets/default/default_background.xpm", (t_vector2){SCREEN_WIDTH, SCREEN_HEIGHT});
 
 	// others
