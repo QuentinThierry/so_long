@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/31 23:56:39 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/01 19:21:22 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ enum e_key_map	get_key(int key)
 		return (e_S);
 	if (key == KEY_D)
 		return (e_D);
-	if (key == KEY_E)
-		return (e_E);
 	if (key == KEY_ESC)
 		return (e_ESC);
 	return (NB_KEYS);
@@ -151,41 +149,13 @@ int	draw_layers(t_game *game)
 	return (0);
 }
 
-void	update_player_pos(t_game *game)
-{
-	game->lvl->player->sprite->pos = (t_vector2)
-	{
-		(SCREEN_WIDTH / 2 - game->lvl->player->sprite->size.x / 2) - game->lvl->canvas->origin.x,
-		(SCREEN_HEIGHT / 2 -  game->lvl->player->sprite->size.y / 2) - game->lvl->canvas->origin.y
-	};
-	game->lvl->player->collider->min = game->lvl->player->sprite->pos;
-	game->lvl->player->collider->size = game->lvl->player->sprite->size;
-	game->lvl->player->collider->max = (t_vector2)
-	{
-		game->lvl->player->collider->min.x + game->lvl->player->sprite->size.x,
-		game->lvl->player->collider->min.y + game->lvl->player->sprite->size.y
-	};
-}
-
 int	on_update(t_game *game)
 {
 	static unsigned int	frame = 0;
 	static int			fps = 0;
 
-	move_player(game, 1, 0);
-	update_player_pos(game);
-	if (check_player_collision(game->lvl))
-	{
-		reverse_move_player(game, 1, 0);
-		update_player_pos(game);
-	}
-	move_player(game, 0, 1);
-	update_player_pos(game);
-	if (check_player_collision(game->lvl))
-	{
-		reverse_move_player(game, 0, 1);
-		update_player_pos(game);
-	}
+	player_movement(game);
+	check_col_collectible(game);
 
 	calculate_animations(game);
 
@@ -216,15 +186,14 @@ t_game	init_values(char *map, t_vector2 map_size)
 	load_images_forest(&game);
 	init_base_images(&game);
 	init_lvl_base(&game);
-	
+
 	game.fps = 10;
 	game.elapsed = 0;
 	game.press_on_key[e_W] = &press_on_w;
 	game.press_on_key[e_A] = &press_on_a;
 	game.press_on_key[e_S] = &press_on_s;
 	game.press_on_key[e_D] = &press_on_d;
-	game.press_on_key[e_E] = &press_on_e;
-	game.press_on_key[e_ESC] = &press_on_w;
+	game.press_on_key[e_ESC] = &press_on_esc;
 	return (game);
 }
 
@@ -236,7 +205,7 @@ int	on_start(t_game *game, char *map, t_vector2 map_size)
 
 	// others
 	game->lvl->canvas->origin = (t_vector2){0, 0};
-	update_player_pos(game);
+	
 	// mlx_do_key_autorepeaton(game->mlx);
 	return (0);
 }
@@ -262,7 +231,7 @@ int main(int argc, char const *argv[])
 
 	// init collision
 	init_collisions(game.lvl);
-
+	update_player_pos(&game);
 	mlx_hook(game.window, KeyPress, KeyPressMask, &press_key, &game);
 	mlx_hook(game.window, KeyRelease, KeyReleaseMask, &release_key, &game);
 	mlx_loop_hook(game.mlx, on_update, &game.mlx);

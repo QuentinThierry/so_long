@@ -6,13 +6,22 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 18:30:53 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/31 18:59:21 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/01 19:19:16 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
-void	move_player(t_game *game, int is_x, int is_y)
+void	update_player_pos(t_game *game)
+{
+	game->lvl->player->sprite->pos = (t_vector2)
+	{
+		(SCREEN_WIDTH / 2 - game->lvl->player->sprite->size.x / 2) - game->lvl->canvas->origin.x,
+		(SCREEN_HEIGHT / 2 -  game->lvl->player->sprite->size.y / 2) - game->lvl->canvas->origin.y
+	};
+}
+
+void	move_canvas(t_game *game, int is_x, int is_y)
 {
 	double	new_posx;
 	double	new_posy;
@@ -62,41 +71,22 @@ void	reverse_move_player(t_game *game, int is_x, int is_y)
 	find_chunk_under(game->lvl->canvas, game->lvl->player->sprite);
 }
 
-void	press_on_w(t_game *game, int is_release)
+void	player_movement(t_game *game)
 {
-	if (!is_release)
-		game->lvl->player->dir.y += 1;
-	else
-		game->lvl->player->dir.y += -1;
-	
-}
+	t_collider	*colliding;
 
-void	press_on_a(t_game *game, int is_release)
-{
-	if (!is_release)
-		game->lvl->player->dir.x += 1;
-	else
-		game->lvl->player->dir.x += -1;
-}
-
-void	press_on_s(t_game *game, int is_release)
-{
-	if (!is_release)
-		game->lvl->player->dir.y += -1;
-	else
-		game->lvl->player->dir.y += 1;
-}
-
-void	press_on_d(t_game *game, int is_release)
-{
-	if (!is_release)
-		game->lvl->player->dir.x += -1;
-	else
-		game->lvl->player->dir.x += 1;
-}
-
-void	press_on_e(t_game *game, int is_release)
-{
-	(void)game;
-	(void)is_release;
+	move_canvas(game, 1, 0);
+	update_player_pos(game);
+	if (check_wall_collision(game->lvl))
+	{
+		reverse_move_player(game, 1, 0);
+		update_player_pos(game);
+	}
+	move_canvas(game, 0, 1);
+	update_player_pos(game);
+	if (check_wall_collision(game->lvl))
+	{
+		reverse_move_player(game, 0, 1);
+		update_player_pos(game);
+	}
 }

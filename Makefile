@@ -22,6 +22,7 @@ SRC = $(addprefix $(SRC_DIR), \
 	image_operations.c \
 	init_collision.c \
 	init_lvl_base.c \
+	keys.c \
 	list_utils.c \
 	load_forest_images.c\
 	parsing.c \

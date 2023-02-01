@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 02:00:21 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/01 00:16:26 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/01 20:10:35 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ enum e_img_id
 };
 
 // --=======----=======-- IMAGES --=======----=======--
-# define NB_IMAGES 16
 
 # define FOREST_BACKGROUND "assets/forest/forest_background.xpm"
 
@@ -107,6 +106,9 @@ enum e_img_id
 # define FOREST_GRASS "assets/forest/forest_grass.xpm"
 # define FOREST_STONE "assets/forest/forest_stone.xpm"
 # define FOREST_STICK "assets/forest/forest_stick.xpm"
+# define FOREST_FLOWER_R "assets/forest/forest_flower_red.xpm"
+# define FOREST_FLOWER_Y "assets/forest/forest_flower_yellow.xpm"
+# define FOREST_FLOWER_D "assets/forest/forest_flower_d.xpm"
 
 # define FOREST_WALL "assets/forest/forest_wall.xpm"
 

@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/01 01:18:13 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/01 20:09:20 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,14 @@
 # include <sys/time.h>
 # include <math.h>
 # include <time.h>
-# include <X11/X.h>
-# include <X11/Xlib.h>
-# include <X11/extensions/Xrender.h>
 # include <fcntl.h>
 # include "mlx/mlx.h"
 # include "mlx/mlx_int.h"
 # include "textures.h"
 
 // --=======----=======-- WINDOWS --=======----=======--
-# define SCREEN_WIDTH 1024
-# define SCREEN_HEIGHT 720
+# define SCREEN_WIDTH 1920
+# define SCREEN_HEIGHT 1080
 # define SIZE_CHUNK 64
 
 // --=======----=======-- KEY_MAP --=======----=======--
@@ -37,7 +34,6 @@
 # define KEY_S 115
 # define KEY_D 100
 # define KEY_Q 113
-# define KEY_E 101
 # define KEY_ESC 65307
 # define NB_KEYS 7
 
@@ -56,7 +52,7 @@
 // --=======----=======-- FPS --=======----=======--
 // # define FPS_VSYNC 0.00828
 # define FPS_VSYNC 0.00828
-# define FRAME_RATE_DRAW_SPEED 100
+# define FRAME_RATE_DRAW_SPEED 10
 # define FPS_POSX 10
 # define FPS_POSY 20
 # define FPS_WIDTH 35
@@ -64,7 +60,7 @@
 # define FPS_COLOR BLACK
 
 // --=======----=======-- PLAYER --=======----=======--
-# define SPEED 250
+# define SPEED 200
 
 // --=======----=======-- DEBUG --=======----=======--
 # define ISDEBUG 0
@@ -77,8 +73,14 @@ enum e_key_map
 	e_A,
 	e_S,
 	e_D,
-	e_E,
 	e_ESC
+};
+
+enum e_col_type
+{
+	e_col_wall,
+	e_col_collec,
+	e_col_ennemy
 };
 
 typedef struct s_list
@@ -116,8 +118,9 @@ typedef struct s_level
 	struct s_sprite		*cam;
 	struct s_sprite		*background;
 	struct s_player		*player;
-	struct s_collider	*stat_collision;
-	struct s_collider	*dyn_collision;
+	struct s_collider	*wall_col;
+	struct s_collider	*collec_col;
+	struct s_collider	*ennemy_col;
 	char				*map;
 	struct s_vector2	map_size;
 }	t_level;
@@ -137,9 +140,10 @@ typedef struct s_canvas
 typedef struct s_collider
 {
 	int					id;
-	struct s_vector2	min;
-	struct s_vector2	size;
-	struct s_vector2	max;
+	int					*image_id;
+	struct s_vector2	*min;
+	struct s_vector2	*size;
+	int					has_been_triggered;
 }	t_collider;
 
 typedef struct s_sprite
@@ -215,9 +219,6 @@ int				parse_map(const char *file_name, char **map,
 					t_vector2 *map_size);
 void			free_tab2d(char ***to_free, int size_y);
 
-// keys.c
-void			exec_on_w(t_game *mlx);
-
 // camera.c
 void			render_camera(t_level *lvl, t_vector2 pos);
 
@@ -234,7 +235,6 @@ enum			e_img_id choose_image(char *map, int chunk);
 
 // chunks.c
 int				init_chunks(t_level *lvl);
-//void			draw_to_chunk(t_canvas *canvas, int chunk, t_img *src);
 void			recalculate_chunks(t_level *lvl);
 void			find_chunk_under(t_canvas *canvas, t_sprite *sprite);
 
@@ -248,16 +248,21 @@ void			clear_chunks_to_redraw(t_canvas *canvas);
 int				init_collisions(t_level *lvl);
 
 // collision.c
-t_collider		*check_player_collision(t_level *lvl);
+t_collider		*check_wall_collision(t_level *lvl);
+t_collider		*check_col_collectible(t_game *game);
 
 // player_move.c
 void			move_player(t_game *game, int is_x, int is_y);
 void			reverse_move_player(t_game *game, int is_x, int is_y);
+void			update_player_pos(t_game *game);
+void			player_movement(t_game *game);
+
+// keys.c
 void			press_on_w(t_game *game, int is_release);
 void			press_on_a(t_game *game, int is_release);
 void			press_on_s(t_game *game, int is_release);
 void			press_on_d(t_game *game, int is_release);
-void			press_on_e(t_game *game, int is_release);
+void			press_on_esc(t_game *game, int status);
 
 // animations.c
 void			calculate_animations(t_game *game);
