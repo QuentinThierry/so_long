@@ -6,33 +6,20 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:25:20 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/30 18:51:56 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/01 00:10:20 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
-void	btmlx_get_data_addr(t_sprite *sprite)
+void	btmlx_get_addr(t_sprite *sprite, t_img *img)
 {
-	t_img	*img;
-	int	i;
-
-	i = 0;
-	while (i < NB_VARIANT)
-	{
-		if (sprite->var[i])
-			sprite->var[i]->addr = ((t_img *)(sprite->var[i]->img))->data;
-		i++;
-	}
-	img = sprite->var[0]->img;
+	sprite->img_ptr = img;
 	sprite->opp = img->bpp / 8;
 	sprite->line_length = img->size_line;
 	sprite->endian = img->image->byte_order;
 	sprite->size.x = img->width;
 	sprite->size.y = img->height;
-	sprite->pos.x = 0;
-	sprite->pos.y = 0;
-	sprite->current_var = 0;
 }
 
 static t_img	*resize_img(void *mlx, t_img *src,
@@ -79,9 +66,8 @@ t_img	*btmlx_xpm_file_to_image(void *mlx, char *path,
 	src = mlx_xpm_file_to_image(mlx, path, &src_size.x, &src_size.y);
 	if (!src)
 		return (NULL);
-	
 	dst = resize_img(mlx, src, dst_size, src_size);
 	if (!dst)
 		return((free(src), NULL));
 	return (dst);
-} 
+}

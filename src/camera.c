@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 17:38:47 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/30 16:34:23 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/01 00:13:55 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,30 +21,30 @@ void	render_camera(t_level *lvl, t_vector2 origin)
 	int	opp;
 	int camera_size;
 
-	opp = lvl->camera->opp;
-	camera_size = lvl->camera->size.x * opp;
+	opp = lvl->cam->opp;
+	camera_size = lvl->cam->size.x * opp;
 	y = 0;
 	deltax = 0;
-	xsize = lvl->camera->size.x;
-	if (origin.x + lvl->camera->size.x > lvl->canvas->size.x)
-		xsize -= origin.x + lvl->camera->size.x - lvl->canvas->size.x;
+	xsize = lvl->cam->size.x;
+	if (origin.x + lvl->cam->size.x > lvl->canvas->size.x)
+		xsize -= origin.x + lvl->cam->size.x - lvl->canvas->size.x;
 	if (origin.x < 0)
 		deltax = -origin.x * opp;
-	while (y < lvl->camera->size.y)
+	while (y < lvl->cam->size.y)
 	{
 		if (y > lvl->canvas->origin.y + lvl->canvas->size.y + opp || (y + origin.y) < 0)
 		{
-			ft_memcpy(lvl->camera->var[0]->addr + 
+			ft_memcpy(lvl->cam->img_ptr->data + 
 				(y * camera_size),
-				lvl->sprites[e_background]->var[0]->addr +
-				(y * lvl->sprites[e_background]->size.x * opp),
+				lvl->background->img_ptr->data +
+				(y * lvl->background->size.x * opp),
 				camera_size);
 		}
 		else
 		{
-			ft_memcpy(lvl->camera->var[0]->addr + deltax +
+			ft_memcpy(lvl->cam->img_ptr->data + deltax +
 				(y * camera_size),
-				lvl->canvas->sprite->var[0]->addr +
+				lvl->canvas->sprite->img_ptr->data +
 				((y + origin.y) * lvl->canvas->size.x * opp)
 				+ origin.x * opp + deltax,
 				xsize * opp - deltax);
@@ -54,26 +54,26 @@ void	render_camera(t_level *lvl, t_vector2 origin)
 	y = 0;
 	if (origin.x < 0)
 	{
-		while (y < lvl->camera->size.y)
+		while (y < lvl->cam->size.y)
 		{
-			ft_memcpy(lvl->camera->var[0]->addr + 
+			ft_memcpy(lvl->cam->img_ptr->data + 
 				(y * camera_size),
-				lvl->sprites[e_background]->var[0]->addr +
-				(y * lvl->sprites[e_background]->size.x * opp),
+				lvl->background->img_ptr->data +
+				(y * lvl->background->size.x * opp),
 				-origin.x * opp);
 			y++;
 		}
 	}
 	y = 0;
-	if (origin.x + lvl->camera->size.x > lvl->canvas->size.x)
+	if (origin.x + lvl->cam->size.x > lvl->canvas->size.x)
 	{
-		while (y < lvl->camera->size.y)
+		while (y < lvl->cam->size.y)
 		{
-			ft_memcpy(lvl->camera->var[0]->addr + 
-				(y * camera_size) + (lvl->camera->size.x - (origin.x + lvl->camera->size.x - lvl->canvas->size.x)) * opp,
-				lvl->sprites[e_background]->var[0]->addr +
-				(y * lvl->sprites[e_background]->size.x * opp) + (lvl->camera->size.x - (origin.x + lvl->camera->size.x - lvl->canvas->size.x)) * opp,
-				(origin.x + lvl->camera->size.x - lvl->canvas->size.x) * opp);
+			ft_memcpy(lvl->cam->img_ptr->data + 
+				(y * camera_size) + (lvl->cam->size.x - (origin.x + lvl->cam->size.x - lvl->canvas->size.x)) * opp,
+				lvl->background->img_ptr->data +
+				(y * lvl->background->size.x * opp) + (lvl->cam->size.x - (origin.x + lvl->cam->size.x - lvl->canvas->size.x)) * opp,
+				(origin.x + lvl->cam->size.x - lvl->canvas->size.x) * opp);
 			y++;
 		}
 	}

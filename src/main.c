@@ -6,18 +6,18 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/30 21:07:46 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/01/31 23:56:39 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
-void	my_mlx_pixel_put(t_sprite *pict, int x, int y, unsigned int color)
+void	my_mlx_pixel_put(t_sprite *sprite, int x, int y, unsigned int color)
 {
 	char	*dst;
 
-	dst = pict->var[pict->current_var]->addr +
-		(y * pict->line_length + x * pict->opp);
+	dst = sprite->img_ptr->data +
+		(y * sprite->line_length + x * sprite->opp);
 	*(unsigned int*)dst = color;
 }
 
@@ -124,8 +124,8 @@ int	init_background(t_game *game)
 		game->lvl->canvas->chunks_to_redraw[i] = 1;
 		if (game->lvl->map[i] == 'P')
 		{
-			game->lvl->canvas->origin.x = (SCREEN_WIDTH / 2 - game->lvl->sprites[e_player]->size.x / 2) - (i % game->lvl->canvas->nb_chunks.x) * SIZE_CHUNK;
-			game->lvl->canvas->origin.y = (SCREEN_HEIGHT / 2 - game->lvl->sprites[e_player]->size.y / 2) - (i / game->lvl->canvas->nb_chunks.x) * SIZE_CHUNK;
+			game->lvl->canvas->origin.x = (SCREEN_WIDTH / 2 - game->lvl->player->sprite->size.x / 2) - (i % game->lvl->canvas->nb_chunks.x) * SIZE_CHUNK;
+			game->lvl->canvas->origin.y = (SCREEN_HEIGHT / 2 - game->lvl->player->sprite->size.y / 2) - (i / game->lvl->canvas->nb_chunks.x) * SIZE_CHUNK;
 			game->lvl->canvas->exact_origin.x = game->lvl->canvas->origin.x;
 			game->lvl->canvas->exact_origin.y = game->lvl->canvas->origin.y;
 		}
@@ -142,28 +142,28 @@ int	draw_layers(t_game *game)
 	if (ISDEBUG)
 		debug_calculate(game->lvl);
 
-	draw_image_on_canvas(game->lvl->canvas, game->lvl->sprites[e_player], game->lvl->sprites[e_player]->pos, 1);
+	draw_image_on_canvas(game->lvl->canvas, game->lvl->player->sprite, game->lvl->player->sprite->pos, 1);
 	render_camera(game->lvl, (t_vector2) {
 		game->lvl->player->pos->x - SCREEN_WIDTH / 2,
 		game->lvl->player->pos->y - SCREEN_HEIGHT / 2});
-	mlx_put_image_to_window(game->mlx, game->window, game->lvl->camera->var[0]->img, 0, 0);
+	mlx_put_image_to_window(game->mlx, game->window, game->lvl->cam->img_ptr, 0, 0);
 	// clear_chunks_to_redraw(game->lvl->canvas);
 	return (0);
 }
 
 void	update_player_pos(t_game *game)
 {
-	game->lvl->sprites[e_player]->pos = (t_vector2)
+	game->lvl->player->sprite->pos = (t_vector2)
 	{
-		(SCREEN_WIDTH / 2 - game->lvl->sprites[e_player]->size.x / 2) - game->lvl->canvas->origin.x,
-		(SCREEN_HEIGHT / 2 - game->lvl->sprites[e_player]->size.y / 2) - game->lvl->canvas->origin.y
+		(SCREEN_WIDTH / 2 - game->lvl->player->sprite->size.x / 2) - game->lvl->canvas->origin.x,
+		(SCREEN_HEIGHT / 2 -  game->lvl->player->sprite->size.y / 2) - game->lvl->canvas->origin.y
 	};
-	game->lvl->player->collider->min = game->lvl->sprites[e_player]->pos;
-	game->lvl->player->collider->size = game->lvl->sprites[e_player]->size;
+	game->lvl->player->collider->min = game->lvl->player->sprite->pos;
+	game->lvl->player->collider->size = game->lvl->player->sprite->size;
 	game->lvl->player->collider->max = (t_vector2)
 	{
-		game->lvl->player->collider->min.x + game->lvl->sprites[e_player]->size.x,
-		game->lvl->player->collider->min.y + game->lvl->sprites[e_player]->size.y
+		game->lvl->player->collider->min.x + game->lvl->player->sprite->size.x,
+		game->lvl->player->collider->min.y + game->lvl->player->sprite->size.y
 	};
 }
 
@@ -203,42 +203,21 @@ int	on_update(t_game *game)
 	return (0);
 }
 
-t_game	init_values()
+t_game	init_values(char *map, t_vector2 map_size)
 {
 	t_game	game;
 
-	game.mlx = NULL;
-	game.window = NULL;
+	game.mlx = mlx_init();
 	game.lvl = malloc(sizeof(t_level));
-	game.lvl->canvas = malloc(sizeof(t_canvas));
-	game.lvl->canvas->sprite = malloc(sizeof(t_sprite));
-	pre_init_variants(game.lvl->canvas->sprite);
-	game.lvl->canvas->sprite->var[0] = malloc(sizeof(t_pict));
-	game.lvl->canvas->origin = (t_vector2){0, 0};
-	game.lvl->canvas->exact_origin = (t_fvector2){0., 0.};
-	game.lvl->sprites[e_fps] = malloc(sizeof(t_sprite));
-	pre_init_variants(game.lvl->sprites[e_fps]);
-	game.lvl->sprites[e_fps]->var[0] = malloc(sizeof(t_pict));
-	game.lvl->sprites[e_player] = malloc(sizeof(t_sprite));
-	pre_init_variants(game.lvl->sprites[e_player]);
-	game.lvl->sprites[e_player]->var[0] = malloc(sizeof(t_pict));
-	game.lvl->sprites[e_player]->var[1] = malloc(sizeof(t_pict));
-	game.lvl->sprites[e_player]->var[2] = malloc(sizeof(t_pict));
-	game.lvl->sprites[e_player]->var[3] = malloc(sizeof(t_pict));
-	game.lvl->sprites[e_player]->var[4] = malloc(sizeof(t_pict));
-	// game.lvl->sprites[e_ground] = malloc(sizeof(t_sprite));
-	game.lvl->sprites[e_background] = malloc(sizeof(t_sprite));
-	pre_init_variants(game.lvl->sprites[e_background]);
-	game.lvl->sprites[e_background]->var[0] = malloc(sizeof(t_pict));
-	game.lvl->camera = malloc(sizeof(t_sprite));
-	pre_init_variants(game.lvl->camera);
-	game.lvl->camera->var[0] = malloc(sizeof(t_pict));
-	game.lvl->player = malloc(sizeof(t_player));
-	game.lvl->player->collider = malloc(sizeof(t_collider));
-	game.lvl->player->pos = &game.lvl->sprites[e_player]->pos;
-	game.lvl->player->dir.x = 0;
-	game.lvl->player->dir.y = 0;
-	game.lvl->map = NULL;
+
+	game.lvl->map = map;
+	game.lvl->map_size = map_size;
+	
+	load_images_forest(&game);
+	init_base_images(&game);
+	init_lvl_base(&game);
+	
+	game.fps = 10;
 	game.elapsed = 0;
 	game.press_on_key[e_W] = &press_on_w;
 	game.press_on_key[e_A] = &press_on_a;
@@ -246,37 +225,14 @@ t_game	init_values()
 	game.press_on_key[e_D] = &press_on_d;
 	game.press_on_key[e_E] = &press_on_e;
 	game.press_on_key[e_ESC] = &press_on_w;
-	game.fps = 10;
 	return (game);
 }
 
 int	on_start(t_game *game, char *map, t_vector2 map_size)
 {
-	int	main_x;
-	int	main_y;
+	*game = init_values(map, map_size);
 
-	*game = init_values();
-	// init general
-	game->mlx = mlx_init();
-	
-	// init map
-	game->lvl->map = map;
-	game->lvl->map_size = map_size;
-	main_x = map_size.x * SIZE_CHUNK;
-	main_y = map_size.y * SIZE_CHUNK;
-
-	// init images and window
 	game->window = mlx_new_window(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "so_long");
-	game->lvl->canvas->sprite->var[0]->img = mlx_new_image(game->mlx, main_x, main_y);
-	game->lvl->camera->var[0]->img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
-	game->lvl->sprites[e_fps]->var[0]->img = mlx_new_image(game->mlx, FPS_WIDTH, FPS_HEIGHT);
-	game->lvl->sprites[e_player]->var[0]->img = mlx_xpm_file_to_image(game->mlx, "assets/default/default_abeille.xpm", &game->lvl->sprites[e_player]->size.x, &game->lvl->sprites[e_player]->size.y);
-	game->lvl->sprites[e_player]->var[1]->img = mlx_xpm_file_to_image(game->mlx, "assets/default/default_abeille.xpm", &game->lvl->sprites[e_player]->size.x, &game->lvl->sprites[e_player]->size.y);
-	game->lvl->sprites[e_player]->var[2]->img = mlx_xpm_file_to_image(game->mlx, "assets/default/default_abeille.xpm", &game->lvl->sprites[e_player]->size.x, &game->lvl->sprites[e_player]->size.y);
-	game->lvl->sprites[e_player]->var[3]->img = mlx_xpm_file_to_image(game->mlx, "assets/default/default_abeille.xpm", &game->lvl->sprites[e_player]->size.x, &game->lvl->sprites[e_player]->size.y);
-	game->lvl->sprites[e_player]->var[4]->img = mlx_xpm_file_to_image(game->mlx, "assets/default/default_abeille.xpm", &game->lvl->sprites[e_player]->size.x, &game->lvl->sprites[e_player]->size.y);
-
-	game->lvl->sprites[e_background]->var[0]->img = btmlx_xpm_file_to_image(game->mlx, "assets/default/default_background.xpm", (t_vector2){SCREEN_WIDTH, SCREEN_HEIGHT});
 
 	// others
 	game->lvl->canvas->origin = (t_vector2){0, 0};
@@ -301,28 +257,11 @@ int main(int argc, char const *argv[])
 	srand(time(NULL));
 	if(on_start(&game, map, map_size))
 		return (1);
-
-	load_images_forest(&game);
-	btmlx_get_data_addr(game.lvl->canvas->sprite);
-	btmlx_get_data_addr(game.lvl->sprites[e_fps]);
-	btmlx_get_data_addr(game.lvl->sprites[e_player]);
-	btmlx_get_data_addr(game.lvl->sprites[e_wall]);
-	btmlx_get_data_addr(game.lvl->sprites[e_ground]);
-	btmlx_get_data_addr(game.lvl->sprites[e_exit]);
-	btmlx_get_data_addr(game.lvl->sprites[e_background]);
-	btmlx_get_data_addr(game.lvl->camera);
-
 	init_chunks(game.lvl);
 	init_background(&game);
 
 	// init collision
 	init_collisions(game.lvl);
-
-	//init player collision
-	game.lvl->player->collider->id = 0;
-	game.lvl->player->collider->min = game.lvl->sprites[e_player]->pos;
-	game.lvl->player->collider->size = game.lvl->sprites[e_player]->size;
-
 
 	mlx_hook(game.window, KeyPress, KeyPressMask, &press_key, &game);
 	mlx_hook(game.window, KeyRelease, KeyReleaseMask, &release_key, &game);

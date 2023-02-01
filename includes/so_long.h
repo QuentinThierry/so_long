@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/30 20:03:25 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/01 01:18:13 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,11 @@
 # include <fcntl.h>
 # include "mlx/mlx.h"
 # include "mlx/mlx_int.h"
+# include "textures.h"
 
 // --=======----=======-- WINDOWS --=======----=======--
-# define SCREEN_WIDTH 1920
-# define SCREEN_HEIGHT 1080
+# define SCREEN_WIDTH 1024
+# define SCREEN_HEIGHT 720
 # define SIZE_CHUNK 64
 
 // --=======----=======-- KEY_MAP --=======----=======--
@@ -55,7 +56,7 @@
 // --=======----=======-- FPS --=======----=======--
 // # define FPS_VSYNC 0.00828
 # define FPS_VSYNC 0.00828
-# define FRAME_RATE_DRAW_SPEED 1
+# define FRAME_RATE_DRAW_SPEED 100
 # define FPS_POSX 10
 # define FPS_POSY 20
 # define FPS_WIDTH 35
@@ -68,22 +69,7 @@
 // --=======----=======-- DEBUG --=======----=======--
 # define ISDEBUG 0
 
-// --=======----=======-- TEXTURES --=======----=======--
-# define NB_VARIANT 5
-
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-
-enum e_images
-{
-	e_fps,
-	e_player,
-	e_ground,
-	e_wall,
-	e_collec,
-	e_ennemy,
-	e_exit,
-	e_background
-};
 
 enum e_key_map
 {
@@ -126,14 +112,14 @@ typedef struct s_game
 typedef struct s_level
 {
 	struct s_canvas		*canvas;
-	char				*map;
-	struct s_sprite		*camera;
-	struct s_vector2	map_size;
+	struct s_img		**images;
+	struct s_sprite		*cam;
+	struct s_sprite		*background;
 	struct s_player		*player;
-	struct s_sprite		*sprites[16];
 	struct s_collider	*stat_collision;
 	struct s_collider	*dyn_collision;
-
+	char				*map;
+	struct s_vector2	map_size;
 }	t_level;
 
 typedef struct s_canvas
@@ -158,8 +144,8 @@ typedef struct s_collider
 
 typedef struct s_sprite
 {
-	struct s_pict		*var[NB_VARIANT];
-	int					current_var;
+	int					image_id;
+	t_img				*img_ptr;
 	struct s_vector2	size;
 	struct s_vector2	pos;
 	int					line_length;
@@ -176,13 +162,14 @@ typedef struct s_pict
 typedef struct s_chunk
 {
 	char		*addr;
-	int			variant;
+	int			image_id;
 	t_vector2	size;
 	t_vector2	pos;
 }	t_chunk;
 
 typedef struct s_player
 {
+	t_sprite	*sprite;
 	t_collider	*collider;
 	t_vector2	*pos;
 	t_vector2	dir;
@@ -201,7 +188,8 @@ typedef union u_color
 }	t_color;
 
 // others
-void	my_mlx_pixel_put(t_sprite *sprite, int x, int y, unsigned int color);
+void			my_mlx_pixel_put(t_sprite *sprite,
+					int x, int y, unsigned int color);
 
 // utils.c
 char			*ft_itoa(int n);
@@ -211,7 +199,6 @@ void			ft_bzero(void *dest, size_t n);
 char			*get_address_at(t_sprite *sprite, int x, int y);
 size_t			ft_strlen(const char *s);
 int				equals(char	*s1, char *s2);
-void			pre_init_variants(t_sprite *sprite);
 
 // list.c
 t_list			*ft_lstnew(char *content);
@@ -219,9 +206,9 @@ int				ft_lstsize(t_list *lst);
 void			ft_lstadd_back(t_list **lst, t_list *elem);
 void			free_list(t_list **lst);
 
-// load_images.c
-void			load_images_default(t_game *game);
+// load_images_forest.c
 void			load_images_forest(t_game *game);
+void			init_base_images(t_game *game);
 
 // parsing.c
 int				parse_map(const char *file_name, char **map,
@@ -235,19 +222,24 @@ void			exec_on_w(t_game *mlx);
 void			render_camera(t_level *lvl, t_vector2 pos);
 
 // bettermlx.c
-void			btmlx_get_data_addr(t_sprite *sprite);
+void			btmlx_get_addr(t_sprite *sprite, t_img *img);
 t_img			*btmlx_xpm_file_to_image(void *mlx, char *path,
 					t_vector2 dst_size);
 
+// init_lvl_base.c
+void			init_lvl_base(t_game *game);
+
+// sprite_choose.c
+enum			e_img_id choose_image(char *map, int chunk);
+
 // chunks.c
 int				init_chunks(t_level *lvl);
-void			draw_to_chunk(t_canvas *canvas, int chunk, t_sprite *src);
-void			draw_to_chunk(t_canvas *canvas, int chunk, t_sprite *src);
+//void			draw_to_chunk(t_canvas *canvas, int chunk, t_img *src);
 void			recalculate_chunks(t_level *lvl);
 void			find_chunk_under(t_canvas *canvas, t_sprite *sprite);
 
 // chunk_utils.c
-t_sprite		*image_at_chunk(t_level *lvl, int chunk);
+t_img			*image_at_chunk(t_level *lvl, int chunk);
 char			letter_at_chunk(t_level *lvl, int chunk);
 int				pos_to_chunk(t_level *lvl, int x, int y);
 void			clear_chunks_to_redraw(t_canvas *canvas);

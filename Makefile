@@ -1,6 +1,6 @@
 NAME = so_long
 CFLAGS = -g3 -Wall -Wextra -Ofast #-Werror
-DEPS = $(INCLUDES)so_long.h $(INCLUDES)get_next_line.h Makefile
+DEPS = $(INCLUDES)so_long.h $(INCLUDES)get_next_line.h  $(INCLUDES)textures.h Makefile
 INCLUDES = includes/
 SRC_DIR = src/
 OBJ_DIR = obj/
@@ -8,24 +8,26 @@ CC = gcc
 LIBS = -L$(INCLUDES)mlx -lmlx -lXext -lX11 -lm
 
 SRC = $(addprefix $(SRC_DIR), \
-	get_next_line.c \
-	get_next_line_utils.c \
-	utils.c \
-	load_images.c \
-	bettermlx.c \
-	player_move.c \
-	chunks_utils.c \
-	init_collision.c \
 	animations.c \
-	collision.c \
+	bettermlx.c \
 	camera.c \
+	chunks_utils.c \
+	chunks.c \
+	collision.c \
+	colors.c \
+	debug.c \
+	get_next_line_utils.c \
+	get_next_line.c \
 	image_flip.c \
 	image_operations.c \
-	colors.c \
-	chunks.c \
-	parsing.c \
+	init_collision.c \
+	init_lvl_base.c \
 	list_utils.c \
-	debug.c \
+	load_forest_images.c\
+	parsing.c \
+	player_move.c \
+	sprite_choose.c \
+	utils.c \
 	main.c)
 
 OBJ = $(patsubst $(SRC_DIR)%.c,$(OBJ_DIR)%.o,$(SRC))

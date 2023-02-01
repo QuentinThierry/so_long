@@ -6,27 +6,11 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 20:03:30 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/30 20:03:42 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/01 01:16:57 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
-
-static int	variant_proba()
-{
-	int	tmp;
-
-	tmp = rand() % 100;
-	if (tmp < 4)
-		return (4);
-	else if (tmp < 6)
-		return (3);
-	else if (tmp < 15)
-		return (2);
-	else if (tmp < 25)
-		return (1);
-	return (0);
-}
 
 int	init_chunks(t_level *lvl)
 {
@@ -34,7 +18,7 @@ int	init_chunks(t_level *lvl)
 	int		y;
 	char	*address;
 
-	address = lvl->canvas->sprite->var[0]->addr;
+	address = lvl->canvas->sprite->img_ptr->data;
 	lvl->canvas->size.x = lvl->canvas->sprite->size.x;
 	lvl->canvas->size.y = lvl->canvas->sprite->size.y;
 	lvl->canvas->nb_chunks.x = lvl->map_size.x;
@@ -46,7 +30,7 @@ int	init_chunks(t_level *lvl)
 		x = 0;
 		while (x < lvl->canvas->nb_chunks.x)
 		{
-			lvl->canvas->chunks[y * lvl->canvas->nb_chunks.x + x].variant = variant_proba();
+			lvl->canvas->chunks[y * lvl->canvas->nb_chunks.x + x].image_id = choose_image(lvl->map, y * lvl->canvas->nb_chunks.x + x);
 			lvl->canvas->nl_offset = lvl->canvas->sprite->opp * lvl->canvas->size.x;
 			lvl->canvas->chunks[y * lvl->canvas->nb_chunks.x + x].addr = address +
 				(y * lvl->canvas->size.x * SIZE_CHUNK * lvl->canvas->sprite->opp) +
@@ -70,7 +54,7 @@ int	init_chunks(t_level *lvl)
 	return (0);
 }
 
-void	draw_to_chunk(t_canvas *canvas, int chunk, t_sprite *src)
+void	draw_to_chunk(t_canvas *canvas, int chunk, t_img *src)
 {
 	int		y;
 	char	*dst;
@@ -80,8 +64,8 @@ void	draw_to_chunk(t_canvas *canvas, int chunk, t_sprite *src)
 	{
 		dst = canvas->chunks[chunk].addr +
 			y * canvas->nl_offset;
-		ft_memcpy(dst, src->var[canvas->chunks[chunk].variant]->addr +
-			src->line_length * y, (canvas->chunks[chunk].size.x) * canvas->sprite->opp);
+		ft_memcpy(dst, src->data +
+			src->size_line * y, (canvas->chunks[chunk].size.x) * canvas->sprite->opp);
 		y++;
 	}
 }
