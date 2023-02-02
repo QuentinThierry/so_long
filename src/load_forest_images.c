@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:39:38 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/01 20:10:44 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/02 20:02:11 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,15 +111,15 @@ void	_load_wall2(t_game *game)
 void	_load_player(t_game *game)
 {
 	game->lvl->images[e_player_0] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_BEE, (t_vector2){SIZE_CHUNK - 1, SIZE_CHUNK - 1});
+			FOREST_BEE, (t_vector2){SIZE_CHUNK / 2, SIZE_CHUNK / 2});
 	game->lvl->images[e_player_1] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_BEE, (t_vector2){SIZE_CHUNK - 1, SIZE_CHUNK - 1});
+			FOREST_BEE, (t_vector2){SIZE_CHUNK / 2, SIZE_CHUNK / 2});
 	game->lvl->images[e_player_2] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_BEE, (t_vector2){SIZE_CHUNK - 1, SIZE_CHUNK - 1});
+			FOREST_BEE, (t_vector2){SIZE_CHUNK / 2, SIZE_CHUNK / 2});
 	game->lvl->images[e_player_3] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_BEE, (t_vector2){SIZE_CHUNK - 1, SIZE_CHUNK - 1});
+			FOREST_BEE, (t_vector2){SIZE_CHUNK / 2, SIZE_CHUNK / 2});
 	game->lvl->images[e_player_4] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_BEE, (t_vector2){SIZE_CHUNK - 1, SIZE_CHUNK - 1});
+			FOREST_BEE, (t_vector2){SIZE_CHUNK / 2, SIZE_CHUNK / 2});
 }
 
 void	_load_exit(t_game *game)
