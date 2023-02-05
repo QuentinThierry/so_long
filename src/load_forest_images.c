@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:39:38 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/02 20:02:11 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/05 00:52:14 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,49 +63,49 @@ void	_load_ground2(t_game *game)
 void	_load_wall1(t_game *game)
 {
 	game->lvl->images[e_wall0_0] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_WALL, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_TREE1, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_wall0_1] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_WALL, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_TREE1, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_wall0_2] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_WALL, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_TREE1, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_wall0_3] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_WALL, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_TREE1, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_wall0_4] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_WALL, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_TREE1, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_wall1_0] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_WALL, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_TREE2, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_wall1_1] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_WALL, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_TREE2, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_wall1_2] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_WALL, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_TREE2, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_wall1_3] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_WALL, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_TREE2, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_wall1_4] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_WALL, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_TREE2, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 }
 
 void	_load_wall2(t_game *game)
 {
 	game->lvl->images[e_wall2_0] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_WALL, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_TREE1, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_wall2_1] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_WALL, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_TREE1, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_wall2_2] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_WALL, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_TREE1, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_wall2_3] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_WALL, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_TREE1, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_wall2_4] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_WALL, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_TREE1, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_wall3_0] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_WALL, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_TREE1, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_wall3_1] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_WALL, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_TREE1, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_wall3_2] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_WALL, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_TREE1, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_wall3_3] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_WALL, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_TREE1, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_wall3_4] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_WALL, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_TREE1, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 }
 
 void	_load_player(t_game *game)
