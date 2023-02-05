@@ -6,12 +6,26 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 14:19:42 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/24 14:50:37 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/05 02:39:01 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 #include "../includes/get_next_line.h"
+
+int	find_exit_chunk(char *map)
+{
+	int	i;
+
+	i = 0;
+	while (map[i])
+	{
+		if (map[i] == 'E')
+			return (i);
+		++i;
+	}
+	return (-1);
+}
 
 static int	is_ber(const char *file_name)
 {
@@ -211,7 +225,7 @@ char	*map2D_to_1D(char **map2D, t_vector2 map_size)
 	int		x;
 	int		y;
 
-	map = malloc(sizeof(char) * map_size.x * map_size.y);
+	map = malloc(sizeof(char) * map_size.x * map_size.y + (sizeof(char) * 1));
 	if (!map)
 		return (NULL);
 	y = 0;
@@ -225,6 +239,7 @@ char	*map2D_to_1D(char **map2D, t_vector2 map_size)
 		}
 		y++;
 	}
+	map[map_size.y * map_size.x] = 0;
 	return (map);
 }
 

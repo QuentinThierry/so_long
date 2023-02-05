@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/05 01:00:21 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/05 03:35:23 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # include "textures.h"
 
 // --=======----=======-- WINDOWS --=======----=======--
-# define SCREEN_WIDTH 1024
-# define SCREEN_HEIGHT 720
+# define SCREEN_WIDTH 1920
+# define SCREEN_HEIGHT 1080
 # define SIZE_CHUNK 64
 
 // --=======----=======-- KEY_MAP --=======----=======--
@@ -61,6 +61,9 @@
 
 // --=======----=======-- PLAYER --=======----=======--
 # define SPEED 200
+
+// --=======----=======-- ANIMATIONS --=======----=======--
+# define CAM_ANIM_TIME_SEC 5
 
 // --=======----=======-- DEBUG --=======----=======--
 # define ISDEBUG 0
@@ -123,6 +126,8 @@ typedef struct s_level
 	struct s_collider	*ennemy_col;
 	char				*map;
 	struct s_vector2	map_size;
+	struct timeval		start_time;
+	int					is_animating_cam;
 }	t_level;
 
 typedef struct s_canvas
@@ -133,7 +138,7 @@ typedef struct s_canvas
 	struct s_vector2	nb_chunks;
 	struct s_vector2	size;
 	struct s_vector2	origin;
-	struct s_fvector2	exact_origin;
+	struct s_vector2	pos_exit;
 	int					nl_offset;
 }	t_canvas;
 
@@ -176,6 +181,7 @@ typedef struct s_player
 	t_sprite	*sprite;
 	t_collider	*collider;
 	t_vector2	*pos;
+	t_fvector2	exact_pos;
 	t_vector2	dir;
 }	t_player;
 
@@ -218,6 +224,7 @@ void			init_base_images(t_game *game);
 int				parse_map(const char *file_name, char **map,
 					t_vector2 *map_size);
 void			free_tab2d(char ***to_free, int size_y);
+int				find_exit_chunk(char *map);
 
 // camera.c
 void			render_camera(t_level *lvl, t_vector2 pos);
@@ -253,8 +260,7 @@ t_collider		*check_col_collectible(t_game *game);
 
 // player_move.c
 void			move_player(t_game *game, int is_x, int is_y);
-void			reverse_move_player(t_game *game, int is_x, int is_y);
-void			update_player_pos(t_game *game);
+void			reverse_move_canvas(t_game *game, int is_x, int is_y);
 void			player_movement(t_game *game);
 
 // keys.c
@@ -264,8 +270,13 @@ void			press_on_s(t_game *game, int is_release);
 void			press_on_d(t_game *game, int is_release);
 void			press_on_esc(t_game *game, int status);
 
+// vector_maths.c
+float		magnitude(t_vector2 vector);
+t_fvector2	normalize(t_vector2 vector);
+float		distance(t_vector2 src, t_vector2 dest);
+
 // animations.c
-void			calculate_animations(t_game *game);
+void		camera_animation_to_exit(t_game *game);
 
 // image_flip.c
 void			flip_image_y(t_sprite *sprite);

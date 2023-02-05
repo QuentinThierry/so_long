@@ -29,6 +29,7 @@ SRC = $(addprefix $(SRC_DIR), \
 	player_move.c \
 	sprite_choose.c \
 	utils.c \
+	vector_maths.c \
 	main.c)
 
 OBJ = $(patsubst $(SRC_DIR)%.c,$(OBJ_DIR)%.o,$(SRC))

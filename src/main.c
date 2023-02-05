@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/01 19:21:22 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/05 03:34:07 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,10 +122,9 @@ int	init_background(t_game *game)
 		game->lvl->canvas->chunks_to_redraw[i] = 1;
 		if (game->lvl->map[i] == 'P')
 		{
-			game->lvl->canvas->origin.x = (SCREEN_WIDTH / 2 - game->lvl->player->sprite->size.x / 2) - (i % game->lvl->canvas->nb_chunks.x) * SIZE_CHUNK;
-			game->lvl->canvas->origin.y = (SCREEN_HEIGHT / 2 - game->lvl->player->sprite->size.y / 2) - (i / game->lvl->canvas->nb_chunks.x) * SIZE_CHUNK;
-			game->lvl->canvas->exact_origin.x = game->lvl->canvas->origin.x;
-			game->lvl->canvas->exact_origin.y = game->lvl->canvas->origin.y;
+			*game->lvl->player->pos = game->lvl->canvas->chunks[i].pos;
+			game->lvl->player->exact_pos.x = game->lvl->player->pos->x;
+			game->lvl->player->exact_pos.y = game->lvl->player->pos->y;
 		}
 		i++;
 	}
@@ -141,12 +140,17 @@ int	draw_layers(t_game *game)
 		debug_calculate(game->lvl);
 
 	draw_image_on_canvas(game->lvl->canvas, game->lvl->player->sprite, game->lvl->player->sprite->pos, 1);
-	render_camera(game->lvl, (t_vector2) {
-		game->lvl->player->pos->x - SCREEN_WIDTH / 2,
-		game->lvl->player->pos->y - SCREEN_HEIGHT / 2});
+	render_camera(game->lvl, game->lvl->cam->pos);
 	mlx_put_image_to_window(game->mlx, game->window, game->lvl->cam->img_ptr, 0, 0);
 	// clear_chunks_to_redraw(game->lvl->canvas);
 	return (0);
+}
+
+void	move_camera_on_player(t_sprite *cam, t_vector2 player_pos)
+{
+	cam->pos = (t_vector2) {
+		player_pos.x - SCREEN_WIDTH / 2,
+		player_pos.y - SCREEN_HEIGHT / 2};
 }
 
 int	on_update(t_game *game)
@@ -154,13 +158,16 @@ int	on_update(t_game *game)
 	static unsigned int	frame = 0;
 	static int			fps = 0;
 
-	player_movement(game);
-	check_col_collectible(game);
 
-	calculate_animations(game);
-
+	if (game->lvl->is_animating_cam)
+		camera_animation_to_exit(game);
+	else
+	{
+		player_movement(game);
+		move_camera_on_player(game->lvl->cam, *game->lvl->player->pos);
+		check_col_collectible(game);
+	}
 	draw_layers(game);
-
 
 	calculate_fps(&game->fps, &game->elapsed);
 	if (frame % FRAME_RATE_DRAW_SPEED == 0)
@@ -206,7 +213,17 @@ int	on_start(t_game *game, char *map, t_vector2 map_size)
 	// others
 	game->lvl->canvas->origin = (t_vector2){0, 0};
 	
-	// mlx_do_key_autorepeaton(game->mlx);
+	init_chunks(game->lvl);
+	init_background(game);
+
+	// init collision
+	init_collisions(game->lvl);
+
+	gettimeofday(&game->lvl->start_time, NULL);
+
+	game->lvl->is_animating_cam = 1;
+
+	
 	return (0);
 }
 
@@ -226,18 +243,14 @@ int main(int argc, char const *argv[])
 	srand(time(NULL));
 	if(on_start(&game, map, map_size))
 		return (1);
-	init_chunks(game.lvl);
-	init_background(&game);
 
-	// init collision
-	init_collisions(game.lvl);
-	update_player_pos(&game);
+
 	mlx_hook(game.window, KeyPress, KeyPressMask, &press_key, &game);
 	mlx_hook(game.window, KeyRelease, KeyReleaseMask, &release_key, &game);
 	mlx_loop_hook(game.mlx, on_update, &game.mlx);
 	mlx_loop(game.mlx);
 
-	mlx_do_key_autorepeaton(game.mlx);
+	//mlx_do_key_autorepeaton(game.mlx);
 	(void)argc;
 	(void)argv;
 	(void)game;

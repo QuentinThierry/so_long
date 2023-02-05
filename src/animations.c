@@ -6,40 +6,36 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:42:19 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/31 19:01:26 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/05 03:33:32 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
-
-static void	animate_player(t_level *lvl)
+void	camera_animation_to_exit(t_game *game)
 {
-	(void)lvl;
-	//if (lvl->sprites[e_player]->current_var >= 4)
-	//	lvl->sprites[e_player]->current_var = 0;
-	//else
-	//	lvl->sprites[e_player]->current_var++;
-}
+	struct timeval	time;
+	double			delay;
+	float			dist;
+	t_vector2		exit_pos;
+	t_fvector2		dir;
 
-// static void	calculate_ground(t_level *lvl)
-// {
-	
-// }
-
-void	calculate_animations(t_game *game)
-{
-	(void)game;
-	 animate_player(game->lvl);
-	// // calculate_ground(game->lvl);
-	// if (game->fps % 2 == 0)
-	// {
-	// 	game->lvl->canvas->chunks[40].variant = 0;
-	// 	game->lvl->canvas->chunks_to_redraw[40] = 1;
-	// }
-	// else if (game->fps % 1 == 0)
-	// {
-	// 	game->lvl->canvas->chunks[40].variant = 3;
-	// 	game->lvl->canvas->chunks_to_redraw[40] = 1;
-	// }
+	gettimeofday(&time, NULL);
+	delay = (((double)(time.tv_usec - game->lvl->start_time.tv_usec) / CLOCKS_PER_SEC)
+		+ time.tv_sec - game->lvl->start_time.tv_sec);
+	if (delay >= CAM_ANIM_TIME_SEC)
+		game->lvl->is_animating_cam = 0;
+	else
+	{
+		exit_pos = game->lvl->canvas->chunks[find_exit_chunk(game->lvl->map)].pos;
+		dist = distance(*game->lvl->player->pos, exit_pos);
+		dir = (t_fvector2){exit_pos.x - game->lvl->player->pos->x, exit_pos.y - game->lvl->player->pos->y};
+		dir = normalize((t_vector2){dir.x, dir.y});
+		game->lvl->cam->pos = (t_vector2){
+			(game->lvl->player->pos->x) + (dir.x * dist) * (delay / CAM_ANIM_TIME_SEC)
+			- (((float)SCREEN_WIDTH / 2) + (float)game->lvl->player->sprite->size.x / 2),
+			(game->lvl->player->pos->y) + dir.y * dist * (delay / CAM_ANIM_TIME_SEC)
+			- (((float)SCREEN_HEIGHT / 2) + (float)game->lvl->player->sprite->size.y / 2),
+		};
+	}
 }

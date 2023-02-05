@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 17:45:49 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/01 17:29:31 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/05 03:13:55 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static void	_init_canvas(t_game *game)
 	game->lvl->canvas->sprite = malloc(sizeof(t_sprite));
 	game->lvl->canvas->sprite->image_id = e_canvas;
 	game->lvl->canvas->origin = (t_vector2){0, 0};
-	game->lvl->canvas->exact_origin = (t_fvector2){0., 0.};
 	btmlx_get_addr(game->lvl->canvas->sprite, game->lvl->images[e_canvas]);
 }
 

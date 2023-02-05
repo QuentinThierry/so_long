@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 17:38:47 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/01 00:13:55 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/05 03:26:17 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	render_camera(t_level *lvl, t_vector2 origin)
 		deltax = -origin.x * opp;
 	while (y < lvl->cam->size.y)
 	{
-		if (y > lvl->canvas->origin.y + lvl->canvas->size.y + opp || (y + origin.y) < 0)
+		if (origin.y + y > lvl->canvas->size.y - 1 || (y + origin.y) < 0)
 		{
 			ft_memcpy(lvl->cam->img_ptr->data + 
 				(y * camera_size),
