@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 19:18:33 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/06 20:26:42 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/06 21:47:56 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	collide_on_collec(t_game *game, t_collider *collider)
 {
 	game->lvl->nb_collec++;
 	printf("collected : (%d/%d) !\n", game->lvl->nb_collec, game->lvl->max_collec);
-
 	*collider->image_id = e_collec3_0;
 	collider->has_been_triggered = 1;
 }
@@ -63,14 +62,14 @@ t_collider	*check_col_collectible(t_game *game)
 	return (NULL);
 }
 
-t_collider *check_wall_collision(t_level *lvl)
+t_collider	*check_wall_collision(t_level *lvl, t_collider *src)
 {
 	int	i;
 
 	i = 0;
 	while (lvl->wall_col[i].id != -1)
 	{
-		if (is_colliding(lvl->player->collider, &lvl->wall_col[i]))
+		if (is_colliding(src, &lvl->wall_col[i]))
 			return (&lvl->wall_col[i]);
 		++i;
 	}

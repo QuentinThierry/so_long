@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/06 20:56:39 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/06 22:26:12 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	calculate_fps(int *fps, double *elapsed)
 	struct timeval			tmp;
 	double					delay;
 
+	if (!prev_time.tv_sec)
+		gettimeofday(&prev_time, NULL);
 	gettimeofday(&tmp, NULL);
 	delay = (((double)(tmp.tv_usec - prev_time.tv_usec) / CLOCKS_PER_SEC)
 			+ tmp.tv_sec - prev_time.tv_sec);
@@ -153,12 +155,92 @@ int	init_enemies(t_game *game)
 			if (!game->lvl->enemies[j])
 				return (0);
 			*game->lvl->enemies[j]->pos = game->lvl->canvas->chunks[i].pos;
+			game->lvl->enemies[j]->exact_pos = (t_fvector2)
+			{
+				game->lvl->enemies[j]->pos->x,
+				game->lvl->enemies[j]->pos->y
+			};
+			game->lvl->enemies[j]->dir = (t_fvector2){1, 1};
 			j++;
 		}
 		i++;
 	}
 	game->lvl->enemies[nb_enemies] = NULL;
 	return (1);
+}
+
+void	move_enemy(t_game *game, int id, int is_x, int is_y)
+{
+	double	new_posx;
+	double	new_posy;
+
+	find_chunk_under(game->lvl->canvas, game->lvl->enemies[id]->sprite);
+	if (!game->lvl->enemies[id]->dir.x && !game->lvl->enemies[id]->dir.y)
+		return ;
+	if (is_x)
+	{
+		new_posx = game->lvl->enemies[id]->exact_pos.x +
+				(double)(game->lvl->enemies[id]->dir.x) * ENEMY_SPEED * game->elapsed;
+		game->lvl->enemies[id]->exact_pos.x = new_posx;
+		game->lvl->enemies[id]->pos->x = floor(new_posx);
+	}
+	if (is_y)
+	{
+		new_posy = game->lvl->enemies[id]->exact_pos.y +
+				(double)(game->lvl->enemies[id]->dir.y) * ENEMY_SPEED * game->elapsed;
+		game->lvl->enemies[id]->exact_pos.y = new_posy;
+		game->lvl->enemies[id]->pos->y = floor(new_posy);
+	}
+	find_chunk_under(game->lvl->canvas, game->lvl->enemies[id]->sprite);
+}
+
+void	reverse_move_enemy(t_game *game, int id, int is_x, int is_y)
+{
+	double	new_posx;
+	double	new_posy;
+
+	find_chunk_under(game->lvl->canvas, game->lvl->enemies[id]->sprite);
+	if (!game->lvl->enemies[id]->dir.x && !game->lvl->enemies[id]->dir.y)
+		return ;
+	if (is_x)
+	{
+		new_posx = game->lvl->enemies[id]->exact_pos.x -
+				(double)(game->lvl->enemies[id]->dir.x) * ENEMY_SPEED * game->elapsed;
+		game->lvl->enemies[id]->exact_pos.x = new_posx;
+		game->lvl->enemies[id]->pos->x = floor(new_posx);
+	}
+	if (is_y)
+	{
+		new_posy = game->lvl->enemies[id]->exact_pos.y -
+				(double)(game->lvl->enemies[id]->dir.y) * ENEMY_SPEED * game->elapsed;
+		game->lvl->enemies[id]->exact_pos.y = new_posy;
+		game->lvl->enemies[id]->pos->y = floor(new_posy);
+	}
+	find_chunk_under(game->lvl->canvas, game->lvl->enemies[id]->sprite);
+}
+
+void	calculate_dir(t_game *game, int id)
+{
+	game->lvl->enemies[id]->dir = direction_normalized(*game->lvl->enemies[id]->pos, *game->lvl->player->pos);
+}
+
+void	enemy_movement(t_game *game)
+{
+	int	i;
+
+	i = 0;
+	while (game->lvl->enemies[i])
+	{
+		// add if is_triggered
+		calculate_dir(game, i);
+		move_enemy(game, i, 1, 0);
+		if (check_wall_collision(game->lvl, game->lvl->enemies[i]->collider))
+			reverse_move_enemy(game, i, 1, 0);
+		move_enemy(game, i, 0, 1);
+		if (check_wall_collision(game->lvl, game->lvl->enemies[i]->collider))
+			reverse_move_enemy(game, i, 0, 1);
+		i++;
+	}
 }
 
 void	move_camera_on_player(t_sprite *cam, t_vector2 player_pos)
@@ -179,6 +261,8 @@ int	on_update(t_game *game)
 	{
 		player_movement(game);
 		move_camera_on_player(game->lvl->cam, *game->lvl->player->pos);
+		enemy_movement(game);
+
 		check_col_collectible(game);
 		check_col_exit(game);
 	}

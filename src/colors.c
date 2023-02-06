@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:01:50 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/31 19:04:07 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/06 22:46:34 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,10 @@ static t_color	get_blended_color(t_color c_back, t_color c_front)
 
 	alpha_back = (c_back.alpha * 0.003921F);
 	alpha_front = (c_front.alpha * 0.003921F);
-
 	res.red = alpha_front * (float)c_front.red + (1.F - alpha_front) * alpha_back * (float)c_back.red;
 	res.green = alpha_front * (float)c_front.green + (1.F - alpha_front) * alpha_back * (float)c_back.green;
 	res.blue = alpha_front * (float)c_front.blue + (1.F - alpha_front) * alpha_back * (float)c_back.blue;
 	res.alpha = alpha_front + (1 - alpha_front) * alpha_back;
-
 	return (res);
 }
 
@@ -66,6 +64,7 @@ void	blend_images(t_sprite *back, t_sprite *front, t_vector2 pos)
 		while (x < width)
 		{
 			c_front = (t_color)get_color_at(front, (t_vector2){x, y});
+			// printf("A %d R %d G %d B %d\n", c_front.alpha, c_front.red, c_front.green, c_front.blue);
 			if (c_front.alpha != 0)
 			{
 				c_back = (t_color)get_color_at(back, (t_vector2){pos.x + x, pos.y + y});

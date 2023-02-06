@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/06 20:52:32 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/06 22:32:34 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@
 # define SPEED 250
 
 // --=======----=======-- ENEMIES --=======----=======--
-# define ENEMIES_SPEED 200
+# define ENEMY_SPEED 200
 
 // --=======----=======-- MAP --=======----=======--
 # ifndef SEED
@@ -69,7 +69,7 @@
 # endif
 
 // --=======----=======-- ANIMATIONS --=======----=======--
-# define HAS_CAM_ANIM 1
+# define HAS_CAM_ANIM 0
 # define CAM_ANIM_TIME_SEC 5
 
 // --=======----=======-- DEBUG --=======----=======--
@@ -167,9 +167,10 @@ typedef struct s_enemy
 {
 	int					id;
 	struct s_sprite		*sprite;
+	t_vector2			*size;
 	t_vector2			*pos;
 	t_fvector2			exact_pos;
-	t_vector2			*size;
+	t_fvector2			dir;
 	struct s_collider	*collider;
 	int					is_triggered;
 }	t_enemy;
@@ -281,7 +282,7 @@ void			clear_chunks_to_redraw(t_canvas *canvas);
 int				init_collisions(t_level *lvl);
 
 // collision.c
-t_collider		*check_wall_collision(t_level *lvl);
+t_collider		*check_wall_collision(t_level *lvl, t_collider *src);
 t_collider		*check_col_collectible(t_game *game);
 void			check_col_exit(t_game *game);
 
@@ -302,9 +303,11 @@ void			press_on_p(t_game *game, int is_release);
 void			press_on_esc(t_game *game, int status);
 
 // vector_maths.c
-float		magnitude(t_vector2 vector);
-t_fvector2	normalize(t_vector2 vector);
-float		distance(t_vector2 src, t_vector2 dest);
+float			magnitude(t_vector2 vector);
+t_fvector2		normalize(t_vector2 vector);
+float			distance(t_vector2 src, t_vector2 dest);
+t_fvector2		direction_normalized(t_vector2 src, t_vector2 dest);
+
 
 // animations.c
 void		camera_animation_to_exit(t_game *game);

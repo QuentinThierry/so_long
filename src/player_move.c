@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 18:30:53 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/05 03:18:11 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/06 22:05:08 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,9 @@ void	reverse_move_player(t_game *game, int is_x, int is_y)
 void	player_movement(t_game *game)
 {
 	move_player(game, 1, 0);
-	if (check_wall_collision(game->lvl))
+	if (check_wall_collision(game->lvl, game->lvl->player->collider))
 		reverse_move_player(game, 1, 0);
 	move_player(game, 0, 1);
-	if (check_wall_collision(game->lvl))
+	if (check_wall_collision(game->lvl, game->lvl->player->collider))
 		reverse_move_player(game, 0, 1);
 }

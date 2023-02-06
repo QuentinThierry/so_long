@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:42:19 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/06 17:36:53 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/06 22:13:55 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ void	camera_animation_to_exit(t_game *game)
 			delay = CAM_ANIM_TIME_SEC;
 		exit_pos = game->lvl->canvas->chunks[find_exit_chunk(game->lvl->map)].pos;
 		dist = distance(*game->lvl->player->pos, exit_pos);
-		dir = (t_fvector2){exit_pos.x - game->lvl->player->pos->x, exit_pos.y - game->lvl->player->pos->y};
-		dir = normalize((t_vector2){dir.x, dir.y});
+		dir = direction_normalized(*game->lvl->player->pos, exit_pos);
 		game->lvl->cam->pos = (t_vector2){
 			(game->lvl->player->pos->x) + (dir.x * dist) * (delay / CAM_ANIM_TIME_SEC)
 			- (((float)SCREEN_WIDTH / 2) + (float)game->lvl->player->sprite->size.x / 2),
