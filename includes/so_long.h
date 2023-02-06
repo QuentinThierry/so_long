@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/05 03:35:23 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/05 19:15:41 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # include "textures.h"
 
 // --=======----=======-- WINDOWS --=======----=======--
-# define SCREEN_WIDTH 1920
-# define SCREEN_HEIGHT 1080
+# define SCREEN_WIDTH 1024 // 1920 1024
+# define SCREEN_HEIGHT 720 // 1080 720
 # define SIZE_CHUNK 64
 
 // --=======----=======-- KEY_MAP --=======----=======--
@@ -63,6 +63,7 @@
 # define SPEED 200
 
 // --=======----=======-- ANIMATIONS --=======----=======--
+# define HAS_CAM_ANIM 1
 # define CAM_ANIM_TIME_SEC 5
 
 // --=======----=======-- DEBUG --=======----=======--
@@ -124,9 +125,12 @@ typedef struct s_level
 	struct s_collider	*wall_col;
 	struct s_collider	*collec_col;
 	struct s_collider	*ennemy_col;
+	struct s_collider	*exit_col;
 	char				*map;
 	struct s_vector2	map_size;
 	struct timeval		start_time;
+	int					nb_collec;
+	int					max_collec;
 	int					is_animating_cam;
 }	t_level;
 
@@ -146,7 +150,7 @@ typedef struct s_collider
 {
 	int					id;
 	int					*image_id;
-	struct s_vector2	*min;
+	struct s_vector2	*pos;
 	struct s_vector2	*size;
 	int					has_been_triggered;
 }	t_collider;
@@ -257,6 +261,7 @@ int				init_collisions(t_level *lvl);
 // collision.c
 t_collider		*check_wall_collision(t_level *lvl);
 t_collider		*check_col_collectible(t_game *game);
+void			check_collide_on_exit(t_game *game);
 
 // player_move.c
 void			move_player(t_game *game, int is_x, int is_y);

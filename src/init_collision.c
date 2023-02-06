@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 16:04:49 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/01 20:12:40 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/05 18:24:56 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	create_wall_colliders(t_level *lvl)
 		if (lvl->map[i] == '1')
 		{
 			lvl->wall_col[j].id = j + 1;
-			lvl->wall_col[j].min = &lvl->canvas->chunks[i].pos;
+			lvl->wall_col[j].pos = &lvl->canvas->chunks[i].pos;
 			lvl->wall_col[j].size = &lvl->canvas->chunks[i].size;
 			lvl->wall_col[j].image_id = &lvl->canvas->chunks[i].image_id;
 			lvl->wall_col[j].has_been_triggered = 0;
@@ -76,7 +76,7 @@ static int	create_collec_colliders(t_level *lvl)
 		if (lvl->map[i] == 'C')
 		{
 			lvl->collec_col[j].id = j + 1;
-			lvl->collec_col[j].min = &lvl->canvas->chunks[i].pos;
+			lvl->collec_col[j].pos = &lvl->canvas->chunks[i].pos;
 			lvl->collec_col[j].size = &lvl->canvas->chunks[i].size;
 			lvl->collec_col[j].image_id = &lvl->canvas->chunks[i].image_id;
 			lvl->collec_col[j].has_been_triggered = 0;
@@ -88,12 +88,30 @@ static int	create_collec_colliders(t_level *lvl)
 	return (1);
 }
 
+static int	create_exit_collider(t_level *lvl)
+{
+	int	exit_chunk;
+
+	lvl->exit_col = malloc(sizeof(t_collider));
+	if (!lvl->exit_col)
+		return (0);
+	exit_chunk = find_exit_chunk(lvl->map);
+	lvl->exit_col->id = 0;
+	lvl->exit_col->pos = &lvl->canvas->chunks[exit_chunk].pos;
+	lvl->exit_col->size = &lvl->canvas->chunks[exit_chunk].size;
+	lvl->exit_col->image_id = &lvl->canvas->chunks[exit_chunk].image_id;
+	lvl->exit_col->has_been_triggered = 0;
+	return (1);
+}
+
 
 int	init_collisions(t_level *lvl)
 {
-	if (create_wall_colliders(lvl) == 0)
+	if (!create_wall_colliders(lvl))
 		return (0);
-	if (create_collec_colliders(lvl) == 0)
+	if (!create_collec_colliders(lvl))
+		return (0);
+	if (!create_exit_collider(lvl))
 		return (0);
 	return (1);
 }

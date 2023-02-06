@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/05 03:34:07 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/05 18:28:43 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void	show_fps(t_game *game, t_vector2 pos, int fps)
 		pos.y, FPS_COLOR, ft_itoa(fps));
 }
 
-int	init_background(t_game *game)
+int	init_map_variables(t_game *game)
 {
 	int	i;
 
@@ -126,6 +126,8 @@ int	init_background(t_game *game)
 			game->lvl->player->exact_pos.x = game->lvl->player->pos->x;
 			game->lvl->player->exact_pos.y = game->lvl->player->pos->y;
 		}
+		if (game->lvl->map[i] == 'C')
+			game->lvl->max_collec++;
 		i++;
 	}
 	recalculate_chunks(game->lvl);
@@ -158,7 +160,6 @@ int	on_update(t_game *game)
 	static unsigned int	frame = 0;
 	static int			fps = 0;
 
-
 	if (game->lvl->is_animating_cam)
 		camera_animation_to_exit(game);
 	else
@@ -166,6 +167,7 @@ int	on_update(t_game *game)
 		player_movement(game);
 		move_camera_on_player(game->lvl->cam, *game->lvl->player->pos);
 		check_col_collectible(game);
+		check_collide_on_exit(game);
 	}
 	draw_layers(game);
 
@@ -214,16 +216,15 @@ int	on_start(t_game *game, char *map, t_vector2 map_size)
 	game->lvl->canvas->origin = (t_vector2){0, 0};
 	
 	init_chunks(game->lvl);
-	init_background(game);
+	init_map_variables(game);
 
 	// init collision
 	init_collisions(game->lvl);
 
 	gettimeofday(&game->lvl->start_time, NULL);
 
-	game->lvl->is_animating_cam = 1;
+	game->lvl->is_animating_cam = HAS_CAM_ANIM;
 
-	
 	return (0);
 }
 

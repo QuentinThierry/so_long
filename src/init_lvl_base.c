@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 17:45:49 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/05 03:13:55 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/05 18:23:34 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,12 @@ static void	_init_player(t_game *game)
 	game->lvl->player->sprite = malloc(sizeof(t_sprite));
 	game->lvl->player->collider = malloc(sizeof(t_collider));
 	game->lvl->player->collider->id = 0;
-	game->lvl->player->collider->min = &game->lvl->player->sprite->pos;
+	game->lvl->player->collider->pos = &game->lvl->player->sprite->pos;
 	game->lvl->player->collider->size = &game->lvl->player->sprite->size;
 	game->lvl->player->dir = (t_vector2){0, 0};
 	game->lvl->player->sprite->image_id = e_player_0;
 	btmlx_get_addr(game->lvl->player->sprite, game->lvl->images[e_player_0]);
 	game->lvl->player->pos = &game->lvl->player->sprite->pos;
-	//game->lvl->player->pos = (t_vector2){0, 0};
 }
 
 static void	_init_background(t_game *game)
@@ -54,6 +53,8 @@ void	init_lvl_base(t_game *game)
 {
 	game->lvl->canvas = malloc(sizeof(t_canvas));
 	game->lvl->player = malloc(sizeof(t_player));
+	game->lvl->nb_collec = 0;
+	game->lvl->max_collec = 0;
 	_init_canvas(game);
 	_init_camera(game);
 	_init_player(game);

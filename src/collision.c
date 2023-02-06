@@ -6,26 +6,27 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 19:18:33 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/05 01:04:08 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/05 18:30:04 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
+#include <stdlib.h>
 
 int	is_colliding(t_collider *collider1, t_collider *collider2)
 {
 	t_vector2	collider1_max;
 	t_vector2	collider2_max;
 
-	collider1_max.x = collider1->min->x + collider1->size->x;
-	collider1_max.y = collider1->min->y + collider1->size->y;
-	collider2_max.x = collider2->min->x + collider2->size->x;
-	collider2_max.y = collider2->min->y + collider2->size->y;
+	collider1_max.x = collider1->pos->x + collider1->size->x;
+	collider1_max.y = collider1->pos->y + collider1->size->y;
+	collider2_max.x = collider2->pos->x + collider2->size->x;
+	collider2_max.y = collider2->pos->y + collider2->size->y;
 	if (
-		collider1->min->x < collider2_max.x &&
-		collider1_max.x > collider2->min->x &&
-		collider1->min->y < collider2_max.y &&
-		collider1_max.y > collider2->min->y
+		collider1->pos->x < collider2_max.x &&
+		collider1_max.x > collider2->pos->x &&
+		collider1->pos->y < collider2_max.y &&
+		collider1_max.y > collider2->pos->y
 		)
 		return (1);
 	return (0);
@@ -33,9 +34,18 @@ int	is_colliding(t_collider *collider1, t_collider *collider2)
 
 void	collide_on_collec(t_game *game, t_collider *collider)
 {
-	(void)game;
+	game->lvl->nb_collec++;
+	printf("collected : (%d/%d) !\n", game->lvl->nb_collec, game->lvl->max_collec);
+
 	*collider->image_id = e_collec3_0;
 	collider->has_been_triggered = 1;
+}
+
+void	check_collide_on_exit(t_game *game)
+{
+	if (is_colliding(game->lvl->player->collider, game->lvl->exit_col)
+		&& game->lvl->nb_collec >= game->lvl->max_collec)
+		exit(EXIT_SUCCESS);
 }
 
 t_collider	*check_col_collectible(t_game *game)
