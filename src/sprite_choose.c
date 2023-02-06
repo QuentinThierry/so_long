@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 00:20:20 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/01 16:30:12 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/06 20:48:09 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static enum e_img_id choose_collec()
 
 	rng = rand() % 100;
 	if (rng < 5)
-		return (e_collec3_0);
+		return (e_collec2_0);
 	if (rng < 15)
 		return (e_collec2_0);
 	if (rng < 50)

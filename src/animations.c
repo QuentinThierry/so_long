@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:42:19 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/05 18:08:58 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/06 17:36:53 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,12 @@ void	camera_animation_to_exit(t_game *game)
 	gettimeofday(&time, NULL);
 	delay = (((double)(time.tv_usec - game->lvl->start_time.tv_usec) / CLOCKS_PER_SEC)
 		+ time.tv_sec - game->lvl->start_time.tv_sec);
-	if (delay >= CAM_ANIM_TIME_SEC)
+	if (delay >= CAM_ANIM_TIME_SEC + 1)
 		game->lvl->is_animating_cam = 0;
 	else
 	{
+		if (delay >= CAM_ANIM_TIME_SEC)
+			delay = CAM_ANIM_TIME_SEC;
 		exit_pos = game->lvl->canvas->chunks[find_exit_chunk(game->lvl->map)].pos;
 		dist = distance(*game->lvl->player->pos, exit_pos);
 		dir = (t_fvector2){exit_pos.x - game->lvl->player->pos->x, exit_pos.y - game->lvl->player->pos->y};

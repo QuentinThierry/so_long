@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 02:00:21 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/05 00:51:29 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/06 19:29:32 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,26 @@ enum e_img_id
 	e_collec3_2,
 	e_collec3_3,
 	e_collec3_4,
+	e_enemy_0_0,
+	e_enemy_0_1,
+	e_enemy_0_2,
+	e_enemy_0_3,
+	e_enemy_0_4,
+	e_enemy_1_0,
+	e_enemy_1_1,
+	e_enemy_1_2,
+	e_enemy_1_3,
+	e_enemy_1_4,
+	e_enemy_2_0,
+	e_enemy_2_1,
+	e_enemy_2_2,
+	e_enemy_2_3,
+	e_enemy_2_4,
+	e_enemy_3_0,
+	e_enemy_3_1,
+	e_enemy_3_2,
+	e_enemy_3_3,
+	e_enemy_3_4,
 	e_nb_img
 };
 
@@ -102,13 +122,19 @@ enum e_img_id
 # define FOREST_BEE "assets/forest/forest_bee.xpm"
 # define FOREST_EXIT "assets/forest/forest_exit.xpm"
 
+// GROUND 0
 # define FOREST_GROUND "assets/forest/forest_ground.xpm"
 # define FOREST_GRASS "assets/forest/forest_grass.xpm"
 # define FOREST_STONE "assets/forest/forest_stone.xpm"
 # define FOREST_STICK "assets/forest/forest_stick.xpm"
+
+// COLLECTIBLES C
 # define FOREST_FLOWER_R "assets/forest/forest_flower_red.xpm"
 # define FOREST_FLOWER_Y "assets/forest/forest_flower_yellow.xpm"
 # define FOREST_FLOWER_D "assets/forest/forest_flower_d.xpm"
+
+// 
+# define FOREST_ENEMY_H "assets/forest/default_wall.xpm"
 
 # define FOREST_TREE1 "assets/forest/forest_tree.xpm"
 # define FOREST_TREE2 "assets/forest/forest_tree2.xpm"

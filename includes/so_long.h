@@ -6,17 +6,19 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/05 19:15:41 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/06 20:52:32 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
+#include <stdint.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/time.h>
 # include <math.h>
+# include <sys/types.h>
 # include <time.h>
 # include <fcntl.h>
 # include "mlx/mlx.h"
@@ -24,8 +26,8 @@
 # include "textures.h"
 
 // --=======----=======-- WINDOWS --=======----=======--
-# define SCREEN_WIDTH 1024 // 1920 1024
-# define SCREEN_HEIGHT 720 // 1080 720
+# define SCREEN_WIDTH 1920 // 1920 1024 2560
+# define SCREEN_HEIGHT 1080 // 1080 720 1440
 # define SIZE_CHUNK 64
 
 // --=======----=======-- KEY_MAP --=======----=======--
@@ -33,7 +35,7 @@
 # define KEY_A 97
 # define KEY_S 115
 # define KEY_D 100
-# define KEY_Q 113
+# define KEY_P 112
 # define KEY_ESC 65307
 # define NB_KEYS 7
 
@@ -44,10 +46,6 @@
 # define BLUE 0xFF0000FF
 # define WHITE 0xFFFFFFFF
 # define BLACK 0xFF000000
-
-// --=======----=======-- KEY_MAP --=======----=======--
-# define PLAYER_SIZE_X 100
-# define PLAYER_SIZE_Y 100
 
 // --=======----=======-- FPS --=======----=======--
 // # define FPS_VSYNC 0.00828
@@ -60,7 +58,15 @@
 # define FPS_COLOR BLACK
 
 // --=======----=======-- PLAYER --=======----=======--
-# define SPEED 200
+# define SPEED 250
+
+// --=======----=======-- ENEMIES --=======----=======--
+# define ENEMIES_SPEED 200
+
+// --=======----=======-- MAP --=======----=======--
+# ifndef SEED
+#  define SEED 0
+# endif
 
 // --=======----=======-- ANIMATIONS --=======----=======--
 # define HAS_CAM_ANIM 1
@@ -77,6 +83,7 @@ enum e_key_map
 	e_A,
 	e_S,
 	e_D,
+	e_P,
 	e_ESC
 };
 
@@ -122,6 +129,7 @@ typedef struct s_level
 	struct s_sprite		*cam;
 	struct s_sprite		*background;
 	struct s_player		*player;
+	struct s_enemy		**enemies;
 	struct s_collider	*wall_col;
 	struct s_collider	*collec_col;
 	struct s_collider	*ennemy_col;
@@ -154,6 +162,17 @@ typedef struct s_collider
 	struct s_vector2	*size;
 	int					has_been_triggered;
 }	t_collider;
+
+typedef struct s_enemy
+{
+	int					id;
+	struct s_sprite		*sprite;
+	t_vector2			*pos;
+	t_fvector2			exact_pos;
+	t_vector2			*size;
+	struct s_collider	*collider;
+	int					is_triggered;
+}	t_enemy;
 
 typedef struct s_sprite
 {
@@ -204,6 +223,9 @@ typedef union u_color
 // others
 void			my_mlx_pixel_put(t_sprite *sprite,
 					int x, int y, unsigned int color);
+
+// draw_game.c
+int				draw_on_window(t_game *game);
 
 // utils.c
 char			*ft_itoa(int n);
@@ -261,7 +283,7 @@ int				init_collisions(t_level *lvl);
 // collision.c
 t_collider		*check_wall_collision(t_level *lvl);
 t_collider		*check_col_collectible(t_game *game);
-void			check_collide_on_exit(t_game *game);
+void			check_col_exit(t_game *game);
 
 // player_move.c
 void			move_player(t_game *game, int is_x, int is_y);
@@ -269,10 +291,14 @@ void			reverse_move_canvas(t_game *game, int is_x, int is_y);
 void			player_movement(t_game *game);
 
 // keys.c
+enum e_key_map	get_key(int key);
+int				press_key(int key, t_game *game);
+int				release_key(int key, t_game *game);
 void			press_on_w(t_game *game, int is_release);
 void			press_on_a(t_game *game, int is_release);
 void			press_on_s(t_game *game, int is_release);
 void			press_on_d(t_game *game, int is_release);
+void			press_on_p(t_game *game, int is_release);
 void			press_on_esc(t_game *game, int status);
 
 // vector_maths.c

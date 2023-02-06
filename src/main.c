@@ -6,11 +6,12 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/05 18:28:43 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/06 20:56:39 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
+#include <stdlib.h>
 
 void	my_mlx_pixel_put(t_sprite *sprite, int x, int y, unsigned int color)
 {
@@ -19,42 +20,6 @@ void	my_mlx_pixel_put(t_sprite *sprite, int x, int y, unsigned int color)
 	dst = sprite->img_ptr->data +
 		(y * sprite->line_length + x * sprite->opp);
 	*(unsigned int*)dst = color;
-}
-
-enum e_key_map	get_key(int key)
-{
-	if (key == KEY_W)
-		return (e_W);
-	if (key == KEY_A)
-		return (e_A);
-	if (key == KEY_S)
-		return (e_S);
-	if (key == KEY_D)
-		return (e_D);
-	if (key == KEY_ESC)
-		return (e_ESC);
-	return (NB_KEYS);
-}
-
-int	press_key(int key, t_game *game)
-{
-	enum e_key_map e_key;
-
-	e_key = get_key(key);
-	if (e_key < NB_KEYS)
-		game->press_on_key[e_key](game, 0);
-	return (0);
-}
-
-
-int release_key(int key, t_game *game)
-{
-	enum e_key_map e_key;
-
-	e_key = get_key(key);
-	if (e_key < NB_KEYS)
-		game->press_on_key[e_key](game, 1);
-	return (0);
 }
 
 void	calculate_fps(int *fps, double *elapsed)
@@ -112,7 +77,7 @@ void	show_fps(t_game *game, t_vector2 pos, int fps)
 		pos.y, FPS_COLOR, ft_itoa(fps));
 }
 
-int	init_map_variables(t_game *game)
+void	init_map_variables(t_game *game)
 {
 	int	i;
 
@@ -132,20 +97,68 @@ int	init_map_variables(t_game *game)
 	}
 	recalculate_chunks(game->lvl);
 	clear_chunks_to_redraw(game->lvl->canvas);
-	return (0);
 }
 
-int	draw_layers(t_game *game)
+t_enemy	*instantiate_enemy(t_img **images, int id)
 {
-	recalculate_chunks(game->lvl);
-	if (ISDEBUG)
-		debug_calculate(game->lvl);
+	t_enemy *enemy;
 
-	draw_image_on_canvas(game->lvl->canvas, game->lvl->player->sprite, game->lvl->player->sprite->pos, 1);
-	render_camera(game->lvl, game->lvl->cam->pos);
-	mlx_put_image_to_window(game->mlx, game->window, game->lvl->cam->img_ptr, 0, 0);
-	// clear_chunks_to_redraw(game->lvl->canvas);
-	return (0);
+	enemy = malloc(sizeof(t_enemy));
+	if (!enemy)
+		return (NULL);
+	enemy->id = id;
+	enemy->is_triggered = 0;
+	enemy->sprite = malloc(sizeof(t_sprite));
+	if (!enemy->sprite)
+		return (free(enemy), NULL);
+	enemy->sprite->image_id = e_enemy_0_0;
+	btmlx_get_addr(enemy->sprite, images[e_enemy_0_0]);
+	enemy->pos = &enemy->sprite->pos;
+	enemy->size = &enemy->sprite->size;
+	enemy->collider = malloc(sizeof(t_collider));
+	if (!enemy->collider)
+		return (free(enemy->sprite), free(enemy), NULL);
+	enemy->collider->id = id;
+	enemy->collider->has_been_triggered = 0;
+	enemy->collider->image_id = &enemy->sprite->image_id;
+	enemy->collider->pos = enemy->pos;
+	enemy->collider->size = enemy->size;
+	return (enemy);
+}
+
+int	init_enemies(t_game *game)
+{
+	int	i;
+	int	j;
+	int	nb_enemies;
+
+	i = 0;
+	nb_enemies = 0;
+	while (i < game->lvl->canvas->nb_chunks.y * game->lvl->canvas->nb_chunks.x)
+	{
+		if (game->lvl->map[i] == 'W')
+			nb_enemies++;
+		i++;
+	}
+	game->lvl->enemies = malloc(sizeof(t_enemy *) * (nb_enemies + 1));
+	if (!game->lvl->enemies)
+		return (0);
+	i = 0;
+	j = 0;
+	while (i < game->lvl->canvas->nb_chunks.y * game->lvl->canvas->nb_chunks.x)
+	{
+		if (game->lvl->map[i] == 'W')
+		{
+			game->lvl->enemies[j] = instantiate_enemy(game->lvl->images, j);
+			if (!game->lvl->enemies[j])
+				return (0);
+			*game->lvl->enemies[j]->pos = game->lvl->canvas->chunks[i].pos;
+			j++;
+		}
+		i++;
+	}
+	game->lvl->enemies[nb_enemies] = NULL;
+	return (1);
 }
 
 void	move_camera_on_player(t_sprite *cam, t_vector2 player_pos)
@@ -167,9 +180,13 @@ int	on_update(t_game *game)
 		player_movement(game);
 		move_camera_on_player(game->lvl->cam, *game->lvl->player->pos);
 		check_col_collectible(game);
-		check_collide_on_exit(game);
+		check_col_exit(game);
 	}
-	draw_layers(game);
+
+	recalculate_chunks(game->lvl);
+	if (ISDEBUG)
+		debug_calculate(game->lvl);
+	draw_on_window(game);
 
 	calculate_fps(&game->fps, &game->elapsed);
 	if (frame % FRAME_RATE_DRAW_SPEED == 0)
@@ -202,6 +219,7 @@ t_game	init_values(char *map, t_vector2 map_size)
 	game.press_on_key[e_A] = &press_on_a;
 	game.press_on_key[e_S] = &press_on_s;
 	game.press_on_key[e_D] = &press_on_d;
+	game.press_on_key[e_P] = &press_on_p;
 	game.press_on_key[e_ESC] = &press_on_esc;
 	return (game);
 }
@@ -217,8 +235,7 @@ int	on_start(t_game *game, char *map, t_vector2 map_size)
 	
 	init_chunks(game->lvl);
 	init_map_variables(game);
-
-	// init collision
+	init_enemies(game);
 	init_collisions(game->lvl);
 
 	gettimeofday(&game->lvl->start_time, NULL);
@@ -233,7 +250,10 @@ int main(int argc, char const *argv[])
 	t_game		game;
 	char		*map;
 	t_vector2	map_size;
+	int			seed;
 
+	if (!SEED)
+		seed = time(NULL);
 	if (argc == 0 || argc > 2)
 		return (1);
 	if (!parse_map(argv[1], &map, &map_size))
@@ -241,10 +261,9 @@ int main(int argc, char const *argv[])
 		write(1, "Error\nMap entry is not valid.\n", 30);
 		return (1);
 	}
-	srand(time(NULL));
+	srand((unsigned int)seed);
 	if(on_start(&game, map, map_size))
 		return (1);
-
 
 	mlx_hook(game.window, KeyPress, KeyPressMask, &press_key, &game);
 	mlx_hook(game.window, KeyRelease, KeyReleaseMask, &release_key, &game);

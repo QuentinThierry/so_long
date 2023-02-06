@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 14:19:42 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/05 02:39:01 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/06 18:39:47 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,7 +253,7 @@ int	parse_map(const char *file_name, char **map, t_vector2 *map_size)
 	x = 0;
 	if(!is_ber(file_name))
 		return (0);
-	fd = open(file_name, O_RDONLY);
+	fd = open(file_name, O_RDWR);
 	if(fd == -1)
 		return (0);
 	map2D = read_map(fd, &x, &y);

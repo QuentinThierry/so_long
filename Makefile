@@ -16,6 +16,7 @@ SRC = $(addprefix $(SRC_DIR), \
 	collision.c \
 	colors.c \
 	debug.c \
+	draw_game.c \
 	get_next_line_utils.c \
 	get_next_line.c \
 	image_flip.c \
