@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 02:00:21 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/06 19:29:32 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/06 23:21:07 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,8 +133,9 @@ enum e_img_id
 # define FOREST_FLOWER_Y "assets/forest/forest_flower_yellow.xpm"
 # define FOREST_FLOWER_D "assets/forest/forest_flower_d.xpm"
 
-// 
-# define FOREST_ENEMY_H "assets/forest/default_wall.xpm"
+// ENNEMIES G
+# define FOREST_GHOST "assets/forest/forest_ghost.xpm"
+# define FOREST_GHOST_A "assets/forest/forest_ghost_angry.xpm"
 
 # define FOREST_TREE1 "assets/forest/forest_tree.xpm"
 # define FOREST_TREE2 "assets/forest/forest_tree2.xpm"

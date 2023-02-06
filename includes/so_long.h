@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/06 22:32:34 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/06 23:33:05 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 # include "textures.h"
 
 // --=======----=======-- WINDOWS --=======----=======--
-# define SCREEN_WIDTH 1920 // 1920 1024 2560
-# define SCREEN_HEIGHT 1080 // 1080 720 1440
+# define SCREEN_WIDTH 2560 // 1920 1024 2560
+# define SCREEN_HEIGHT 1440 // 1080 720 1440
 # define SIZE_CHUNK 64
 
 // --=======----=======-- KEY_MAP --=======----=======--
@@ -61,7 +61,8 @@
 # define SPEED 250
 
 // --=======----=======-- ENEMIES --=======----=======--
-# define ENEMY_SPEED 200
+# define ENEMY_SPEED 450
+# define DISTANCE_AGGRO 300
 
 // --=======----=======-- MAP --=======----=======--
 # ifndef SEED

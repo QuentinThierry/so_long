@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:39:38 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/06 19:28:58 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/06 23:19:44 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,49 +187,49 @@ static void	_load_collec2(t_game *game)
 static void	_load_ennemy(t_game *game)
 {
 	game->lvl->images[e_enemy_0_0] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_ENEMY_H, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_GHOST, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_enemy_0_1] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_ENEMY_H, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_GHOST, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_enemy_0_2] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_ENEMY_H, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_GHOST, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_enemy_0_3] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_ENEMY_H, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_GHOST, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_enemy_0_4] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_ENEMY_H, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_GHOST, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_enemy_1_0] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_ENEMY_H, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_GHOST_A, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_enemy_1_1] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_ENEMY_H, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_GHOST_A, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_enemy_1_2] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_ENEMY_H, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_GHOST_A, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_enemy_1_3] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_ENEMY_H, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_GHOST_A, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_enemy_1_4] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_ENEMY_H, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_GHOST_A, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 }
 
 static void	_load_ennemy2(t_game *game)
 {
 	game->lvl->images[e_enemy_2_0] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_ENEMY_H, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_GHOST, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_enemy_2_1] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_ENEMY_H, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_GHOST, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_enemy_2_2] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_ENEMY_H, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_GHOST, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_enemy_2_3] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_ENEMY_H, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_GHOST, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_enemy_2_4] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_ENEMY_H, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_GHOST, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_enemy_3_0] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_ENEMY_H, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_GHOST, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_enemy_3_1] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_ENEMY_H, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_GHOST, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_enemy_3_2] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_ENEMY_H, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_GHOST, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_enemy_3_3] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_ENEMY_H, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_GHOST, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_enemy_3_4] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_ENEMY_H, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_GHOST, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 }
 
 

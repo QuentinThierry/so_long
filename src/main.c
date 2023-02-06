@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/06 22:26:12 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/06 23:35:30 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ int	init_enemies(t_game *game)
 	nb_enemies = 0;
 	while (i < game->lvl->canvas->nb_chunks.y * game->lvl->canvas->nb_chunks.x)
 	{
-		if (game->lvl->map[i] == 'W')
+		if (game->lvl->map[i] == 'G')
 			nb_enemies++;
 		i++;
 	}
@@ -149,7 +149,7 @@ int	init_enemies(t_game *game)
 	j = 0;
 	while (i < game->lvl->canvas->nb_chunks.y * game->lvl->canvas->nb_chunks.x)
 	{
-		if (game->lvl->map[i] == 'W')
+		if (game->lvl->map[i] == 'G')
 		{
 			game->lvl->enemies[j] = instantiate_enemy(game->lvl->images, j);
 			if (!game->lvl->enemies[j])
@@ -180,14 +180,14 @@ void	move_enemy(t_game *game, int id, int is_x, int is_y)
 	if (is_x)
 	{
 		new_posx = game->lvl->enemies[id]->exact_pos.x +
-				(double)(game->lvl->enemies[id]->dir.x) * ENEMY_SPEED * game->elapsed;
+				game->lvl->enemies[id]->dir.x * ENEMY_SPEED * game->elapsed;
 		game->lvl->enemies[id]->exact_pos.x = new_posx;
 		game->lvl->enemies[id]->pos->x = floor(new_posx);
 	}
 	if (is_y)
 	{
 		new_posy = game->lvl->enemies[id]->exact_pos.y +
-				(double)(game->lvl->enemies[id]->dir.y) * ENEMY_SPEED * game->elapsed;
+				game->lvl->enemies[id]->dir.y * ENEMY_SPEED * game->elapsed;
 		game->lvl->enemies[id]->exact_pos.y = new_posy;
 		game->lvl->enemies[id]->pos->y = floor(new_posy);
 	}
@@ -205,18 +205,42 @@ void	reverse_move_enemy(t_game *game, int id, int is_x, int is_y)
 	if (is_x)
 	{
 		new_posx = game->lvl->enemies[id]->exact_pos.x -
-				(double)(game->lvl->enemies[id]->dir.x) * ENEMY_SPEED * game->elapsed;
+				game->lvl->enemies[id]->dir.x * ENEMY_SPEED * game->elapsed;
 		game->lvl->enemies[id]->exact_pos.x = new_posx;
 		game->lvl->enemies[id]->pos->x = floor(new_posx);
 	}
 	if (is_y)
 	{
 		new_posy = game->lvl->enemies[id]->exact_pos.y -
-				(double)(game->lvl->enemies[id]->dir.y) * ENEMY_SPEED * game->elapsed;
+				game->lvl->enemies[id]->dir.y * ENEMY_SPEED * game->elapsed;
 		game->lvl->enemies[id]->exact_pos.y = new_posy;
 		game->lvl->enemies[id]->pos->y = floor(new_posy);
 	}
 	find_chunk_under(game->lvl->canvas, game->lvl->enemies[id]->sprite);
+}
+
+void	check_trigger_enemy(t_game *game)
+{
+	int	i;
+
+	i = 0;
+	while (game->lvl->enemies[i])
+	{
+		if (!game->lvl->enemies[i]->is_triggered)
+		{
+			if (distance(*game->lvl->enemies[i]->pos, *game->lvl->player->pos)
+				< DISTANCE_AGGRO)
+			{
+				game->lvl->enemies[i]->is_triggered = 1;
+				game->lvl->enemies[i]->sprite->image_id = e_enemy_1_0;
+			}
+			else
+				game->lvl->enemies[i]->sprite->image_id = e_enemy_0_0;
+		}
+		else
+			game->lvl->enemies[i]->is_triggered = 0;
+		++i;
+	}
 }
 
 void	calculate_dir(t_game *game, int id)
@@ -231,14 +255,16 @@ void	enemy_movement(t_game *game)
 	i = 0;
 	while (game->lvl->enemies[i])
 	{
-		// add if is_triggered
-		calculate_dir(game, i);
-		move_enemy(game, i, 1, 0);
-		if (check_wall_collision(game->lvl, game->lvl->enemies[i]->collider))
-			reverse_move_enemy(game, i, 1, 0);
-		move_enemy(game, i, 0, 1);
-		if (check_wall_collision(game->lvl, game->lvl->enemies[i]->collider))
-			reverse_move_enemy(game, i, 0, 1);
+		if (game->lvl->enemies[i]->is_triggered)
+		{
+			calculate_dir(game, i);
+			move_enemy(game, i, 1, 0);
+			if (check_wall_collision(game->lvl, game->lvl->enemies[i]->collider))
+				reverse_move_enemy(game, i, 1, 0);
+			move_enemy(game, i, 0, 1);
+			if (check_wall_collision(game->lvl, game->lvl->enemies[i]->collider))
+				reverse_move_enemy(game, i, 0, 1);
+		}
 		i++;
 	}
 }
@@ -249,6 +275,7 @@ void	move_camera_on_player(t_sprite *cam, t_vector2 player_pos)
 		player_pos.x - SCREEN_WIDTH / 2,
 		player_pos.y - SCREEN_HEIGHT / 2};
 }
+
 
 int	on_update(t_game *game)
 {
@@ -261,8 +288,8 @@ int	on_update(t_game *game)
 	{
 		player_movement(game);
 		move_camera_on_player(game->lvl->cam, *game->lvl->player->pos);
+		check_trigger_enemy(game);
 		enemy_movement(game);
-
 		check_col_collectible(game);
 		check_col_exit(game);
 	}
@@ -342,7 +369,7 @@ int main(int argc, char const *argv[])
 		return (1);
 	if (!parse_map(argv[1], &map, &map_size))
 	{
-		write(1, "Error\nMap entry is not valid.\n", 30);
+		argc = write(1, "Error\nMap entry is not valid.\n", 30);
 		return (1);
 	}
 	srand((unsigned int)seed);
@@ -355,8 +382,5 @@ int main(int argc, char const *argv[])
 	mlx_loop(game.mlx);
 
 	//mlx_do_key_autorepeaton(game.mlx);
-	(void)argc;
-	(void)argv;
-	(void)game;
 	return (0);
 }
