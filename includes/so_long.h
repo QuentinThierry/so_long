@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/07 02:37:55 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/07 18:18:39 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,6 +286,7 @@ int				init_collisions(t_level *lvl);
 // collision.c
 t_collider		*check_wall_collision(t_level *lvl, t_collider *src);
 t_collider		*check_col_collectible(t_game *game);
+void			check_col_enemy(t_game *game);
 void			check_col_exit(t_game *game);
 
 // player_move.c

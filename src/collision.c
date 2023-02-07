@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 19:18:33 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/06 21:47:56 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/07 18:19:25 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,32 @@ int	is_colliding(t_collider *collider1, t_collider *collider2)
 	return (0);
 }
 
+
 void	collide_on_collec(t_game *game, t_collider *collider)
 {
 	game->lvl->nb_collec++;
 	printf("collected : (%d/%d) !\n", game->lvl->nb_collec, game->lvl->max_collec);
 	*collider->image_id = e_collec3_0;
 	collider->has_been_triggered = 1;
+}
+
+void	check_col_enemy(t_game *game)
+{
+	int	i;
+
+	i = 0;
+	while (game->lvl->enemies[i])
+	{
+		
+		if (is_inside_load_range(game, *game->lvl->enemies[i]->pos)
+				&& is_colliding(game->lvl->enemies[i]->collider,
+			game->lvl->player->collider))
+		{
+			printf("DEAD\n");
+			break;
+		}
+		i++;
+	}
 }
 
 void	check_col_exit(t_game *game)

@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/07 02:36:22 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/07 18:16:06 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,13 +280,14 @@ void	enemy_movement(t_game *game)
 	}
 }
 
+
+
 void	move_camera_on_player(t_sprite *cam, t_vector2 player_pos)
 {
 	cam->pos = (t_vector2) {
 		player_pos.x - SCREEN_WIDTH / 2,
 		player_pos.y - SCREEN_HEIGHT / 2};
 }
-
 
 int	on_update(t_game *game)
 {
@@ -301,6 +302,7 @@ int	on_update(t_game *game)
 		move_camera_on_player(game->lvl->cam, *game->lvl->player->pos);
 		check_trigger_enemy(game);
 		enemy_movement(game);
+		check_col_enemy(game);
 		check_col_collectible(game);
 		check_col_exit(game);
 	}
