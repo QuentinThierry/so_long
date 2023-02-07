@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/06 23:35:30 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/07 02:36:22 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,6 +219,16 @@ void	reverse_move_enemy(t_game *game, int id, int is_x, int is_y)
 	find_chunk_under(game->lvl->canvas, game->lvl->enemies[id]->sprite);
 }
 
+int	is_inside_load_range(t_game *game, t_vector2 pos)
+{
+	return (pos.x > game->lvl->cam->pos.x - OFFSET_CAM_LOAD
+		&& pos.x < game->lvl->cam->pos.x
+			+ game->lvl->cam->size.x + OFFSET_CAM_LOAD
+		&& pos.y < game->lvl->cam->pos.y
+			+ game->lvl->cam->size.y + OFFSET_CAM_LOAD
+		&& pos.y > game->lvl->cam->pos.y - OFFSET_CAM_LOAD);
+}
+
 void	check_trigger_enemy(t_game *game)
 {
 	int	i;
@@ -226,7 +236,8 @@ void	check_trigger_enemy(t_game *game)
 	i = 0;
 	while (game->lvl->enemies[i])
 	{
-		if (!game->lvl->enemies[i]->is_triggered)
+		if (!game->lvl->enemies[i]->is_triggered
+			&& is_inside_load_range(game, *game->lvl->enemies[i]->pos))
 		{
 			if (distance(*game->lvl->enemies[i]->pos, *game->lvl->player->pos)
 				< DISTANCE_AGGRO)

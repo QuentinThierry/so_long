@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:01:50 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/06 22:46:34 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/07 02:28:42 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,9 @@ void	blend_images(t_sprite *back, t_sprite *front, t_vector2 pos)
 		while (x < width)
 		{
 			c_front = (t_color)get_color_at(front, (t_vector2){x, y});
-			// printf("A %d R %d G %d B %d\n", c_front.alpha, c_front.red, c_front.green, c_front.blue);
-			if (c_front.alpha != 0)
+			if (c_front.alpha == 0xff)
+				change_color(back, (t_vector2){pos.x + x, pos.y + y}, c_front.color);
+			else if (c_front.alpha != 0)
 			{
 				c_back = (t_color)get_color_at(back, (t_vector2){pos.x + x, pos.y + y});
 				c_back = get_blended_color(c_back, c_front);

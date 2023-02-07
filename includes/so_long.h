@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/06 23:33:05 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/07 02:37:55 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 # include "textures.h"
 
 // --=======----=======-- WINDOWS --=======----=======--
-# define SCREEN_WIDTH 2560 // 1920 1024 2560
-# define SCREEN_HEIGHT 1440 // 1080 720 1440
+# define SCREEN_WIDTH 1024 // 1920 1024 2560
+# define SCREEN_HEIGHT 720 // 1080 720 1440
 # define SIZE_CHUNK 64
 
 // --=======----=======-- KEY_MAP --=======----=======--
@@ -70,8 +70,9 @@
 # endif
 
 // --=======----=======-- ANIMATIONS --=======----=======--
-# define HAS_CAM_ANIM 0
+# define HAS_CAM_ANIM 1
 # define CAM_ANIM_TIME_SEC 5
+# define OFFSET_CAM_LOAD 100
 
 // --=======----=======-- DEBUG --=======----=======--
 # define ISDEBUG 0
@@ -332,5 +333,6 @@ void			debug_calculate(t_level *lvl);
 // main.c
 void			draw_rectangle(t_sprite *sprite, t_vector2 pos,
 					t_vector2 size, int color);
+int				is_inside_load_range(t_game *game, t_vector2 pos);
 
 #endif

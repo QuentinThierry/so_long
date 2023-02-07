@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 20:18:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/06 23:25:47 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/07 02:29:47 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,13 @@ static void	_draw_enemies(t_game *game)
 	i = 0;
 	while (game->lvl->enemies[i])
 	{
-		game->lvl->enemies[i]->sprite->img_ptr
-			= game->lvl->images[game->lvl->enemies[i]->sprite->image_id];
-		draw_image_on_canvas(game->lvl->canvas,
-			game->lvl->enemies[i]->sprite, *game->lvl->enemies[i]->pos, 1);
+		if (is_inside_load_range(game, *game->lvl->enemies[i]->pos))
+		{
+			game->lvl->enemies[i]->sprite->img_ptr
+				= game->lvl->images[game->lvl->enemies[i]->sprite->image_id];
+			draw_image_on_canvas(game->lvl->canvas,
+				game->lvl->enemies[i]->sprite, *game->lvl->enemies[i]->pos, 1);
+		}
 		++i;
 	}
 }
