@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/07 18:16:06 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/08 20:16:01 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,12 +221,12 @@ void	reverse_move_enemy(t_game *game, int id, int is_x, int is_y)
 
 int	is_inside_load_range(t_game *game, t_vector2 pos)
 {
-	return (pos.x > game->lvl->cam->pos.x - OFFSET_CAM_LOAD
-		&& pos.x < game->lvl->cam->pos.x
-			+ game->lvl->cam->size.x + OFFSET_CAM_LOAD
-		&& pos.y < game->lvl->cam->pos.y
-			+ game->lvl->cam->size.y + OFFSET_CAM_LOAD
-		&& pos.y > game->lvl->cam->pos.y - OFFSET_CAM_LOAD);
+	return (pos.x > game->lvl->cam->pos->x - OFFSET_CAM_LOAD
+		&& pos.x < game->lvl->cam->pos->x
+			+ game->lvl->cam->size->x + OFFSET_CAM_LOAD
+		&& pos.y < game->lvl->cam->pos->y
+			+ game->lvl->cam->size->y + OFFSET_CAM_LOAD
+		&& pos.y > game->lvl->cam->pos->y - OFFSET_CAM_LOAD);
 }
 
 void	check_trigger_enemy(t_game *game)
@@ -282,11 +282,12 @@ void	enemy_movement(t_game *game)
 
 
 
-void	move_camera_on_player(t_sprite *cam, t_vector2 player_pos)
+void	move_camera_on_player(t_camera *cam, t_vector2 player_pos)
 {
-	cam->pos = (t_vector2) {
+	*cam->pos = (t_vector2){
 		player_pos.x - SCREEN_WIDTH / 2,
 		player_pos.y - SCREEN_HEIGHT / 2};
+	cam->exact_pos = (t_fvector2){cam->pos->x, cam->pos->y};
 }
 
 int	on_update(t_game *game)
@@ -299,7 +300,10 @@ int	on_update(t_game *game)
 	else
 	{
 		player_movement(game);
-		move_camera_on_player(game->lvl->cam, *game->lvl->player->pos);
+		if (game->lvl->cam->is_cam_lock == 1)
+			move_camera_on_player(game->lvl->cam, *game->lvl->player->pos);
+		else
+			move_camera(game);
 		check_trigger_enemy(game);
 		enemy_movement(game);
 		check_col_enemy(game);
@@ -337,13 +341,18 @@ t_game	init_values(char *map, t_vector2 map_size)
 	init_base_images(&game);
 	init_lvl_base(&game);
 
-	game.fps = 10;
+	game.fps = 120;
 	game.elapsed = 0;
 	game.press_on_key[e_W] = &press_on_w;
 	game.press_on_key[e_A] = &press_on_a;
 	game.press_on_key[e_S] = &press_on_s;
 	game.press_on_key[e_D] = &press_on_d;
 	game.press_on_key[e_P] = &press_on_p;
+	game.press_on_key[e_L] = &press_on_l;
+	game.press_on_key[e_UA] = &press_on_ua;
+	game.press_on_key[e_LA] = &press_on_la;
+	game.press_on_key[e_DA] = &press_on_da;
+	game.press_on_key[e_RA] = &press_on_ra;
 	game.press_on_key[e_ESC] = &press_on_esc;
 	return (game);
 }

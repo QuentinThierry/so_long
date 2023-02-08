@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/07 18:18:39 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/08 20:45:58 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,13 @@
 # define KEY_S 115
 # define KEY_D 100
 # define KEY_P 112
+# define KEY_L 108
+# define KEY_LA 65361
+# define KEY_UA 65362
+# define KEY_RA 65363
+# define KEY_DA 65364
 # define KEY_ESC 65307
-# define NB_KEYS 7
+# define NB_KEYS 11
 
 // --=======----=======-- COLORS --=======----=======--
 # define ALPHA_MASK 0xFF000000
@@ -60,6 +65,9 @@
 // --=======----=======-- PLAYER --=======----=======--
 # define SPEED 250
 
+// --=======----=======-- CAMERA --=======----=======--
+# define CAM_SPEED 500
+
 // --=======----=======-- ENEMIES --=======----=======--
 # define ENEMY_SPEED 450
 # define DISTANCE_AGGRO 300
@@ -70,7 +78,7 @@
 # endif
 
 // --=======----=======-- ANIMATIONS --=======----=======--
-# define HAS_CAM_ANIM 1
+# define HAS_CAM_ANIM 0
 # define CAM_ANIM_TIME_SEC 5
 # define OFFSET_CAM_LOAD 100
 
@@ -86,6 +94,11 @@ enum e_key_map
 	e_S,
 	e_D,
 	e_P,
+	e_L,
+	e_LA,
+	e_UA,
+	e_RA,
+	e_DA,
 	e_ESC
 };
 
@@ -128,7 +141,7 @@ typedef struct s_level
 {
 	struct s_canvas		*canvas;
 	struct s_img		**images;
-	struct s_sprite		*cam;
+	struct s_camera		*cam;
 	struct s_sprite		*background;
 	struct s_player		*player;
 	struct s_enemy		**enemies;
@@ -155,6 +168,17 @@ typedef struct s_canvas
 	struct s_vector2	pos_exit;
 	int					nl_offset;
 }	t_canvas;
+
+typedef struct s_camera
+{
+	struct s_sprite		*sprite;
+	struct s_vector2	*pos;
+	t_fvector2			exact_pos;
+	t_fvector2			dir;
+	struct s_vector2	*size;
+	int					has_been_triggered;
+	int					is_cam_lock;
+}	t_camera;
 
 typedef struct s_collider
 {
@@ -257,6 +281,7 @@ int				find_exit_chunk(char *map);
 
 // camera.c
 void			render_camera(t_level *lvl, t_vector2 pos);
+void			move_camera(t_game *game);
 
 // bettermlx.c
 void			btmlx_get_addr(t_sprite *sprite, t_img *img);
@@ -298,11 +323,16 @@ void			player_movement(t_game *game);
 enum e_key_map	get_key(int key);
 int				press_key(int key, t_game *game);
 int				release_key(int key, t_game *game);
-void			press_on_w(t_game *game, int is_release);
-void			press_on_a(t_game *game, int is_release);
-void			press_on_s(t_game *game, int is_release);
-void			press_on_d(t_game *game, int is_release);
-void			press_on_p(t_game *game, int is_release);
+void			press_on_w(t_game *game, int is_release); // up p1
+void			press_on_a(t_game *game, int is_release); // left p1
+void			press_on_s(t_game *game, int is_release); // down p1
+void			press_on_d(t_game *game, int is_release); // right p1
+void			press_on_p(t_game *game, int is_release); // skip cam anim
+void			press_on_l(t_game *game, int is_release); // lock/delock cam
+void			press_on_ua(t_game *game, int is_release); // up move cam
+void			press_on_la(t_game *game, int is_release); // left move cam
+void			press_on_da(t_game *game, int is_release); // down move cam
+void			press_on_ra(t_game *game, int is_release); // rigth move cam
 void			press_on_esc(t_game *game, int status);
 
 // vector_maths.c

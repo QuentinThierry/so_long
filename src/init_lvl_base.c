@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 17:45:49 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/06 19:13:24 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/08 18:52:03 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,17 @@ static void	_init_canvas(t_game *game)
 
 static void	_init_camera(t_game *game)
 {
-	game->lvl->cam = malloc(sizeof(t_sprite));
-	game->lvl->cam->pos = (t_vector2) {0, 0};
-	game->lvl->cam->image_id = e_camera;
-	btmlx_get_addr(game->lvl->cam, game->lvl->images[e_camera]);
+	game->lvl->cam = malloc(sizeof(t_camera));
+	game->lvl->cam->sprite = malloc(sizeof(t_sprite));
+	game->lvl->cam->sprite->pos = (t_vector2) {0, 0};
+	game->lvl->cam->pos = &game->lvl->cam->sprite->pos;
+	game->lvl->cam->size = &game->lvl->cam->sprite->size;
+	game->lvl->cam->exact_pos = (t_fvector2){game->lvl->cam->pos->y,
+		game->lvl->cam->pos->y};
+	game->lvl->cam->dir = (t_fvector2) {0, 0};
+	game->lvl->cam->sprite->image_id = e_camera;
+	btmlx_get_addr(game->lvl->cam->sprite, game->lvl->images[e_camera]);
+	game->lvl->cam->is_cam_lock = 1;
 }
 
 static void	_init_player(t_game *game)
