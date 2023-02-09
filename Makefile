@@ -4,7 +4,7 @@ DEPS = $(INCLUDES)so_long.h $(INCLUDES)get_next_line.h  $(INCLUDES)textures.h Ma
 INCLUDES = includes/
 SRC_DIR = src/
 OBJ_DIR = obj/
-CC = gcc
+CC = clang
 LIBS = -L$(INCLUDES)mlx -lmlx -lXext -lX11 -lm
 
 SRC = $(addprefix $(SRC_DIR), \
@@ -29,6 +29,7 @@ SRC = $(addprefix $(SRC_DIR), \
 	list_utils.c \
 	load_forest_images.c\
 	parsing.c \
+	pathfinding.c \
 	player_move.c \
 	sprite_choose.c \
 	utils.c \

@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 17:45:49 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/09 17:30:05 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/09 19:39:50 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ void	init_lvl_base(t_game *game)
 	game->lvl->player = ft_calloc(sizeof(t_player), 1);
 	game->lvl->nb_collec = 0;
 	game->lvl->max_collec = 0;
+	game->lvl->path_grid = ft_calloc(game->lvl->map_size.x *
+		game->lvl->map_size.y, sizeof(t_path_case));
 	_init_canvas(game);
 	_init_camera(game);
 	_init_player(game);

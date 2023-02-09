@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/09 18:10:51 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/09 21:51:38 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 # include "textures.h"
 
 // --=======----=======-- WINDOWS --=======----=======--
-# define SCREEN_WIDTH 2560 // 1920 1024 2560
-# define SCREEN_HEIGHT 1440 // 1080 720 1440
+# define SCREEN_WIDTH 1024 // 1920 1024 2560
+# define SCREEN_HEIGHT 720 // 1080 720 1440
 # define SIZE_CHUNK 64
 
 // --=======----=======-- KEY_MAP --=======----=======--
@@ -53,8 +53,8 @@
 
 // --=======----=======-- FPS --=======----=======--
 // # define FPS_VSYNC 0.00828
-# define FPS_VSYNC 0.00828
-# define FRAME_RATE_DRAW_SPEED 10
+# define FPS_VSYNC 0.00000828
+# define FRAME_RATE_DRAW_SPEED 100
 # define FPS_POSX 10
 # define FPS_POSY 20
 # define FPS_WIDTH 35
@@ -63,15 +63,14 @@
 
 // --=======----=======-- PLAYER --=======----=======--
 # define SPEED 250
-# define PLAYER_SIZE 256
+# define PLAYER_SIZE 32
 
 // --=======----=======-- CAMERA --=======----=======--
-# define CAM_SPEED 500
+# define CAM_SPEED 2500
 
 // --=======----=======-- ENEMIES --=======----=======--
 # define ENEMY_SPEED 450
 # define DISTANCE_AGGRO 300
-# define ENEMY_CASE_RANGE 10
 
 // --=======----=======-- MAP --=======----=======--
 # ifndef SEED
@@ -79,12 +78,12 @@
 # endif
 
 // --=======----=======-- ANIMATIONS --=======----=======--
-# define HAS_CAM_ANIM 1
+# define HAS_CAM_ANIM 0
 # define CAM_ANIM_TIME_SEC 5
 # define OFFSET_CAM_LOAD 100
 
 // --=======----=======-- DEBUG --=======----=======--
-# define ISDEBUG 0
+# define ISDEBUG 1
 
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
@@ -152,10 +151,12 @@ typedef struct s_level
 	struct s_collider	*exit_col;
 	char				*map;
 	struct s_vector2	map_size;
+	struct s_path_case	*path_grid;
 	struct timeval		start_time;
 	int					nb_collec;
 	int					max_collec;
 	int					is_animating_cam;
+	int					exit_chunk;
 }	t_level;
 
 typedef struct s_canvas
@@ -192,9 +193,10 @@ typedef struct s_collider
 
 typedef struct s_path_case
 {
-	unsigned int	tot;
-	unsigned int	dst_to_end;
-	unsigned int	dst_to_start;
+	int	tot;
+	int	dst_end;
+	int	dst_start;
+	int	has_been_check;
 }	t_path_case;
 
 typedef struct s_enemy
@@ -207,9 +209,6 @@ typedef struct s_enemy
 	t_fvector2			dir;
 	struct s_collider	*collider;
 	int					is_triggered;
-	struct s_path_case	path_cases[ENEMY_CASE_RANGE * ENEMY_CASE_RANGE];
-	int					ori_index;
-	int					dst_index;
 }	t_enemy;
 
 typedef struct s_sprite
@@ -337,6 +336,7 @@ int				init_enemies(t_game *game);
 
 //enemies_movement.c
 void			enemy_movement(t_game *game);
+void			check_trigger_enemy(t_game *game);
 
 // keys.c
 enum e_key_map	get_key(int key);
@@ -359,6 +359,9 @@ float			magnitude(t_vector2 vector);
 t_fvector2		normalize(t_vector2 vector);
 float			distance(t_vector2 src, t_vector2 dest);
 t_fvector2		direction_normalized(t_vector2 src, t_vector2 dest);
+
+//pathfinding.c
+void			a_star(t_game *game, t_player *player);
 
 // animations.c
 void			camera_animation_to_exit(t_game *game);

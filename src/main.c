@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/09 18:12:09 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/09 21:46:43 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,31 +111,6 @@ int	is_inside_load_range(t_game *game, t_vector2 pos)
 		&& pos.y > game->lvl->cam->pos->y - OFFSET_CAM_LOAD);
 }
 
-void	check_trigger_enemy(t_game *game)
-{
-	int	i;
-
-	i = 0;
-	while (game->lvl->enemies[i])
-	{
-		if (!game->lvl->enemies[i]->is_triggered
-			&& is_inside_load_range(game, *game->lvl->enemies[i]->pos))
-		{
-			if (distance(*game->lvl->enemies[i]->pos, *game->lvl->player->pos)
-				< DISTANCE_AGGRO)
-			{
-				game->lvl->enemies[i]->is_triggered = 1;
-				game->lvl->enemies[i]->sprite->image_id = e_enemy_1_0;
-			}
-			else
-				game->lvl->enemies[i]->sprite->image_id = e_enemy_0_0;
-		}
-		else
-			game->lvl->enemies[i]->is_triggered = 0;
-		++i;
-	}
-}
-
 void	move_camera_on_player(t_camera *cam, t_vector2 player_pos)
 {
 	*cam->pos = (t_vector2){
@@ -190,6 +165,7 @@ t_game	init_values(char *map, t_vector2 map_size)
 
 	game.lvl->map = map;
 	game.lvl->map_size = map_size;
+	game.lvl->exit_chunk = find_exit_chunk(game.lvl->map);
 	
 	load_images_forest(&game);
 	init_base_images(&game);
@@ -228,6 +204,7 @@ int	on_start(t_game *game, char *map, t_vector2 map_size)
 	gettimeofday(&game->lvl->start_time, NULL);
 
 	game->lvl->is_animating_cam = HAS_CAM_ANIM;
+	a_star(game, game->lvl->player);
 
 	return (0);
 }
