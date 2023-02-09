@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/09 15:26:23 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/09 16:14:41 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,9 +191,10 @@ typedef struct s_collider
 
 typedef struct s_path_case
 {
-	int	tot;
-	int	dst_to_end;
-	int	dst_to_start;
+	int		tot;
+	int		dst_to_end;
+	int		dst_to_start;
+	t_vector2	center_pos;;
 }	t_path_case;
 
 typedef struct s_enemy
@@ -205,8 +206,10 @@ typedef struct s_enemy
 	t_fvector2			exact_pos;
 	t_fvector2			dir;
 	struct s_collider	*collider;
-	struct s_path_case	path_cases[ENEMY_CASE_RANGE * ENEMY_CASE_RANGE];
 	int					is_triggered;
+	struct s_path_case	path_cases[ENEMY_CASE_RANGE * ENEMY_CASE_RANGE];
+	int					ori_index;
+	int					dst_index;
 }	t_enemy;
 
 typedef struct s_sprite
@@ -270,6 +273,8 @@ void			ft_bzero(void *dest, size_t n);
 char			*get_address_at(t_sprite *sprite, int x, int y);
 size_t			ft_strlen(const char *s);
 int				equals(char	*s1, char *s2);
+void			*ft_calloc(size_t nmemb, size_t size);
+
 
 // list.c
 t_list			*ft_lstnew(char *content);

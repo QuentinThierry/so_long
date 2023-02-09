@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 17:45:49 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/09 15:08:47 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/09 15:57:03 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	_init_canvas(t_game *game)
 {
-	game->lvl->canvas->sprite = malloc(sizeof(t_sprite));
+	game->lvl->canvas->sprite = ft_calloc(sizeof(t_sprite), 1);
 	game->lvl->canvas->sprite->image_id = e_canvas;
 	game->lvl->canvas->origin = (t_vector2){0, 0};
 	btmlx_get_addr(game->lvl->canvas->sprite, game->lvl->images[e_canvas]);
@@ -22,8 +22,8 @@ static void	_init_canvas(t_game *game)
 
 static void	_init_camera(t_game *game)
 {
-	game->lvl->cam = malloc(sizeof(t_camera));
-	game->lvl->cam->sprite = malloc(sizeof(t_sprite));
+	game->lvl->cam = ft_calloc(sizeof(t_camera), 1);
+	game->lvl->cam->sprite = ft_calloc(sizeof(t_sprite), 1);
 	game->lvl->cam->sprite->pos = (t_vector2) {0, 0};
 	game->lvl->cam->pos = &game->lvl->cam->sprite->pos;
 	game->lvl->cam->size = &game->lvl->cam->sprite->size;
@@ -37,8 +37,8 @@ static void	_init_camera(t_game *game)
 
 static void	_init_player(t_game *game)
 {
-	game->lvl->player->sprite = malloc(sizeof(t_sprite));
-	game->lvl->player->collider = malloc(sizeof(t_collider));
+	game->lvl->player->sprite = ft_calloc(sizeof(t_sprite), 1);
+	game->lvl->player->collider = ft_calloc(sizeof(t_collider), 1);
 	game->lvl->player->collider->id = 0;
 	game->lvl->player->collider->pos = &game->lvl->player->sprite->pos;
 	game->lvl->player->collider->size = &game->lvl->player->sprite->size;
@@ -50,7 +50,7 @@ static void	_init_player(t_game *game)
 
 static void	_init_background(t_game *game)
 {
-	game->lvl->background = malloc(sizeof(t_sprite));
+	game->lvl->background = ft_calloc(sizeof(t_sprite), 1);
 	game->lvl->background->pos = (t_vector2) {0, 0};
 	game->lvl->background->image_id = e_background;
 	btmlx_get_addr(game->lvl->background, game->lvl->images[e_background]);
@@ -58,8 +58,8 @@ static void	_init_background(t_game *game)
 
 void	init_lvl_base(t_game *game)
 {
-	game->lvl->canvas = malloc(sizeof(t_canvas));
-	game->lvl->player = malloc(sizeof(t_player));
+	game->lvl->canvas = ft_calloc(sizeof(t_canvas), 1);
+	game->lvl->player = ft_calloc(sizeof(t_player), 1);
 	game->lvl->nb_collec = 0;
 	game->lvl->max_collec = 0;
 	_init_canvas(game);

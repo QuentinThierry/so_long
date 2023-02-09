@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:25:20 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/06 19:14:26 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/09 16:00:01 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ static t_img	*resize_img(void *mlx, t_img *src,
 	return (dst);
 }
 
-// do not use at run time, big malloc
 t_img	*btmlx_xpm_file_to_image(void *mlx, char *path,
 			t_vector2 dst_size)
 {

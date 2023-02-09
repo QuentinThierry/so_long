@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/09 15:23:45 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/09 15:55:49 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,7 @@ t_game	init_values(char *map, t_vector2 map_size)
 	t_game	game;
 
 	game.mlx = mlx_init();
-	game.lvl = malloc(sizeof(t_level));
+	game.lvl = ft_calloc(sizeof(t_level), 1);
 
 	game.lvl->map = map;
 	game.lvl->map_size = map_size;

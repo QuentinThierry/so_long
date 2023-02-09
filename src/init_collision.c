@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 16:04:49 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/05 18:24:56 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/09 16:02:01 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	create_wall_colliders(t_level *lvl)
 			nb_walls++;
 		++i;
 	}
-	lvl->wall_col = malloc(sizeof(t_collider) * (nb_walls + 1));
+	lvl->wall_col = ft_calloc(sizeof(t_collider), (nb_walls + 1));
 	if (!lvl->wall_col)
 		return (0);
 	i = 0;
@@ -66,7 +66,7 @@ static int	create_collec_colliders(t_level *lvl)
 			nb_triggers++;
 		++i;
 	}
-	lvl->collec_col = malloc(sizeof(t_collider) * (nb_triggers + 1));
+	lvl->collec_col = ft_calloc(sizeof(t_collider), (nb_triggers + 1));
 	if (!lvl->collec_col)
 		return (0);
 	i = 0;
@@ -92,7 +92,7 @@ static int	create_exit_collider(t_level *lvl)
 {
 	int	exit_chunk;
 
-	lvl->exit_col = malloc(sizeof(t_collider));
+	lvl->exit_col = ft_calloc(sizeof(t_collider), 1);
 	if (!lvl->exit_col)
 		return (0);
 	exit_chunk = find_exit_chunk(lvl->map);

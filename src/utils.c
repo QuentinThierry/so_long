@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 00:05:30 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/08 20:29:37 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/09 15:54:12 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,4 +130,22 @@ int	equals(char	*s1, char *s2)
 		i++;
 	}
 	return (1);
+}
+
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	void	*res;
+	size_t	i;
+
+	if (!nmemb || !size)
+		return (malloc(0));
+	if ((size_t)-1 / nmemb < size)
+		return (NULL);
+	res = malloc(nmemb * size);
+	if (!res)
+		return (res);
+	i = 0;
+	while (i < (size * nmemb))
+		((char *)res)[i++] = 0;
+	return (res);
 }

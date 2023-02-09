@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 20:03:30 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/07 18:20:37 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/09 16:01:04 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int	init_chunks(t_level *lvl)
 	lvl->canvas->size.y = lvl->canvas->sprite->size.y;
 	lvl->canvas->nb_chunks.x = lvl->map_size.x;
 	lvl->canvas->nb_chunks.y = lvl->map_size.y;
-	lvl->canvas->chunks = malloc(sizeof(t_chunk) * lvl->canvas->nb_chunks.x * lvl->canvas->nb_chunks.y);
+	lvl->canvas->chunks = ft_calloc(sizeof(t_chunk),
+		 lvl->canvas->nb_chunks.x * lvl->canvas->nb_chunks.y);
 	y = 0;
 	while (y < lvl->canvas->nb_chunks.y)
 	{
@@ -49,8 +50,8 @@ int	init_chunks(t_level *lvl)
 		}
 		y++;
 	}
-	lvl->canvas->chunks_to_redraw = malloc(sizeof(int) * lvl->canvas->nb_chunks.x * lvl->canvas->nb_chunks.y);
-	ft_bzero(lvl->canvas->chunks_to_redraw, lvl->canvas->nb_chunks.x * lvl->canvas->nb_chunks.y);
+	lvl->canvas->chunks_to_redraw = ft_calloc(sizeof(int),
+		lvl->canvas->nb_chunks.x * lvl->canvas->nb_chunks.y);
 	return (0);
 }
 

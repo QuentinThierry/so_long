@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:02:24 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/31 19:03:45 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/09 16:01:35 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	draw_image_on_canvas(t_canvas *canvas, t_sprite *pict,
 	return (0);
 }
 
-// clear all pixels of an image
 void	clear_image(t_sprite *pict)
 {
 	int	y;

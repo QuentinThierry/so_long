@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:25:50 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/09 15:25:57 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/09 15:59:23 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,19 @@ static t_enemy	*_instantiate_enemy(t_img **images, int id)
 {
 	t_enemy *enemy;
 
-	enemy = malloc(sizeof(t_enemy));
+	enemy = ft_calloc(sizeof(t_enemy), 1);
 	if (!enemy)
 		return (NULL);
 	enemy->id = id;
 	enemy->is_triggered = 0;
-	enemy->sprite = malloc(sizeof(t_sprite));
+	enemy->sprite = ft_calloc(sizeof(t_sprite), 1);
 	if (!enemy->sprite)
 		return (free(enemy), NULL);
 	enemy->sprite->image_id = e_enemy_0_0;
 	btmlx_get_addr(enemy->sprite, images[e_enemy_0_0]);
 	enemy->pos = &enemy->sprite->pos;
 	enemy->size = &enemy->sprite->size;
-	enemy->collider = malloc(sizeof(t_collider));
+	enemy->collider = ft_calloc(sizeof(t_collider), 1);
 	if (!enemy->collider)
 		return (free(enemy->sprite), free(enemy), NULL);
 	enemy->collider->id = id;
@@ -53,7 +53,7 @@ int	init_enemies(t_game *game)
 			nb_enemies++;
 		i++;
 	}
-	game->lvl->enemies = malloc(sizeof(t_enemy *) * (nb_enemies + 1));
+	game->lvl->enemies = ft_calloc(sizeof(t_enemy *), (nb_enemies + 1));
 	if (!game->lvl->enemies)
 		return (0);
 	i = 0;

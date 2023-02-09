@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:39:38 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/09 15:33:31 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/09 16:02:24 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,7 +235,7 @@ static void	_load_ennemy2(t_game *game)
 
 void	load_images_forest(t_game *game)
 {
-	game->lvl->images = malloc(sizeof(t_img *) * e_nb_img);
+	game->lvl->images = ft_calloc(sizeof(t_img *), e_nb_img);
 	// protect
 	_load_ground1(game);
 	_load_ground2(game);
