@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/09 15:55:49 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/09 18:12:09 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,8 +139,8 @@ void	check_trigger_enemy(t_game *game)
 void	move_camera_on_player(t_camera *cam, t_vector2 player_pos)
 {
 	*cam->pos = (t_vector2){
-		player_pos.x - SCREEN_WIDTH / 2,
-		player_pos.y - SCREEN_HEIGHT / 2};
+		player_pos.x - SCREEN_WIDTH / 2 + PLAYER_SIZE / 2,
+		player_pos.y - SCREEN_HEIGHT / 2 + PLAYER_SIZE / 2};
 	cam->exact_pos = (t_fvector2){cam->pos->x, cam->pos->y};
 }
 
@@ -251,12 +251,11 @@ int main(int argc, char const *argv[])
 	srand((unsigned int)seed);
 	if(on_start(&game, map, map_size))
 		return (1);
-
 	mlx_hook(game.window, KeyPress, KeyPressMask, &press_key, &game);
 	mlx_hook(game.window, KeyRelease, KeyReleaseMask, &release_key, &game);
 	mlx_loop_hook(game.mlx, on_update, &game.mlx);
 	mlx_loop(game.mlx);
 
-	//mlx_do_key_autorepeaton(game.mlx);
+	mlx_do_key_autorepeaton(game.mlx);
 	return (0);
 }

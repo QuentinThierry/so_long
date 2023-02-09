@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/09 16:14:41 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/09 18:10:51 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 # include "textures.h"
 
 // --=======----=======-- WINDOWS --=======----=======--
-# define SCREEN_WIDTH 1024 // 1920 1024 2560
-# define SCREEN_HEIGHT 720 // 1080 720 1440
+# define SCREEN_WIDTH 2560 // 1920 1024 2560
+# define SCREEN_HEIGHT 1440 // 1080 720 1440
 # define SIZE_CHUNK 64
 
 // --=======----=======-- KEY_MAP --=======----=======--
@@ -63,6 +63,7 @@
 
 // --=======----=======-- PLAYER --=======----=======--
 # define SPEED 250
+# define PLAYER_SIZE 256
 
 // --=======----=======-- CAMERA --=======----=======--
 # define CAM_SPEED 500
@@ -78,7 +79,7 @@
 # endif
 
 // --=======----=======-- ANIMATIONS --=======----=======--
-# define HAS_CAM_ANIM 0
+# define HAS_CAM_ANIM 1
 # define CAM_ANIM_TIME_SEC 5
 # define OFFSET_CAM_LOAD 100
 
@@ -191,10 +192,9 @@ typedef struct s_collider
 
 typedef struct s_path_case
 {
-	int		tot;
-	int		dst_to_end;
-	int		dst_to_start;
-	t_vector2	center_pos;;
+	unsigned int	tot;
+	unsigned int	dst_to_end;
+	unsigned int	dst_to_start;
 }	t_path_case;
 
 typedef struct s_enemy
@@ -289,7 +289,7 @@ void			init_base_images(t_game *game);
 // parsing.c
 int				parse_map(const char *file_name, char **map,
 					t_vector2 *map_size);
-void			free_tab2d(char ***to_free, int size_y);
+void			free_tab2d(char **to_free, int size_y);
 int				find_exit_chunk(char *map);
 
 // camera.c

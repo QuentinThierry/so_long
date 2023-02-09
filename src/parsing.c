@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 14:19:42 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/06 18:39:47 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/09 17:22:24 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,17 @@ static int	is_ber(const char *file_name)
 	return (0);
 }
 
-void	free_tab2d(char ***to_free, int size_y)
+void	free_tab2d(char **to_free, int size_y)
 {
 	int	i;
 
 	i = 0;
 	while (i < size_y)
 	{
-		free((*to_free)[i]);
+		free((to_free)[i]);
 		i++;
 	}
-	free(*to_free);
+	free(to_free);
 }
 
 static char	*get_line_as_tab(char *line)
@@ -104,7 +104,7 @@ static char **list_to_map(t_list *list, int *x, int *y)
 	{
 		map[i] = get_line_as_tab(list->content);
 		if (!map[i])
-			return (free_tab2d(&map, i), NULL);
+			return (free_tab2d(map, i), NULL);
 		list = list->next;
 	}
 	return (map);
@@ -261,12 +261,12 @@ int	parse_map(const char *file_name, char **map, t_vector2 *map_size)
 	if (!*map2D)
 		return (0);
 	if(!is_closed(map2D, x, y))
-		return (free_tab2d(&map2D, y), 0);
+		return (free_tab2d(map2D, y), 0);
 	if(!has_all_elem_once(map2D, x, y))
-		return (free_tab2d(&map2D, y), 0);
+		return (free_tab2d(map2D, y), 0);
 	*map_size = (t_vector2){x, y};
 	*map = map2D_to_1D(map2D, *map_size);
-	free_tab2d(&map2D, y);
+	free_tab2d(map2D, y);
 	if (!*map)
 		return (0);
 	return (1);
