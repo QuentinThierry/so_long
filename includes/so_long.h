@@ -6,14 +6,13 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/08 20:45:58 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/09 15:26:23 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-#include <stdint.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/time.h>
@@ -71,6 +70,7 @@
 // --=======----=======-- ENEMIES --=======----=======--
 # define ENEMY_SPEED 450
 # define DISTANCE_AGGRO 300
+# define ENEMY_CASE_RANGE 10
 
 // --=======----=======-- MAP --=======----=======--
 # ifndef SEED
@@ -189,6 +189,13 @@ typedef struct s_collider
 	int					has_been_triggered;
 }	t_collider;
 
+typedef struct s_path_case
+{
+	int	tot;
+	int	dst_to_end;
+	int	dst_to_start;
+}	t_path_case;
+
 typedef struct s_enemy
 {
 	int					id;
@@ -198,6 +205,7 @@ typedef struct s_enemy
 	t_fvector2			exact_pos;
 	t_fvector2			dir;
 	struct s_collider	*collider;
+	struct s_path_case	path_cases[ENEMY_CASE_RANGE * ENEMY_CASE_RANGE];
 	int					is_triggered;
 }	t_enemy;
 
@@ -292,7 +300,7 @@ t_img			*btmlx_xpm_file_to_image(void *mlx, char *path,
 void			init_lvl_base(t_game *game);
 
 // sprite_choose.c
-enum			e_img_id choose_image(char *map, int chunk);
+enum e_img_id	choose_image(char *map, int chunk);
 
 // chunks.c
 int				init_chunks(t_level *lvl);
@@ -319,6 +327,12 @@ void			move_player(t_game *game, int is_x, int is_y);
 void			reverse_move_canvas(t_game *game, int is_x, int is_y);
 void			player_movement(t_game *game);
 
+// init_enemies.c
+int				init_enemies(t_game *game);	
+
+//enemies_movement.c
+void			enemy_movement(t_game *game);
+
 // keys.c
 enum e_key_map	get_key(int key);
 int				press_key(int key, t_game *game);
@@ -341,9 +355,8 @@ t_fvector2		normalize(t_vector2 vector);
 float			distance(t_vector2 src, t_vector2 dest);
 t_fvector2		direction_normalized(t_vector2 src, t_vector2 dest);
 
-
 // animations.c
-void		camera_animation_to_exit(t_game *game);
+void			camera_animation_to_exit(t_game *game);
 
 // image_flip.c
 void			flip_image_y(t_sprite *sprite);

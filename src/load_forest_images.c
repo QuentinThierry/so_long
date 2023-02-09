@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:39:38 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/06 23:19:44 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/09 15:33:31 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,6 +246,7 @@ void	load_images_forest(t_game *game)
 	_load_collec1(game);
 	_load_collec2(game);
 	_load_ennemy(game);
+	_load_ennemy2(game);
 
 	game->lvl->images[e_background]
 		= btmlx_xpm_file_to_image(game->mlx, FOREST_BACKGROUND,
