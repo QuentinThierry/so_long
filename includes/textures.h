@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 02:00:21 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/08 19:43:02 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/10 20:22:44 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ enum e_img_id
 	e_camera,
 	e_movement,
 	e_background,
+	e_debug,
+	e_debug_tile,
 	e_player_0,
 	e_player_1,
 	e_player_2,
@@ -139,5 +141,8 @@ enum e_img_id
 
 # define FOREST_TREE1 "assets/forest/forest_tree.xpm"
 # define FOREST_TREE2 "assets/forest/forest_tree2.xpm"
+
+// DEBUG
+# define DEBUG_TILE "assets/others/debug_tile.xpm"
 
 #endif

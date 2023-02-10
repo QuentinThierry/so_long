@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 20:18:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/08 18:45:43 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/10 21:33:41 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	_draw_enemies(t_game *game)
 		{
 			game->lvl->enemies[i]->sprite->img_ptr
 				= game->lvl->images[game->lvl->enemies[i]->sprite->image_id];
-			draw_image_on_canvas(game->lvl->canvas,
+			draw_image_on_image(game->lvl->canvas->sprite,
 				game->lvl->enemies[i]->sprite, *game->lvl->enemies[i]->pos, 1);
 		}
 		++i;
@@ -33,16 +33,18 @@ static void	_draw_enemies(t_game *game)
 
 static void	_draw_player(t_game *game)
 {
-	draw_image_on_canvas(game->lvl->canvas, game->lvl->player->sprite,
-		game->lvl->player->sprite->pos, 1);
+	draw_image_on_image(game->lvl->canvas->sprite, game->lvl->player->sprite,
+			game->lvl->player->sprite->pos, 1);
 }
 
 int	draw_on_window(t_game *game)
 {
-
 	_draw_enemies(game);
 	_draw_player(game);
 	render_camera(game->lvl, *game->lvl->cam->pos);
-	mlx_put_image_to_window(game->mlx, game->window, game->lvl->cam->sprite->img_ptr, 0, 0);
+	if (ISDEBUG)
+		debug_calculate(game->lvl);
+	mlx_put_image_to_window(game->mlx, game->window,
+			game->lvl->cam->sprite->img_ptr, 0, 0);
 	return (0);
 }

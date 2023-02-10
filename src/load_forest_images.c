@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:39:38 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/09 18:07:23 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/10 20:59:02 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,6 @@ static void	_load_ennemy2(t_game *game)
 			FOREST_GHOST, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 }
 
-
 void	load_images_forest(t_game *game)
 {
 	game->lvl->images = ft_calloc(sizeof(t_img *), e_nb_img);
@@ -247,10 +246,17 @@ void	load_images_forest(t_game *game)
 	_load_collec2(game);
 	_load_ennemy(game);
 	_load_ennemy2(game);
-
 	game->lvl->images[e_background]
 		= btmlx_xpm_file_to_image(game->mlx, FOREST_BACKGROUND,
 		(t_vector2){SCREEN_WIDTH, SCREEN_HEIGHT});
+	if (ISDEBUG)
+	{
+		game->lvl->images[e_debug]
+			= mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+		game->lvl->images[e_debug_tile]
+			= btmlx_xpm_file_to_image(game->mlx, DEBUG_TILE,
+			(t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+	}
 }
 
 void	init_base_images(t_game *game)

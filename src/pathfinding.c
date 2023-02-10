@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 17:52:15 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/10 02:42:20 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/10 21:10:30 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static int	_fill_the_four(t_level *lvl, int pos)
 		}
 		lvl->path_grid[index].dst_start = lvl->path_grid[pos].dst_start + 1;
 		lvl->path_grid[index].dst_end =
-				distance(lvl->canvas->chunks[index].pos,
+				sqrdistance(lvl->canvas->chunks[index].pos,
 				lvl->canvas->chunks[lvl->exit_chunk].pos);
 		lvl->path_grid[index].tot = lvl->path_grid[index].dst_start
 				+ lvl->path_grid[index].dst_end;
@@ -94,8 +94,7 @@ void	a_star(t_game *game, t_player *player)
 	nb_cases = game->lvl->map_size.x * game->lvl->map_size.y;
 	start = pos_to_chunk(game->lvl, player->pos->x, player->pos->y);
 	ft_bzero(game->lvl->path_grid, nb_cases * sizeof(t_path_case));
-	game->lvl->path_grid[start].dst_start = 0;
-	game->lvl->path_grid[start].dst_end = distance(game->lvl->canvas->chunks[start].pos,
+	game->lvl->path_grid[start].dst_end = sqrdistance(game->lvl->canvas->chunks[start].pos,
 			game->lvl->canvas->chunks[game->lvl->exit_chunk].pos);
 	game->lvl->path_grid[start].tot = game->lvl->path_grid[start].dst_start
 			+ game->lvl->path_grid[start].dst_end;
@@ -106,7 +105,7 @@ void	a_star(t_game *game, t_player *player)
 			break;
 		min = _get_min(game->lvl, nb_cases);
 		end = _fill_the_four(game->lvl, min);
-		if (ISDEBUG && min > -1)
-			game->lvl->canvas->chunks_to_redraw[min] = 1;
+		// if (ISDEBUG && min > -1)
+		// 	game->lvl->canvas->chunks_to_redraw[min] = 1;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:19:55 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/09 19:41:45 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/10 21:33:57 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static void	_move_enemy(t_game *game, int id, int is_x, int is_y)
 	double	new_posx;
 	double	new_posy;
 
-	find_chunk_under(game->lvl->canvas, game->lvl->enemies[id]->sprite);
 	if (!game->lvl->enemies[id]->dir.x && !game->lvl->enemies[id]->dir.y)
 		return ;
 	if (is_x)
@@ -41,7 +40,6 @@ static void	_move_enemy(t_game *game, int id, int is_x, int is_y)
 		game->lvl->enemies[id]->exact_pos.y = new_posy;
 		game->lvl->enemies[id]->pos->y = floor(new_posy);
 	}
-	find_chunk_under(game->lvl->canvas, game->lvl->enemies[id]->sprite);
 }
 
 static void	_reverse_move_enemy(t_game *game, int id, int is_x, int is_y)
@@ -49,7 +47,6 @@ static void	_reverse_move_enemy(t_game *game, int id, int is_x, int is_y)
 	double	new_posx;
 	double	new_posy;
 
-	find_chunk_under(game->lvl->canvas, game->lvl->enemies[id]->sprite);
 	if (!game->lvl->enemies[id]->dir.x && !game->lvl->enemies[id]->dir.y)
 		return ;
 	if (is_x)
@@ -66,7 +63,7 @@ static void	_reverse_move_enemy(t_game *game, int id, int is_x, int is_y)
 		game->lvl->enemies[id]->exact_pos.y = new_posy;
 		game->lvl->enemies[id]->pos->y = floor(new_posy);
 	}
-	find_chunk_under(game->lvl->canvas, game->lvl->enemies[id]->sprite);
+	
 }
 
 void	check_trigger_enemy(t_game *game)
@@ -86,10 +83,12 @@ void	check_trigger_enemy(t_game *game)
 				game->lvl->enemies[i]->sprite->image_id = e_enemy_1_0;
 			}
 			else
+			{
 				game->lvl->enemies[i]->sprite->image_id = e_enemy_0_0;
+				game->lvl->enemies[i]->is_triggered = 0;
+			}
 		}
-		else
-			game->lvl->enemies[i]->is_triggered = 0;
+
 		++i;
 	}
 }
@@ -103,6 +102,7 @@ void	enemy_movement(t_game *game)
 	{
 		if (game->lvl->enemies[i]->is_triggered)
 		{
+			find_chunk_under(game->lvl->canvas, game->lvl->enemies[i]->sprite);
 			_calculate_enemy_dir(game, i);
 			_move_enemy(game, i, 1, 0);
 			if (check_wall_collision(game->lvl, game->lvl->enemies[i]->collider))
@@ -110,6 +110,7 @@ void	enemy_movement(t_game *game)
 			_move_enemy(game, i, 0, 1);
 			if (check_wall_collision(game->lvl, game->lvl->enemies[i]->collider))
 				_reverse_move_enemy(game, i, 0, 1);
+			find_chunk_under(game->lvl->canvas, game->lvl->enemies[i]->sprite);
 		}
 		i++;
 	}

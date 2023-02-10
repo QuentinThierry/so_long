@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 02:16:51 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/06 22:24:42 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/10 18:13:14 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,12 @@ float	distance(t_vector2 src, t_vector2 dest)
 {
 	return (sqrtf((dest.y - src.y) * (dest.y - src.y) 
 		+ (dest.x - src.x) * (dest.x - src.x)));
+}
+
+int	sqrdistance(t_vector2 src, t_vector2 dest)
+{
+	return ((dest.y - src.y) * (dest.y - src.y) 
+		+ (dest.x - src.x) * (dest.x - src.x));
 }
 
 t_fvector2	direction_normalized(t_vector2 src, t_vector2 dest)

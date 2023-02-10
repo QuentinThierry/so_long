@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/10 02:44:32 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/10 21:36:04 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@
 
 // --=======----=======-- FPS --=======----=======--
 // # define FPS_VSYNC 0.00828
-# define FPS_VSYNC 0.00000828
+# define FPS_VSYNC 0.00828
 # define FRAME_RATE_DRAW_SPEED 100
 # define FPS_POSX 10
 # define FPS_POSY 20
@@ -69,7 +69,7 @@
 # define CAM_SPEED 2500
 
 // --=======----=======-- ENEMIES --=======----=======--
-# define ENEMY_SPEED 450
+# define ENEMY_SPEED 200
 # define DISTANCE_AGGRO 300
 
 // --=======----=======-- MAP --=======----=======--
@@ -157,6 +157,8 @@ typedef struct s_level
 	int					max_collec;
 	int					is_animating_cam;
 	int					exit_chunk;
+	struct s_sprite		*debug_sprite;
+	struct s_sprite		*debug_tile_sprite;
 }	t_level;
 
 typedef struct s_canvas
@@ -358,6 +360,7 @@ void			press_on_esc(t_game *game, int status);
 float			magnitude(t_vector2 vector);
 t_fvector2		normalize(t_vector2 vector);
 float			distance(t_vector2 src, t_vector2 dest);
+int				sqrdistance(t_vector2 src, t_vector2 dest);
 t_fvector2		direction_normalized(t_vector2 src, t_vector2 dest);
 
 //pathfinding.c
@@ -371,8 +374,8 @@ void			flip_image_y(t_sprite *sprite);
 void			flip_image_x(t_sprite *sprite);
 
 // image_operations.c
-int				draw_image_on_canvas(t_canvas *canvas, t_sprite *sprite,
-					t_vector2 pos, int is_alpha_sensitive);
+int				draw_image_on_image(t_sprite *dest, t_sprite *src,
+						t_vector2 pos, int is_alpha_sensitive);
 void			clear_image(t_sprite *sprite);
 
 // colors.c

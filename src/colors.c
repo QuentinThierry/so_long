@@ -6,13 +6,13 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:01:50 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/07 02:28:42 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/10 20:40:23 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
-unsigned int	get_color_at(t_sprite *pict, t_vector2 pos)
+unsigned int	_get_color_at(t_sprite *pict, t_vector2 pos)
 {
 	char	*dst;
 
@@ -21,7 +21,7 @@ unsigned int	get_color_at(t_sprite *pict, t_vector2 pos)
 	return (*(unsigned int*)(dst));
 }
 
-static void	change_color(t_sprite *pict, t_vector2 pos, unsigned int color)
+static void	_change_color(t_sprite *pict, t_vector2 pos, unsigned int color)
 {
 	char	*dst;
 
@@ -30,7 +30,7 @@ static void	change_color(t_sprite *pict, t_vector2 pos, unsigned int color)
 	*(unsigned int*)(dst) = color;
 }
 
-static t_color	get_blended_color(t_color c_back, t_color c_front)
+static t_color	_get_blended_color(t_color c_back, t_color c_front)
 {
 	t_color	res;
 	float	alpha_back;
@@ -63,14 +63,14 @@ void	blend_images(t_sprite *back, t_sprite *front, t_vector2 pos)
 		x = 0;
 		while (x < width)
 		{
-			c_front = (t_color)get_color_at(front, (t_vector2){x, y});
+			c_front = (t_color)_get_color_at(front, (t_vector2){x, y});
 			if (c_front.alpha == 0xff)
-				change_color(back, (t_vector2){pos.x + x, pos.y + y}, c_front.color);
+				_change_color(back, (t_vector2){pos.x + x, pos.y + y}, c_front.color);
 			else if (c_front.alpha != 0)
 			{
-				c_back = (t_color)get_color_at(back, (t_vector2){pos.x + x, pos.y + y});
-				c_back = get_blended_color(c_back, c_front);
-				change_color(back, (t_vector2){pos.x + x, pos.y + y}, c_back.color);
+				c_back = (t_color)_get_color_at(back, (t_vector2){pos.x + x, pos.y + y});
+				c_back = _get_blended_color(c_back, c_front);
+				_change_color(back, (t_vector2){pos.x + x, pos.y + y}, c_back.color);
 			}
 			++x;
 		}

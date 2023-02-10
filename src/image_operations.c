@@ -6,32 +6,32 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:02:24 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/09 16:01:35 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/10 20:30:45 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
-int	draw_image_on_canvas(t_canvas *canvas, t_sprite *pict,
+int	draw_image_on_image(t_sprite *dest, t_sprite *src,
 						t_vector2 pos, int is_alpha_sensitive)
 {
-	char	*dst;
+	char	*tmp;
 	int		y;
 
 	y = 0;
 	if (!is_alpha_sensitive)
 	{
-		while (y < pict->size.y)
+		while (y < src->size.y)
 		{
-			dst = canvas->chunks[0].addr + (y + pos.y) * canvas->nl_offset
-				+ canvas->sprite->opp * pos.x;
-			ft_memcpy(dst, pict->img_ptr->data + pict->line_length * y,
-				pict->size.x * canvas->sprite->opp);
+			tmp = dest->img_ptr->data + (y + pos.y) * dest->line_length
+				+ dest->opp * pos.x;
+			ft_memcpy(tmp, src->img_ptr->data + src->line_length * y,
+				src->size.x * dest->opp);
 			y++;
 		}
 	}
 	else
-		blend_images(canvas->sprite, pict, pos);
+		blend_images(dest, src, pos);
 	return (0);
 }
 

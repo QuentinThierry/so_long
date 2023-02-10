@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 17:45:49 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/09 19:39:50 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/10 20:35:03 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,16 @@ void	init_lvl_base(t_game *game)
 	game->lvl->max_collec = 0;
 	game->lvl->path_grid = ft_calloc(game->lvl->map_size.x *
 		game->lvl->map_size.y, sizeof(t_path_case));
+	if (ISDEBUG)
+	{
+		game->lvl->debug_sprite = ft_calloc(sizeof(t_sprite), 1);
+		game->lvl->debug_sprite->image_id = e_debug;
+		btmlx_get_addr(game->lvl->debug_sprite, game->lvl->images[e_debug]);
+		game->lvl->debug_tile_sprite = ft_calloc(sizeof(t_sprite), 1);
+		game->lvl->debug_tile_sprite->image_id = e_debug_tile;
+		btmlx_get_addr(game->lvl->debug_tile_sprite, game->lvl->images[e_debug_tile]);
+
+	}
 	_init_canvas(game);
 	_init_camera(game);
 	_init_player(game);

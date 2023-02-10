@@ -6,12 +6,11 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 19:18:33 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/09 19:41:20 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/10 21:37:06 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
-#include <stdlib.h>
 
 int	is_colliding(t_collider *collider1, t_collider *collider2)
 {

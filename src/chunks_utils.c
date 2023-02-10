@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 16:15:22 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/09 16:17:39 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/10 20:58:36 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,6 @@ int		pos_to_chunk(t_level *lvl, int x, int y)
 
 void	clear_chunks_to_redraw(t_canvas *canvas)
 {
-	ft_bzero(canvas->chunks_to_redraw, canvas->nb_chunks.x * canvas->nb_chunks.y * sizeof(int));
+	ft_bzero(canvas->chunks_to_redraw,
+			canvas->nb_chunks.x * canvas->nb_chunks.y * sizeof(int));
 }

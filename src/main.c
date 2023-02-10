@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/10 02:45:23 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/10 21:36:18 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,24 +42,6 @@ void	calculate_fps(int *fps, double *elapsed)
 	*elapsed = delay;
 	*fps = (int)(1.0 / *elapsed);
 	prev_time = tmp;
-}
-
-void	draw_rectangle(t_sprite *pict, t_vector2 pos, t_vector2 size, int color)
-{
-	int	x;
-	int	y;
-
-	x = 0;
-	while (x < size.x && x < pict->size.x)
-	{
-		y = 0;
-		while (y < size.y && x < pict->size.y)
-		{
-			my_mlx_pixel_put(pict, pos.x + x, pos.y + y, color);
-			++y;
-		}
-		++x;
-	}
 }
 
 // a changer
@@ -124,8 +106,8 @@ int	on_update(t_game *game)
 	static unsigned int	frame = 0;
 	static int			fps = 0;
 
-	//a_star(game, game->lvl->player);
-	//game->lvl->exit_chunk = rand() % (game->lvl->map_size.x * game->lvl->map_size.y);
+	// a_star(game, game->lvl->player);
+	// game->lvl->exit_chunk = rand() % (game->lvl->map_size.x * game->lvl->map_size.y);
 	if (game->lvl->is_animating_cam)
 		camera_animation_to_exit(game);
 	else
@@ -141,11 +123,10 @@ int	on_update(t_game *game)
 		check_col_collectible(game);
 		check_col_exit(game);
 	}
-
+	
 	recalculate_chunks(game->lvl);
-	if (ISDEBUG)
-		debug_calculate(game->lvl);
 	draw_on_window(game);
+	clear_chunks_to_redraw(game->lvl->canvas);
 
 	calculate_fps(&game->fps, &game->elapsed);
 	if (frame % FRAME_RATE_DRAW_SPEED == 0)
@@ -207,7 +188,6 @@ int	on_start(t_game *game, char *map, t_vector2 map_size)
 
 	game->lvl->is_animating_cam = HAS_CAM_ANIM;
 	a_star(game, game->lvl->player);
-
 	return (0);
 }
 
