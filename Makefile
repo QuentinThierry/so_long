@@ -1,5 +1,5 @@
 NAME = so_long
-CFLAGS = -g3 -Wall -Wextra -Ofast #-Werror
+CFLAGS = -g3 -Wall -Wextra -Ofast #-fsanitize=address #-Werror
 DEPS = $(INCLUDES)so_long.h $(INCLUDES)get_next_line.h  $(INCLUDES)textures.h Makefile
 INCLUDES = includes/
 SRC_DIR = src/

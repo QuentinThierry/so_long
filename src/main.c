@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/09 21:46:43 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/10 02:45:23 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,8 @@ int	on_update(t_game *game)
 	static unsigned int	frame = 0;
 	static int			fps = 0;
 
+	//a_star(game, game->lvl->player);
+	//game->lvl->exit_chunk = rand() % (game->lvl->map_size.x * game->lvl->map_size.y);
 	if (game->lvl->is_animating_cam)
 		camera_animation_to_exit(game);
 	else
