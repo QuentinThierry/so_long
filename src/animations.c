@@ -6,11 +6,12 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:42:19 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/08 20:59:32 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/11 03:21:59 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
+#include <sys/time.h>
 
 void	camera_animation_to_exit(t_game *game)
 {
@@ -38,5 +39,61 @@ void	camera_animation_to_exit(t_game *game)
 			(game->lvl->player->pos->y) + dir.y * dist * (delay / CAM_ANIM_TIME_SEC)
 			- (((float)SCREEN_HEIGHT / 2) + (float)game->lvl->player->sprite->size.y / 2),
 		};
+	}
+}
+
+int	_player_idle_animation_base(t_game *game, struct timeval *last_time)
+{
+	struct timeval	time;
+	double			delay;
+
+	gettimeofday(&time, NULL);
+	delay = (((double)(time.tv_usec - last_time->tv_usec) / CLOCKS_PER_SEC)
+		+ time.tv_sec - last_time->tv_sec);
+	if (delay >= ANIM_TIME_IDLE0)
+	{
+		gettimeofday(last_time, NULL);
+		game->lvl->player->sprite->image_id++;
+		if (game->lvl->player->sprite->image_id >= ANIM_NB_IDLE
+			+ e_player_idle_0_0)
+		{
+			game->lvl->player->sprite->image_id = e_player_idle_0_0;
+			return (1);
+		}
+	}
+	return (0);
+}
+
+void	_player_idle_animation_rare(t_game *game, struct timeval *last_time)
+{
+	struct timeval	time;
+	double			delay;
+
+	gettimeofday(&time, NULL);
+	delay = (((double)(time.tv_usec - last_time->tv_usec) / CLOCKS_PER_SEC)
+		+ time.tv_sec - last_time->tv_sec);
+	if (delay >= ANIM_TIME_IDLE1)
+	{
+		game->lvl->player->sprite->image_id++;
+		if (game->lvl->player->sprite->image_id >= ANIM_NB_IDLE
+			+ e_player_idle_1_0)
+			game->lvl->player->sprite->image_id = e_player_idle_0_0;
+		gettimeofday(last_time, NULL);
+	}
+}
+
+void	play_animations(t_game *game)
+{
+	static struct timeval	anim_time = {0, 0};
+
+	if (anim_time.tv_sec == 0 && anim_time.tv_usec == 0)
+		anim_time = game->lvl->start_time;
+	if (game->lvl->player->sprite->image_id >= e_player_idle_1_0)
+		_player_idle_animation_rare(game, &anim_time);
+	else
+	{
+		if(_player_idle_animation_base(game, &anim_time)
+			&& rand() % 100 < ANIM_RARE_IDLE_CHANCE)
+			game->lvl->player->sprite->image_id = e_player_idle_1_0;
 	}
 }

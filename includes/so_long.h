@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/11 01:51:16 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/11 03:22:34 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,12 @@
 // --=======----=======-- ANIMATIONS --=======----=======--
 # define HAS_CAM_ANIM 0
 # define CAM_ANIM_TIME_SEC 5
-# define OFFSET_CAM_LOAD 100
+# define OFFSET_CAM_LOAD SIZE_CHUNK
+# define ANIM_NB_IDLE 6
+# define ANIM_RARE_IDLE_CHANCE 3
+# define ANIM_TIME_IDLE0 0.3
+# define ANIM_TIME_IDLE1 1
+# define NB_RUN 8
 
 // --=======----=======-- DEBUG --=======----=======--
 # define ISDEBUG 0
@@ -369,6 +374,7 @@ void			a_star(t_game *game, t_player *player);
 
 // animations.c
 void			camera_animation_to_exit(t_game *game);
+void			play_animations(t_game *game);
 
 // image_flip.c
 void			flip_image_y(t_sprite *sprite);

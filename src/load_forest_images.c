@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:39:38 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/11 00:46:14 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/11 02:31:34 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,18 +108,52 @@ static void	_load_wall2(t_game *game)
 			FOREST_TREE1, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 }
 
-static void	_load_player(t_game *game)
+static void	_load_player_idle(t_game *game)
 {
-	game->lvl->images[e_player_0] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_SQR_IDLE, (t_vector2){PLAYER_WIDTH, PLAYER_HEIGHT});
-	game->lvl->images[e_player_1] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_SQR_IDLE, (t_vector2){PLAYER_WIDTH, PLAYER_HEIGHT});
-	game->lvl->images[e_player_2] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_SQR_IDLE, (t_vector2){PLAYER_WIDTH, PLAYER_HEIGHT});
-	game->lvl->images[e_player_3] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_SQR_IDLE, (t_vector2){PLAYER_WIDTH, PLAYER_HEIGHT});
-	game->lvl->images[e_player_4] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_SQR_IDLE, (t_vector2){PLAYER_WIDTH, PLAYER_HEIGHT});
+	game->lvl->images[e_player_idle_0_0] = btmlx_xpm_file_to_image(game->mlx,
+			FOREST_SQR_IDLE0_0, (t_vector2){PLAYER_WIDTH, PLAYER_HEIGHT});
+	game->lvl->images[e_player_idle_0_1] = btmlx_xpm_file_to_image(game->mlx,
+			FOREST_SQR_IDLE0_1, (t_vector2){PLAYER_WIDTH, PLAYER_HEIGHT});
+	game->lvl->images[e_player_idle_0_2] = btmlx_xpm_file_to_image(game->mlx,
+			FOREST_SQR_IDLE0_2, (t_vector2){PLAYER_WIDTH, PLAYER_HEIGHT});
+	game->lvl->images[e_player_idle_0_3] = btmlx_xpm_file_to_image(game->mlx,
+			FOREST_SQR_IDLE0_3, (t_vector2){PLAYER_WIDTH, PLAYER_HEIGHT});
+	game->lvl->images[e_player_idle_0_4] = btmlx_xpm_file_to_image(game->mlx,
+			FOREST_SQR_IDLE0_4, (t_vector2){PLAYER_WIDTH, PLAYER_HEIGHT});
+	game->lvl->images[e_player_idle_0_5] = btmlx_xpm_file_to_image(game->mlx,
+			FOREST_SQR_IDLE0_5, (t_vector2){PLAYER_WIDTH, PLAYER_HEIGHT});
+	game->lvl->images[e_player_idle_1_0] = btmlx_xpm_file_to_image(game->mlx,
+			FOREST_SQR_IDLE1_0, (t_vector2){PLAYER_WIDTH, PLAYER_HEIGHT});
+	game->lvl->images[e_player_idle_1_1] = btmlx_xpm_file_to_image(game->mlx,
+			FOREST_SQR_IDLE1_1, (t_vector2){PLAYER_WIDTH, PLAYER_HEIGHT});
+	game->lvl->images[e_player_idle_1_2] = btmlx_xpm_file_to_image(game->mlx,
+			FOREST_SQR_IDLE1_2, (t_vector2){PLAYER_WIDTH, PLAYER_HEIGHT});
+	game->lvl->images[e_player_idle_1_3] = btmlx_xpm_file_to_image(game->mlx,
+			FOREST_SQR_IDLE1_3, (t_vector2){PLAYER_WIDTH, PLAYER_HEIGHT});
+	game->lvl->images[e_player_idle_1_4] = btmlx_xpm_file_to_image(game->mlx,
+			FOREST_SQR_IDLE1_4, (t_vector2){PLAYER_WIDTH, PLAYER_HEIGHT});
+	game->lvl->images[e_player_idle_1_5] = btmlx_xpm_file_to_image(game->mlx,
+			FOREST_SQR_IDLE1_5, (t_vector2){PLAYER_WIDTH, PLAYER_HEIGHT});
+}
+
+static void _load_player_run(t_game *game)
+{
+	game->lvl->images[e_player_run_0_0] = btmlx_xpm_file_to_image(game->mlx,
+			FOREST_SQR_RUN0_0, (t_vector2){PLAYER_WIDTH, PLAYER_HEIGHT});
+	game->lvl->images[e_player_run_0_1] = btmlx_xpm_file_to_image(game->mlx,
+			FOREST_SQR_RUN0_1, (t_vector2){PLAYER_WIDTH, PLAYER_HEIGHT});
+	game->lvl->images[e_player_run_0_2] = btmlx_xpm_file_to_image(game->mlx,
+			FOREST_SQR_RUN0_2, (t_vector2){PLAYER_WIDTH, PLAYER_HEIGHT});
+	game->lvl->images[e_player_run_0_3] = btmlx_xpm_file_to_image(game->mlx,
+			FOREST_SQR_RUN0_3, (t_vector2){PLAYER_WIDTH, PLAYER_HEIGHT});
+	game->lvl->images[e_player_run_0_4] = btmlx_xpm_file_to_image(game->mlx,
+			FOREST_SQR_RUN0_4, (t_vector2){PLAYER_WIDTH, PLAYER_HEIGHT});
+	game->lvl->images[e_player_run_0_5] = btmlx_xpm_file_to_image(game->mlx,
+			FOREST_SQR_RUN0_5, (t_vector2){PLAYER_WIDTH, PLAYER_HEIGHT});
+	game->lvl->images[e_player_run_0_6] = btmlx_xpm_file_to_image(game->mlx,
+			FOREST_SQR_RUN0_6, (t_vector2){PLAYER_WIDTH, PLAYER_HEIGHT});
+	game->lvl->images[e_player_run_0_7] = btmlx_xpm_file_to_image(game->mlx,
+			FOREST_SQR_RUN0_7, (t_vector2){PLAYER_WIDTH, PLAYER_HEIGHT});
 }
 
 static void	_load_exit(t_game *game)
@@ -240,7 +274,8 @@ void	load_images_forest(t_game *game)
 	_load_ground2(game);
 	_load_wall1(game);
 	_load_wall2(game);
-	_load_player(game);
+	_load_player_idle(game);
+	_load_player_run(game);
 	_load_exit(game);
 	_load_collec1(game);
 	_load_collec2(game);

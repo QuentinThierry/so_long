@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 20:18:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/10 21:33:41 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/11 02:32:12 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ static void	_draw_enemies(t_game *game)
 
 static void	_draw_player(t_game *game)
 {
+	game->lvl->player->sprite->img_ptr
+		= game->lvl->images[game->lvl->player->sprite->image_id];
 	draw_image_on_image(game->lvl->canvas->sprite, game->lvl->player->sprite,
 			game->lvl->player->sprite->pos, 1);
 }

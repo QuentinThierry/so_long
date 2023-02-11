@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 02:00:21 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/11 01:44:54 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/11 02:37:42 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,26 @@ enum e_img_id
 	e_background,
 	e_debug,
 	e_debug_tile,
-	e_player_0,
-	e_player_1,
-	e_player_2,
-	e_player_3,
-	e_player_4,
-	e_player_5,
+	e_player_idle_0_0,
+	e_player_idle_0_1,
+	e_player_idle_0_2,
+	e_player_idle_0_3,
+	e_player_idle_0_4,
+	e_player_idle_0_5,
+	e_player_idle_1_0,
+	e_player_idle_1_1,
+	e_player_idle_1_2,
+	e_player_idle_1_3,
+	e_player_idle_1_4,
+	e_player_idle_1_5,
+	e_player_run_0_0,
+	e_player_run_0_1,
+	e_player_run_0_2,
+	e_player_run_0_3,
+	e_player_run_0_4,
+	e_player_run_0_5,
+	e_player_run_0_6,
+	e_player_run_0_7,
 	e_ground0_0,
 	e_ground0_1,
 	e_ground0_2,
@@ -121,7 +135,31 @@ enum e_img_id
 
 # define FOREST_BACKGROUND "assets/forest/forest_background.xpm"
 
-# define FOREST_SQR_IDLE "assets/squirrel/squirrel_idle0_0.xpm"
+// PLAYER IDLE
+# define FOREST_SQR_IDLE0_0 "assets/squirrel/squirrel_idle0_0.xpm"
+# define FOREST_SQR_IDLE0_1 "assets/squirrel/squirrel_idle0_1.xpm"
+# define FOREST_SQR_IDLE0_2 "assets/squirrel/squirrel_idle0_2.xpm"
+# define FOREST_SQR_IDLE0_3 "assets/squirrel/squirrel_idle0_3.xpm"
+# define FOREST_SQR_IDLE0_4 "assets/squirrel/squirrel_idle0_4.xpm"
+# define FOREST_SQR_IDLE0_5 "assets/squirrel/squirrel_idle0_5.xpm"
+# define FOREST_SQR_IDLE1_0 "assets/squirrel/squirrel_idle1_0.xpm"
+# define FOREST_SQR_IDLE1_1 "assets/squirrel/squirrel_idle1_1.xpm"
+# define FOREST_SQR_IDLE1_2 "assets/squirrel/squirrel_idle1_2.xpm"
+# define FOREST_SQR_IDLE1_3 "assets/squirrel/squirrel_idle1_3.xpm"
+# define FOREST_SQR_IDLE1_4 "assets/squirrel/squirrel_idle1_4.xpm"
+# define FOREST_SQR_IDLE1_5 "assets/squirrel/squirrel_idle1_5.xpm"
+
+// PLAYER RUN
+# define FOREST_SQR_RUN0_0 "assets/squirrel/squirrel_run0_0.xpm"
+# define FOREST_SQR_RUN0_1 "assets/squirrel/squirrel_run0_1.xpm"
+# define FOREST_SQR_RUN0_2 "assets/squirrel/squirrel_run0_2.xpm"
+# define FOREST_SQR_RUN0_3 "assets/squirrel/squirrel_run0_3.xpm"
+# define FOREST_SQR_RUN0_4 "assets/squirrel/squirrel_run0_4.xpm"
+# define FOREST_SQR_RUN0_5 "assets/squirrel/squirrel_run0_5.xpm"
+# define FOREST_SQR_RUN0_6 "assets/squirrel/squirrel_run0_6.xpm"
+# define FOREST_SQR_RUN0_7 "assets/squirrel/squirrel_run0_7.xpm"
+
+// EXIT E
 # define FOREST_EXIT "assets/forest/forest_exit.xpm"
 
 // GROUND 0

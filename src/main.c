@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/11 00:43:54 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/11 02:37:05 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int	on_update(t_game *game)
 		check_col_collectible(game);
 		check_col_exit(game);
 	}
-	
+	play_animations(game);
 	recalculate_chunks(game->lvl);
 	draw_on_window(game);
 	clear_chunks_to_redraw(game->lvl->canvas);
