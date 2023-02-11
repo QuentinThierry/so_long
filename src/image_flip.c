@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:06:33 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/30 15:53:28 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/11 17:07:17 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void flip_image_x(t_sprite *pict)
 			tmp = *(unsigned int*)(get_address_at(pict, x, y));
 			*(unsigned int*)(get_address_at(pict, x, y)) = 
 				*(unsigned int*)(get_address_at(pict, size_x - x, y));
-				*(unsigned int*)(get_address_at(pict, size_x - x, y))
+			*(unsigned int*)(get_address_at(pict, size_x - x, y))
 				= tmp;
 			++y;
 		}

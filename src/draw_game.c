@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 20:18:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/11 02:32:12 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/11 19:51:49 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,12 @@ static void	_draw_player(t_game *game)
 {
 	game->lvl->player->sprite->img_ptr
 		= game->lvl->images[game->lvl->player->sprite->image_id];
+	if (game->lvl->player->is_look_left == 1)
+		flip_image_y(game->lvl->player->sprite);
 	draw_image_on_image(game->lvl->canvas->sprite, game->lvl->player->sprite,
 			game->lvl->player->sprite->pos, 1);
+	if (game->lvl->player->is_look_left == 1)
+		flip_image_y(game->lvl->player->sprite);
 }
 
 int	draw_on_window(t_game *game)

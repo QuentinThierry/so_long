@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/11 03:22:34 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/11 19:34:20 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,12 @@
 # define ANIM_RARE_IDLE_CHANCE 3
 # define ANIM_TIME_IDLE0 0.3
 # define ANIM_TIME_IDLE1 1
+# define ANIM_NB_RUN 8
+# define ANIM_TIME_RUN 0.2
 # define NB_RUN 8
 
 // --=======----=======-- DEBUG --=======----=======--
-# define ISDEBUG 0
+# define ISDEBUG 1
 
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
@@ -251,6 +253,7 @@ typedef struct s_player
 	t_vector2	*pos;
 	t_fvector2	exact_pos;
 	t_vector2	dir;
+	int			is_look_left;
 }	t_player;
 
 typedef union u_color
@@ -370,7 +373,7 @@ int				sqrdistance(t_vector2 src, t_vector2 dest);
 t_fvector2		direction_normalized(t_vector2 src, t_vector2 dest);
 
 //pathfinding.c
-void			a_star(t_game *game, t_player *player);
+void			a_star(t_game *game, t_vector2 dest);
 
 // animations.c
 void			camera_animation_to_exit(t_game *game);

@@ -6,11 +6,21 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 18:50:40 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/10 21:33:51 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/11 19:29:42 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
+
+static int _is_in_cam(t_camera *cam, t_chunk *chunk)
+{
+	if ((chunk->pos.x + chunk->size.x <= cam->pos->x + cam->size->x)
+		&& (chunk->pos.x - chunk->size.x >= cam->pos->x)
+		&& (chunk->pos.y + chunk->size.y <= cam->pos->y + cam->size->y)
+		&& (chunk->pos.y - chunk->size.y >= cam->pos->y))
+		return (1);
+	return (0);
+}
 
 void	debug_draw_hover_chunks(t_level *lvl)
 {
@@ -19,7 +29,8 @@ void	debug_draw_hover_chunks(t_level *lvl)
 	i = 0;
 	while (i < lvl->canvas->nb_chunks.x * (lvl->canvas->nb_chunks.y))
 	{
-		if (lvl->canvas->chunks_to_redraw[i] == 1)
+		if (lvl->canvas->chunks_to_redraw[i] == 1 
+			&& _is_in_cam(lvl->cam, &lvl->canvas->chunks[i]))
 		{
 			draw_image_on_image(lvl->cam->sprite,
 				lvl->debug_tile_sprite,

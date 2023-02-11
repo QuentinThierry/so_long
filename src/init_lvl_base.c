@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 17:45:49 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/11 02:19:09 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/11 17:14:45 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static void	_init_player(t_game *game)
 	game->lvl->player->collider->pos = &game->lvl->player->sprite->pos;
 	game->lvl->player->collider->size = &game->lvl->player->sprite->size;
 	game->lvl->player->dir = (t_vector2){0, 0};
+	game->lvl->player->is_look_left = 0;
 	game->lvl->player->sprite->image_id = e_player_idle_0_0;
 	btmlx_get_addr(game->lvl->player->sprite, 
 			game->lvl->images[e_player_idle_0_0]);

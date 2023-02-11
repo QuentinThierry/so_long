@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:19:55 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/10 21:33:57 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/11 20:10:22 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,13 @@ void	enemy_movement(t_game *game)
 	int	i;
 
 	i = 0;
+	if (game->lvl->player->dir.x)
+		game->lvl->player->is_look_left = -game->lvl->player->dir.x;
 	while (game->lvl->enemies[i])
 	{
 		if (game->lvl->enemies[i]->is_triggered)
 		{
+			a_star(game, *game->lvl->enemies[i]->pos);
 			find_chunk_under(game->lvl->canvas, game->lvl->enemies[i]->sprite);
 			_calculate_enemy_dir(game, i);
 			_move_enemy(game, i, 1, 0);

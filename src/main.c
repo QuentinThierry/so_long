@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/11 02:37:05 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/11 20:06:32 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ int	on_update(t_game *game)
 	static unsigned int	frame = 0;
 	static int			fps = 0;
 
-	// a_star(game, game->lvl->player);
 	// game->lvl->exit_chunk = rand() % (game->lvl->map_size.x * game->lvl->map_size.y);
 	if (game->lvl->is_animating_cam)
 		camera_animation_to_exit(game);
@@ -125,6 +124,7 @@ int	on_update(t_game *game)
 	}
 	play_animations(game);
 	recalculate_chunks(game->lvl);
+	a_star(game, *game->lvl->player->pos);
 	draw_on_window(game);
 	clear_chunks_to_redraw(game->lvl->canvas);
 
@@ -187,7 +187,7 @@ int	on_start(t_game *game, char *map, t_vector2 map_size)
 	gettimeofday(&game->lvl->start_time, NULL);
 
 	game->lvl->is_animating_cam = HAS_CAM_ANIM;
-	a_star(game, game->lvl->player);
+	a_star(game, *game->lvl->player->pos);
 	return (0);
 }
 

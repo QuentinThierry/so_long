@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 17:52:15 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/10 21:10:30 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/11 20:05:24 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	_get_min(t_level *lvl, int nb_cases)
 		}
 		++i;
 	}
-	if (min_pos > -1)
+	if (min > -1)
 		lvl->path_grid[min_pos].has_been_check = 1;
 	return (min_pos);
 }
@@ -83,7 +83,22 @@ static int	_fill_the_four(t_level *lvl, int pos)
 	return (0);
 }
 
-void	a_star(t_game *game, t_player *player)
+// void	print_path(t_game *game)
+// {
+// 	int i;
+
+// 	i = 0;
+// 	while (i < game->lvl->map_size.x * game->lvl->map_size.y)
+// 	{
+// 		printf("%d ", game->lvl->canvas->chunks_to_redraw[i]);
+// 		if (i % game->lvl->map_size.x == game->lvl->map_size.x - 1)
+// 			printf("\n");
+// 		i++;
+// 	}
+// 	printf("\n");
+// }
+
+void	a_star(t_game *game, t_vector2 dest)
 {
 	int	start;
 	int	nb_cases;
@@ -92,7 +107,7 @@ void	a_star(t_game *game, t_player *player)
 
 	end = 0;
 	nb_cases = game->lvl->map_size.x * game->lvl->map_size.y;
-	start = pos_to_chunk(game->lvl, player->pos->x, player->pos->y);
+	start = pos_to_chunk(game->lvl, dest.x, dest.y);
 	ft_bzero(game->lvl->path_grid, nb_cases * sizeof(t_path_case));
 	game->lvl->path_grid[start].dst_end = sqrdistance(game->lvl->canvas->chunks[start].pos,
 			game->lvl->canvas->chunks[game->lvl->exit_chunk].pos);
@@ -105,7 +120,7 @@ void	a_star(t_game *game, t_player *player)
 			break;
 		min = _get_min(game->lvl, nb_cases);
 		end = _fill_the_four(game->lvl, min);
-		// if (ISDEBUG && min > -1)
-		// 	game->lvl->canvas->chunks_to_redraw[min] = 1;
+		if (ISDEBUG && min > -1)
+			game->lvl->canvas->chunks_to_redraw[min] = 1;
 	}
 }
