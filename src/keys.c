@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 16:06:07 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/11 17:37:21 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/11 21:51:27 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,18 @@ enum e_key_map	get_key(int key)
 		return (e_RA);
 	if (key == KEY_DA)
 		return (e_DA);
+	if (key == KEY_8)
+		return (e_8);
+	if (key == KEY_4)
+		return (e_4);
+	if (key == KEY_5)
+		return (e_5);
+	if (key == KEY_6)
+		return (e_6);
 	if (key == KEY_ESC)
 		return (e_ESC);
-	// printf("key : %d\n", key);
+	if (key == KEY_ENTER)
+		return (e_ENTER);
 	return (NB_KEYS);
 }
 
@@ -63,33 +72,33 @@ int	release_key(int key, t_game *game)
 void	press_on_w(t_game *game, int is_release)
 {
 	if (!is_release)
-		game->lvl->player->dir.y += -1;
+		game->lvl->player1->dir.y += -1;
 	else
-		game->lvl->player->dir.y += 1;
+		game->lvl->player1->dir.y += 1;
 }
 
 void	press_on_a(t_game *game, int is_release)
 {
 	if (!is_release)
-		game->lvl->player->dir.x += -1;
+		game->lvl->player1->dir.x += -1;
 	else
-		game->lvl->player->dir.x += 1;
+		game->lvl->player1->dir.x += 1;
 }
 
 void	press_on_s(t_game *game, int is_release)
 {
 	if (!is_release)
-		game->lvl->player->dir.y += 1;
+		game->lvl->player1->dir.y += 1;
 	else
-		game->lvl->player->dir.y += -1;
+		game->lvl->player1->dir.y += -1;
 }
 
 void	press_on_d(t_game *game, int is_release)
 {
 	if (!is_release)
-		game->lvl->player->dir.x += 1;
+		game->lvl->player1->dir.x += 1;
 	else
-		game->lvl->player->dir.x += -1;
+		game->lvl->player1->dir.x += -1;
 }
 
 void	press_on_p(t_game *game, int is_release)
@@ -135,6 +144,57 @@ void	press_on_ra(t_game *game, int is_release)
 		game->lvl->cam->dir.x += 1;
 	else
 		game->lvl->cam->dir.x += -1;
+}
+
+void	press_on_enter(t_game *game, int is_release)
+{
+	(void)is_release;
+	if (!game->lvl->player2)
+		init_player2(game);
+}
+
+void	press_on_8(t_game *game, int is_release)
+{
+	if (game->lvl->player2)
+	{
+		if (!is_release)
+			game->lvl->player2->dir.y += -1;
+		else
+			game->lvl->player2->dir.y += 1;
+	}
+}
+
+void	press_on_4(t_game *game, int is_release)
+{
+	if (game->lvl->player2)
+	{
+		if (!is_release)
+			game->lvl->player2->dir.x += -1;
+		else
+			game->lvl->player2->dir.x += 1;
+		}
+}
+
+void	press_on_5(t_game *game, int is_release)
+{
+	if (game->lvl->player2)
+	{
+		if (!is_release)
+			game->lvl->player2->dir.y += 1;
+		else
+			game->lvl->player2->dir.y += -1;
+	}
+}
+
+void	press_on_6(t_game *game, int is_release)
+{
+	if (game->lvl->player2)
+	{
+		if (!is_release)
+			game->lvl->player2->dir.x += 1;
+		else
+			game->lvl->player2->dir.x += -1;
+	}
 }
 
 void	press_on_esc(t_game *game, int status)

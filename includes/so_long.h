@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/11 19:34:20 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/11 21:39:01 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 # include "textures.h"
 
 // --=======----=======-- WINDOWS --=======----=======--
-# define SCREEN_WIDTH 1024 // 1920 1024 2560
-# define SCREEN_HEIGHT 720 // 1080 720 1440
+# define SCREEN_WIDTH 1920 // 1920 1024 2560
+# define SCREEN_HEIGHT 1080 // 1080 720 1440
 # define SIZE_CHUNK 64
 
 // --=======----=======-- KEY_MAP --=======----=======--
@@ -40,8 +40,13 @@
 # define KEY_UA 65362
 # define KEY_RA 65363
 # define KEY_DA 65364
-# define KEY_ESC 65307
-# define NB_KEYS 11
+# define KEY_8 65431
+# define KEY_4 65430
+# define KEY_5 65437
+# define KEY_6 65432
+# define KEY_ENTER 65307
+# define KEY_ESC 65293
+# define NB_KEYS 16
 
 // --=======----=======-- COLORS --=======----=======--
 # define ALPHA_MASK 0xFF000000
@@ -91,7 +96,7 @@
 # define NB_RUN 8
 
 // --=======----=======-- DEBUG --=======----=======--
-# define ISDEBUG 1
+# define ISDEBUG 0
 
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
@@ -107,6 +112,11 @@ enum e_key_map
 	e_UA,
 	e_RA,
 	e_DA,
+	e_8,
+	e_4,
+	e_5,
+	e_6,
+	e_ENTER,
 	e_ESC
 };
 
@@ -151,7 +161,8 @@ typedef struct s_level
 	struct s_img		**images;
 	struct s_camera		*cam;
 	struct s_sprite		*background;
-	struct s_player		*player;
+	struct s_player		*player1;
+	struct s_player		*player2;
 	struct s_enemy		**enemies;
 	struct s_collider	*wall_col;
 	struct s_collider	*collec_col;
@@ -313,6 +324,7 @@ t_img			*btmlx_xpm_file_to_image(void *mlx, char *path,
 
 // init_lvl_base.c
 void			init_lvl_base(t_game *game);
+void			init_player2(t_game *game);
 
 // sprite_choose.c
 enum e_img_id	choose_image(char *map, int chunk);
@@ -338,16 +350,14 @@ void			check_col_enemy(t_game *game);
 void			check_col_exit(t_game *game);
 
 // player_move.c
-void			move_player(t_game *game, int is_x, int is_y);
-void			reverse_move_canvas(t_game *game, int is_x, int is_y);
-void			player_movement(t_game *game);
+void			player_movement(t_game *game, t_player *player);
 
 // init_enemies.c
 int				init_enemies(t_game *game);	
 
 //enemies_movement.c
 void			enemy_movement(t_game *game);
-void			check_trigger_enemy(t_game *game);
+void			check_trigger_enemy(t_game *game, t_player *player);
 
 // keys.c
 enum e_key_map	get_key(int key);
@@ -363,7 +373,13 @@ void			press_on_ua(t_game *game, int is_release); // up move cam
 void			press_on_la(t_game *game, int is_release); // left move cam
 void			press_on_da(t_game *game, int is_release); // down move cam
 void			press_on_ra(t_game *game, int is_release); // rigth move cam
-void			press_on_esc(t_game *game, int status);
+void			press_on_enter(t_game *game, int status); // join new player
+void			press_on_8(t_game *game, int is_release); // up p2
+void			press_on_4(t_game *game, int is_release); // left p2
+void			press_on_5(t_game *game, int is_release); // down p2
+void			press_on_6(t_game *game, int is_release); // right p2
+void			press_on_esc(t_game *game, int status); // quit
+
 
 // vector_maths.c
 float			magnitude(t_vector2 vector);

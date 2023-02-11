@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 17:45:49 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/11 17:14:45 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/11 21:37:49 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,20 +35,6 @@ static void	_init_camera(t_game *game)
 	game->lvl->cam->is_cam_lock = 1;
 }
 
-static void	_init_player(t_game *game)
-{
-	game->lvl->player->sprite = ft_calloc(sizeof(t_sprite), 1);
-	game->lvl->player->collider = ft_calloc(sizeof(t_collider), 1);
-	game->lvl->player->collider->id = 0;
-	game->lvl->player->collider->pos = &game->lvl->player->sprite->pos;
-	game->lvl->player->collider->size = &game->lvl->player->sprite->size;
-	game->lvl->player->dir = (t_vector2){0, 0};
-	game->lvl->player->is_look_left = 0;
-	game->lvl->player->sprite->image_id = e_player_idle_0_0;
-	btmlx_get_addr(game->lvl->player->sprite, 
-			game->lvl->images[e_player_idle_0_0]);
-	game->lvl->player->pos = &game->lvl->player->sprite->pos;
-}
 
 static void	_init_background(t_game *game)
 {
@@ -58,10 +44,44 @@ static void	_init_background(t_game *game)
 	btmlx_get_addr(game->lvl->background, game->lvl->images[e_background]);
 }
 
+static void	_init_player1(t_game *game)
+{
+	game->lvl->player1->sprite = ft_calloc(sizeof(t_sprite), 1);
+	game->lvl->player1->collider = ft_calloc(sizeof(t_collider), 1);
+	game->lvl->player1->collider->id = 0;
+	game->lvl->player1->collider->pos = &game->lvl->player1->sprite->pos;
+	game->lvl->player1->collider->size = &game->lvl->player1->sprite->size;
+	game->lvl->player1->dir = (t_vector2){0, 0};
+	game->lvl->player1->is_look_left = 0;
+	game->lvl->player1->sprite->image_id = e_player_idle_0_0;
+	btmlx_get_addr(game->lvl->player1->sprite, 
+			game->lvl->images[e_player_idle_0_0]);
+	game->lvl->player1->pos = &game->lvl->player1->sprite->pos;
+}
+
+void	init_player2(t_game *game)
+{
+	game->lvl->player2 = ft_calloc(sizeof(t_player), 1);
+	game->lvl->player2->sprite = ft_calloc(sizeof(t_sprite), 1);
+	game->lvl->player2->collider = ft_calloc(sizeof(t_collider), 1);
+	game->lvl->player2->collider->id = 0;
+	game->lvl->player2->collider->pos = &game->lvl->player2->sprite->pos;
+	game->lvl->player2->collider->size = &game->lvl->player2->sprite->size;
+	game->lvl->player2->dir = (t_vector2){0, 0};
+	game->lvl->player2->is_look_left = 0;
+	game->lvl->player2->sprite->image_id = e_player_idle_0_0;
+	btmlx_get_addr(game->lvl->player2->sprite, 
+			game->lvl->images[e_player_idle_0_0]);
+	game->lvl->player2->pos = &game->lvl->player2->sprite->pos;
+	*game->lvl->player2->pos = *game->lvl->player1->pos;
+	game->lvl->player2->exact_pos = 
+		(t_fvector2) {game->lvl->player1->pos->x, game->lvl->player1->pos->y};
+}
+
 void	init_lvl_base(t_game *game)
 {
 	game->lvl->canvas = ft_calloc(sizeof(t_canvas), 1);
-	game->lvl->player = ft_calloc(sizeof(t_player), 1);
+	game->lvl->player1 = ft_calloc(sizeof(t_player), 1);
 	game->lvl->nb_collec = 0;
 	game->lvl->max_collec = 0;
 	game->lvl->path_grid = ft_calloc(game->lvl->map_size.x *
@@ -74,10 +94,10 @@ void	init_lvl_base(t_game *game)
 		game->lvl->debug_tile_sprite = ft_calloc(sizeof(t_sprite), 1);
 		game->lvl->debug_tile_sprite->image_id = e_debug_tile;
 		btmlx_get_addr(game->lvl->debug_tile_sprite, game->lvl->images[e_debug_tile]);
-
 	}
 	_init_canvas(game);
 	_init_camera(game);
-	_init_player(game);
+	_init_player1(game);
 	_init_background(game);
 }
+

@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:19:55 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/11 20:10:22 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/11 21:49:55 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	_calculate_enemy_dir(t_game *game, int id)
 {
 	game->lvl->enemies[id]->dir = 
 		direction_normalized(*game->lvl->enemies[id]->pos,
-		*game->lvl->player->pos);
+		*game->lvl->player1->pos);
 }
 
 static void	_move_enemy(t_game *game, int id, int is_x, int is_y)
@@ -66,7 +66,7 @@ static void	_reverse_move_enemy(t_game *game, int id, int is_x, int is_y)
 	
 }
 
-void	check_trigger_enemy(t_game *game)
+void	check_trigger_enemy(t_game *game, t_player *player)
 {
 	int	i;
 
@@ -76,7 +76,7 @@ void	check_trigger_enemy(t_game *game)
 		if (!game->lvl->enemies[i]->is_triggered
 			&& is_inside_load_range(game, *game->lvl->enemies[i]->pos))
 		{
-			if (distance(*game->lvl->enemies[i]->pos, *game->lvl->player->pos)
+			if (distance(*game->lvl->enemies[i]->pos, *player->pos)
 				< DISTANCE_AGGRO)
 			{
 				game->lvl->enemies[i]->is_triggered = 1;
@@ -98,8 +98,6 @@ void	enemy_movement(t_game *game)
 	int	i;
 
 	i = 0;
-	if (game->lvl->player->dir.x)
-		game->lvl->player->is_look_left = -game->lvl->player->dir.x;
 	while (game->lvl->enemies[i])
 	{
 		if (game->lvl->enemies[i]->is_triggered)

@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/11 20:06:32 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/11 21:45:11 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ void	init_map_variables(t_game *game)
 		game->lvl->canvas->chunks_to_redraw[i] = 1;
 		if (game->lvl->map[i] == 'P')
 		{
-			*game->lvl->player->pos = game->lvl->canvas->chunks[i].pos;
-			game->lvl->player->exact_pos.x = game->lvl->player->pos->x;
-			game->lvl->player->exact_pos.y = game->lvl->player->pos->y;
+			*game->lvl->player1->pos = game->lvl->canvas->chunks[i].pos;
+			game->lvl->player1->exact_pos.x = game->lvl->player1->pos->x;
+			game->lvl->player1->exact_pos.y = game->lvl->player1->pos->y;
 		}
 		if (game->lvl->map[i] == 'C')
 			game->lvl->max_collec++;
@@ -101,6 +101,23 @@ void	move_camera_on_player(t_camera *cam, t_player *player)
 	cam->exact_pos = (t_fvector2){cam->pos->x, cam->pos->y};
 }
 
+
+void	update_player_1(t_game *game)
+{
+	player_movement(game, game->lvl->player1);
+	if (game->lvl->cam->is_cam_lock == 1)
+		move_camera_on_player(game->lvl->cam, game->lvl->player1);
+	else
+		move_camera(game);
+	check_trigger_enemy(game, game->lvl->player1);
+}
+
+void	update_player_2(t_game *game)
+{
+	player_movement(game, game->lvl->player2);
+	check_trigger_enemy(game, game->lvl->player2);
+}
+
 int	on_update(t_game *game)
 {
 	static unsigned int	frame = 0;
@@ -111,12 +128,9 @@ int	on_update(t_game *game)
 		camera_animation_to_exit(game);
 	else
 	{
-		player_movement(game);
-		if (game->lvl->cam->is_cam_lock == 1)
-			move_camera_on_player(game->lvl->cam, game->lvl->player);
-		else
-			move_camera(game);
-		check_trigger_enemy(game);
+		update_player_1(game);
+		if (game->lvl->player2)
+			update_player_2(game);
 		enemy_movement(game);
 		check_col_enemy(game);
 		check_col_collectible(game);
@@ -124,7 +138,7 @@ int	on_update(t_game *game)
 	}
 	play_animations(game);
 	recalculate_chunks(game->lvl);
-	a_star(game, *game->lvl->player->pos);
+	a_star(game, *game->lvl->player1->pos);
 	draw_on_window(game);
 	clear_chunks_to_redraw(game->lvl->canvas);
 
@@ -166,7 +180,12 @@ t_game	init_values(char *map, t_vector2 map_size)
 	game.press_on_key[e_LA] = &press_on_la;
 	game.press_on_key[e_DA] = &press_on_da;
 	game.press_on_key[e_RA] = &press_on_ra;
-	game.press_on_key[e_ESC] = &press_on_esc;
+	game.press_on_key[e_8] = &press_on_8;
+	game.press_on_key[e_4] = &press_on_4;
+	game.press_on_key[e_5] = &press_on_5;
+	game.press_on_key[e_6] = &press_on_6;
+	game.press_on_key[e_ENTER] = &press_on_esc;
+	game.press_on_key[e_ESC] = &press_on_enter;
 	return (game);
 }
 
@@ -187,7 +206,7 @@ int	on_start(t_game *game, char *map, t_vector2 map_size)
 	gettimeofday(&game->lvl->start_time, NULL);
 
 	game->lvl->is_animating_cam = HAS_CAM_ANIM;
-	a_star(game, *game->lvl->player->pos);
+	a_star(game, *game->lvl->player1->pos);
 	return (0);
 }
 
