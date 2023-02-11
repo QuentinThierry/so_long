@@ -2,11 +2,11 @@
 static char *squirrel_idle0_21676078913[] = {
 /* columns rows colors chars-per-pixel */
 "42 34 5 1 ",
-"  c None",
-". c #2F2F2E",
-"X c #694129",
-"o c #825235",
-"O c #A67354",
+"  c #0",
+". c #FF2F2F2E",
+"X c #FF694129",
+"o c #FF825235",
+"O c #FFA67354",
 /* pixels */
 "                                          ",
 "                                          ",
