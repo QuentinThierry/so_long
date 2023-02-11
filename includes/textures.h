@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 02:00:21 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/10 20:22:44 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/11 01:44:54 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ enum e_img_id
 
 # define FOREST_BACKGROUND "assets/forest/forest_background.xpm"
 
-# define FOREST_BEE "assets/forest/forest_bee.xpm"
+# define FOREST_SQR_IDLE "assets/squirrel/squirrel_idle0_0.xpm"
 # define FOREST_EXIT "assets/forest/forest_exit.xpm"
 
 // GROUND 0

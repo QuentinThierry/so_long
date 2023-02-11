@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/10 21:36:04 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/11 01:51:16 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@
 
 // --=======----=======-- PLAYER --=======----=======--
 # define SPEED 250
-# define PLAYER_SIZE 32
+# define PLAYER_WIDTH 42
+# define PLAYER_HEIGHT 34
 
 // --=======----=======-- CAMERA --=======----=======--
 # define CAM_SPEED 2500

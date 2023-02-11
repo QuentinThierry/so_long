@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:25:20 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/09 16:00:01 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/11 00:42:29 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,9 @@ t_img	*btmlx_xpm_file_to_image(void *mlx, char *path,
 	src = mlx_xpm_file_to_image(mlx, path, &src_size.x, &src_size.y);
 	if (!src)
 		return (NULL);
+	if ((src_size.x == dst_size.x && src_size.y == dst_size.y)
+		|| (dst_size.x == 0 || dst_size.y == 0))
+		return (src);
 	dst = resize_img(mlx, src, dst_size, src_size);
 	if (!dst)
 		return((free(src), NULL));

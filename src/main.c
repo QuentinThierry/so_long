@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/10 21:36:18 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/11 00:43:54 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,11 @@ int	is_inside_load_range(t_game *game, t_vector2 pos)
 		&& pos.y > game->lvl->cam->pos->y - OFFSET_CAM_LOAD);
 }
 
-void	move_camera_on_player(t_camera *cam, t_vector2 player_pos)
+void	move_camera_on_player(t_camera *cam, t_player *player)
 {
 	*cam->pos = (t_vector2){
-		player_pos.x - SCREEN_WIDTH / 2 + PLAYER_SIZE / 2,
-		player_pos.y - SCREEN_HEIGHT / 2 + PLAYER_SIZE / 2};
+		player->pos->x - SCREEN_WIDTH / 2 + player->sprite->size.x / 2,
+		player->pos->y - SCREEN_HEIGHT / 2 + player->sprite->size.y / 2};
 	cam->exact_pos = (t_fvector2){cam->pos->x, cam->pos->y};
 }
 
@@ -114,7 +114,7 @@ int	on_update(t_game *game)
 	{
 		player_movement(game);
 		if (game->lvl->cam->is_cam_lock == 1)
-			move_camera_on_player(game->lvl->cam, *game->lvl->player->pos);
+			move_camera_on_player(game->lvl->cam, game->lvl->player);
 		else
 			move_camera(game);
 		check_trigger_enemy(game);
