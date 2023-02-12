@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:25:20 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/11 00:42:29 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/12 01:54:33 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static t_img	*resize_img(void *mlx, t_img *src,
 		}
 		y++;
 	}
-	free(src);
+	mlx_destroy_image(mlx, src);
 	return (dst);
 }
 
@@ -70,6 +70,6 @@ t_img	*btmlx_xpm_file_to_image(void *mlx, char *path,
 		return (src);
 	dst = resize_img(mlx, src, dst_size, src_size);
 	if (!dst)
-		return((free(src), NULL));
+		return(NULL);
 	return (dst);
 }

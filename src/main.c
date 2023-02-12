@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/11 21:45:11 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/12 01:43:15 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void	show_fps(t_game *game, t_vector2 pos, int fps)
 {
 	int	i = 0;
 	int	j = 0;
+	char	*str_fps;;
+	
 	while (j < FPS_HEIGHT)
 	{
 		i = 0;
@@ -56,9 +58,10 @@ void	show_fps(t_game *game, t_vector2 pos, int fps)
 			mlx_pixel_put(game->mlx, game->window, FPS_POSX + i++, FPS_POSY - j, WHITE);
 		j++;
 	}
-	
+	str_fps = ft_itoa(fps);
 	mlx_string_put(game->mlx, game->window, pos.x,
-		pos.y, FPS_COLOR, ft_itoa(fps));
+		pos.y, FPS_COLOR, str_fps);
+	free(str_fps);
 }
 
 void	init_map_variables(t_game *game)

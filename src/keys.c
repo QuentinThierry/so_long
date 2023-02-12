@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 16:06:07 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/11 21:51:27 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/12 01:49:59 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,8 +197,9 @@ void	press_on_6(t_game *game, int is_release)
 	}
 }
 
-void	press_on_esc(t_game *game, int status)
+void	press_on_esc(t_game *game, int is_release)
 {
 	(void)game;
-	exit(status);
+	(void)is_release;
+	exit_game(game);
 }

@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 02:00:21 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/11 02:37:42 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/12 01:49:25 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ enum e_img_id
 {
 	e_canvas,
 	e_camera,
-	e_movement,
 	e_background,
 	e_debug,
 	e_debug_tile,

@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/11 21:39:01 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/12 01:50:02 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 # include "textures.h"
 
 // --=======----=======-- WINDOWS --=======----=======--
-# define SCREEN_WIDTH 1920 // 1920 1024 2560
-# define SCREEN_HEIGHT 1080 // 1080 720 1440
+# define SCREEN_WIDTH 1024 // 1920 1024 2560
+# define SCREEN_HEIGHT 720 // 1080 720 1440
 # define SIZE_CHUNK 64
 
 // --=======----=======-- KEY_MAP --=======----=======--
@@ -166,7 +166,7 @@ typedef struct s_level
 	struct s_enemy		**enemies;
 	struct s_collider	*wall_col;
 	struct s_collider	*collec_col;
-	struct s_collider	*ennemy_col;
+	struct s_collider	*enemy_col;
 	struct s_collider	*exit_col;
 	char				*map;
 	struct s_vector2	map_size;
@@ -378,8 +378,10 @@ void			press_on_8(t_game *game, int is_release); // up p2
 void			press_on_4(t_game *game, int is_release); // left p2
 void			press_on_5(t_game *game, int is_release); // down p2
 void			press_on_6(t_game *game, int is_release); // right p2
-void			press_on_esc(t_game *game, int status); // quit
+void			press_on_esc(t_game *game, int is_release); // quit
 
+// exit_game.c
+void			exit_game(t_game *game);
 
 // vector_maths.c
 float			magnitude(t_vector2 vector);
