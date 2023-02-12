@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 18:50:40 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/11 19:29:42 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/12 02:39:50 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	debug_draw_hover_chunks(t_level *lvl)
 			{
 				lvl->canvas->chunks[i].pos.x - lvl->cam->pos->x,
 				lvl->canvas->chunks[i].pos.y - lvl->cam->pos->y
-			}, 1);
+			}, HIGH_GRPHISM);
 		}
 		++i;
 	}

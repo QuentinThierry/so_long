@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 20:03:30 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/09 16:01:04 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/12 02:37:14 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,16 +97,16 @@ void	find_chunk_under(t_canvas *canvas, t_sprite *pict)
 	y = pict->pos.y / SIZE_CHUNK;
 	end_x = (pict->pos.x + pict->size.x) / SIZE_CHUNK;
 	end_y = (pict->pos.y + pict->size.y) / SIZE_CHUNK;
-	while (x <= end_x)
+	while (y <= end_y)
 	{
-		y = pict->pos.y / SIZE_CHUNK;
-		while (y <= end_y)
+		x = pict->pos.x / SIZE_CHUNK;
+		while (x <= end_x)
 		{
 			canvas->chunks_to_redraw[
 				y * canvas->nb_chunks.x + x
 				] = 1;
-			++y;
+			++x;
 		}
-		++x;
+		++y;
 	}
 }

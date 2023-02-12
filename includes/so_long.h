@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/12 01:50:02 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/12 02:41:47 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,14 @@
 
 // --=======----=======-- FPS --=======----=======--
 // # define FPS_VSYNC 0.00828
-# define FPS_VSYNC 0.00828
+# define FPS_VSYNC 0.000000828
 # define FRAME_RATE_DRAW_SPEED 100
 # define FPS_POSX 10
 # define FPS_POSY 20
 # define FPS_WIDTH 35
 # define FPS_HEIGHT 10
 # define FPS_COLOR BLACK
+# define HIGH_GRPHISM 1
 
 // --=======----=======-- PLAYER --=======----=======--
 # define SPEED 250
@@ -151,6 +152,8 @@ typedef struct s_game
 	void			*window;
 	double			elapsed;
 	int				fps;
+	long			tot_fps;
+	long			tot_frame;
 	struct s_level	*lvl;
 	void			(*press_on_key[NB_KEYS])(struct s_game *, int);
 }	t_game;

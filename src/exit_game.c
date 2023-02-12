@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 01:06:41 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/12 02:00:33 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/12 02:30:54 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,6 @@ void	exit_game(t_game *game)
 	if (game->mlx)
 		mlx_destroy_display(game->mlx);
 	free(game->mlx);
+	printf("Fps average : %f\n", (float)game->tot_fps/game->tot_frame);
 	exit(EXIT_SUCCESS);
 }

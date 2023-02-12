@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/12 01:43:15 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/12 02:42:25 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	calculate_fps(int *fps, double *elapsed)
 		delay = (((double)(tmp.tv_usec - prev_time.tv_usec) / CLOCKS_PER_SEC)
 			+ tmp.tv_sec - prev_time.tv_sec);
 	}
-	*elapsed = delay;
+	*elapsed = delay + (!delay);
 	*fps = (int)(1.0 / *elapsed);
 	prev_time = tmp;
 }
@@ -49,7 +49,7 @@ void	show_fps(t_game *game, t_vector2 pos, int fps)
 {
 	int	i = 0;
 	int	j = 0;
-	char	*str_fps;;
+	char	*str_fps;
 	
 	while (j < FPS_HEIGHT)
 	{
@@ -126,7 +126,8 @@ int	on_update(t_game *game)
 	static unsigned int	frame = 0;
 	static int			fps = 0;
 
-	// game->lvl->exit_chunk = rand() % (game->lvl->map_size.x * game->lvl->map_size.y);
+	if (!frame && !fps)
+		calculate_fps(&game->fps, &game->elapsed);
 	if (game->lvl->is_animating_cam)
 		camera_animation_to_exit(game);
 	else
@@ -144,8 +145,10 @@ int	on_update(t_game *game)
 	a_star(game, *game->lvl->player1->pos);
 	draw_on_window(game);
 	clear_chunks_to_redraw(game->lvl->canvas);
-
+	
 	calculate_fps(&game->fps, &game->elapsed);
+	game->tot_fps += game->fps;
+	game->tot_frame++;
 	if (frame % FRAME_RATE_DRAW_SPEED == 0)
 	{
 		fps = game->fps;
@@ -171,8 +174,10 @@ t_game	init_values(char *map, t_vector2 map_size)
 	init_base_images(&game);
 	init_lvl_base(&game);
 
-	game.fps = 120;
+	game.fps = 0;
+	game.tot_fps = 0;
 	game.elapsed = 0;
+	game.tot_frame = 0;
 	game.press_on_key[e_W] = &press_on_w;
 	game.press_on_key[e_A] = &press_on_a;
 	game.press_on_key[e_S] = &press_on_s;
