@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/12 02:41:47 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/13 18:46:42 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 # include "textures.h"
 
 // --=======----=======-- WINDOWS --=======----=======--
-# define SCREEN_WIDTH 1024 // 1920 1024 2560
-# define SCREEN_HEIGHT 720 // 1080 720 1440
+# define SCREEN_WIDTH 1024 // 1920 1024 2560 3840
+# define SCREEN_HEIGHT 720 // 1080 720 1440 2160
 # define SIZE_CHUNK 64
 
 // --=======----=======-- KEY_MAP --=======----=======--
@@ -97,7 +97,7 @@
 # define NB_RUN 8
 
 // --=======----=======-- DEBUG --=======----=======--
-# define ISDEBUG 0
+# define ISDEBUG 1
 
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
@@ -221,6 +221,7 @@ typedef struct s_path_case
 	int	dst_end;
 	int	dst_start;
 	int	has_been_check;
+	int	parent;
 }	t_path_case;
 
 typedef struct s_enemy
