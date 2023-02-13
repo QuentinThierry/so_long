@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:19:55 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/11 21:49:55 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/13 21:11:16 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,22 +73,20 @@ void	check_trigger_enemy(t_game *game, t_player *player)
 	i = 0;
 	while (game->lvl->enemies[i])
 	{
-		if (!game->lvl->enemies[i]->is_triggered
-			&& is_inside_load_range(game, *game->lvl->enemies[i]->pos))
+		if (is_inside_load_range(game, *game->lvl->enemies[i]->pos))
 		{
-			if (distance(*game->lvl->enemies[i]->pos, *player->pos)
-				< DISTANCE_AGGRO)
+			if (sqrdistance(*game->lvl->enemies[i]->pos, *player->pos)
+				< DISTANCE_AGGRO * DISTANCE_AGGRO)
 			{
 				game->lvl->enemies[i]->is_triggered = 1;
 				game->lvl->enemies[i]->sprite->image_id = e_enemy_1_0;
 			}
 			else
 			{
-				game->lvl->enemies[i]->sprite->image_id = e_enemy_0_0;
 				game->lvl->enemies[i]->is_triggered = 0;
+				game->lvl->enemies[i]->sprite->image_id = e_enemy_0_0;
 			}
 		}
-
 		++i;
 	}
 }
