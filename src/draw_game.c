@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 20:18:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/13 23:02:16 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/14 01:50:25 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	_draw_player1(t_game *game)
 	if (game->lvl->player1->is_look_left == 1)
 		flip_image_y(game->lvl->player1->sprite);
 	draw_image_on_image(game->lvl->canvas->sprite, game->lvl->player1->sprite,
-			game->lvl->player1->sprite->pos, 1);
+			game->lvl->player1->sprite->pos, HIGH_GRPHISM);
 	if (game->lvl->player1->is_look_left == 1)
 		flip_image_y(game->lvl->player1->sprite);
 }
@@ -50,7 +50,7 @@ static void	_draw_player2(t_game *game)
 	if (game->lvl->player2->is_look_left == 1)
 		flip_image_y(game->lvl->player2->sprite);
 	draw_image_on_image(game->lvl->canvas->sprite, game->lvl->player2->sprite,
-			game->lvl->player2->sprite->pos, 1);
+			game->lvl->player2->sprite->pos, HIGH_GRPHISM);
 	if (game->lvl->player2->is_look_left == 1)
 		flip_image_y(game->lvl->player2->sprite);
 }

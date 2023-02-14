@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 19:18:33 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/13 21:31:34 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/14 02:01:57 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,22 @@ void	check_col_enemy(t_game *game)
 	i = 0;
 	while (game->lvl->enemies[i])
 	{
-		
 		if (is_inside_load_range(game, *game->lvl->enemies[i]->pos)
 				&& is_colliding(game->lvl->enemies[i]->collider,
 			game->lvl->player1->collider))
 		{
-			printf("DEAD\n");
+			printf("Player 1 is dead\n");
 			break;
+		}
+		if (game->lvl->player2)
+		{
+			if (is_inside_load_range(game, *game->lvl->enemies[i]->pos)
+				&& is_colliding(game->lvl->enemies[i]->collider,
+			game->lvl->player2->collider))
+			{
+				printf("Player 2 is dead\n");
+				break;
+			}
 		}
 		i++;
 	}
@@ -61,8 +70,11 @@ void	check_col_enemy(t_game *game)
 
 void	check_col_exit(t_game *game)
 {
-	if (is_colliding(game->lvl->player1->collider, game->lvl->exit_col)
+	if ((is_colliding(game->lvl->player1->collider, game->lvl->exit_col)
 		&& game->lvl->nb_collec >= game->lvl->max_collec)
+		&& (!game->lvl->player2
+		|| (is_colliding(game->lvl->player2->collider, game->lvl->exit_col)
+		&& game->lvl->nb_collec >= game->lvl->max_collec)))
 		exit_game(game);
 }
 
@@ -78,8 +90,9 @@ void	check_col_collectible(t_game *game)
 			collide_on_collec(game, &game->lvl->collec_col[i]);
 		++i;
 	}
-	if (game->lvl->player2)
+	if (!game->lvl->player2)
 		return ;
+	i = 0;
 	while (game->lvl->collec_col[i].id != -1)
 	{
 		if (is_colliding(game->lvl->player2->collider, &game->lvl->collec_col[i])

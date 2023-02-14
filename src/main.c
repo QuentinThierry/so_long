@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/13 23:02:20 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/14 02:03:45 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,8 @@ int	on_update(t_game *game)
 	recalculate_chunks(game->lvl);
 	draw_on_window(game);
 	a_star(game, *game->lvl->player1->pos);
+	if (game->lvl->player2)
+		a_star(game, *game->lvl->player2->pos);
 	mlx_put_image_to_window(game->mlx, game->window,
 			game->lvl->cam->sprite->img_ptr, 0, 0);
 	clear_chunks_to_redraw(game->lvl->canvas);
@@ -198,7 +200,6 @@ int	on_start(t_game *game, char *map, t_vector2 map_size)
 
 	// others
 	game->lvl->canvas->origin = (t_vector2){0, 0};
-	
 	init_chunks(game->lvl);
 	init_map_variables(game);
 	init_enemies(game);
@@ -207,7 +208,7 @@ int	on_start(t_game *game, char *map, t_vector2 map_size)
 	gettimeofday(&game->lvl->start_time, NULL);
 
 	game->lvl->is_animating_cam = HAS_CAM_ANIM;
-	// a_star(game, *game->lvl->player1->pos);
+	a_star(game, *game->lvl->player1->pos);
 	return (0);
 }
 
