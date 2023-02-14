@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 17:45:49 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/11 21:37:49 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/14 04:31:26 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static void	_init_canvas(t_game *game)
 {
 	game->lvl->canvas->sprite = ft_calloc(sizeof(t_sprite), 1);
 	game->lvl->canvas->sprite->image_id = e_canvas;
-	game->lvl->canvas->origin = (t_vector2){0, 0};
 	btmlx_get_addr(game->lvl->canvas->sprite, game->lvl->images[e_canvas]);
 }
 
@@ -84,6 +83,7 @@ void	init_lvl_base(t_game *game)
 	game->lvl->player1 = ft_calloc(sizeof(t_player), 1);
 	game->lvl->nb_collec = 0;
 	game->lvl->max_collec = 0;
+	game->lvl->nb_move = 0;
 	game->lvl->path_grid = ft_calloc(game->lvl->map_size.x *
 		game->lvl->map_size.y, sizeof(t_path_case));
 	if (ISDEBUG)

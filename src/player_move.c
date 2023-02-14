@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 18:30:53 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/14 03:38:45 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/14 04:45:14 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,10 @@ static void	_reverse_move_player(t_player *player,
 
 void	player_movement(t_game *game, t_player *player)
 {
-	t_collider *collider;
+	t_collider	*collider;
+	int			chunk_before;
 
+	chunk_before = pos_to_chunk(game->lvl, player->pos->x, player->pos->y);
 	if (player->dir.x)
 		player->is_look_left = -player->dir.x;
 	if (player == game->lvl->player2)
@@ -88,5 +90,10 @@ void	player_movement(t_game *game, t_player *player)
 	collider = check_wall_collision(game->lvl, player->collider);
 	if (collider)
 		_reverse_move_player(player, collider, (t_vector2){0, 1});
+	if (chunk_before != pos_to_chunk(game->lvl, player->pos->x, player->pos->y))
+	{
+		game->lvl->nb_move++;
+		printf("movements : %d\n", game->lvl->nb_move);
+	}
 	find_chunk_under(game->lvl->canvas, player->sprite);
 }

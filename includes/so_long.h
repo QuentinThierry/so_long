@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/14 03:42:45 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/14 04:36:08 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@
 # define NB_RUN 8
 
 // --=======----=======-- DEBUG --=======----=======--
-# define ISDEBUG 1
+# define ISDEBUG 0
 
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
@@ -179,6 +179,7 @@ typedef struct s_level
 	int					max_collec;
 	int					is_animating_cam;
 	int					exit_chunk;
+	int					nb_move;
 	struct s_sprite		*debug_sprite;
 	struct s_sprite		*debug_tile_sprite;
 }	t_level;

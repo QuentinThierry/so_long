@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/14 02:03:45 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/14 04:42:39 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,6 @@ int	on_update(t_game *game)
 	mlx_put_image_to_window(game->mlx, game->window,
 			game->lvl->cam->sprite->img_ptr, 0, 0);
 	clear_chunks_to_redraw(game->lvl->canvas);
-	
 	calculate_fps(&game->fps, &game->elapsed);
 	game->tot_fps += game->fps;
 	game->tot_frame++;
