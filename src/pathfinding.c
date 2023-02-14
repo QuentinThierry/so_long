@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 17:52:15 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/13 20:56:07 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/13 23:48:57 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ static int	_fill_the_four(t_level *lvl, int pos)
 		}
 		lvl->path_grid[index].dst_start = lvl->path_grid[pos].dst_start + 1;
 		lvl->path_grid[index].dst_end =
-				distance(lvl->canvas->chunks[index].pos,
-				lvl->canvas->chunks[lvl->exit_chunk].pos) / (SIZE_CHUNK);
+				(distance(lvl->canvas->chunks[index].pos,
+				lvl->canvas->chunks[lvl->exit_chunk].pos) + 1) / SIZE_CHUNK;
 		lvl->path_grid[index].tot = lvl->path_grid[index].dst_start
 				+ lvl->path_grid[index].dst_end;
 		if (lvl->path_grid[pos].parent != index)
@@ -126,7 +126,7 @@ void	a_star(t_game *game, t_vector2 src)
 	start = pos_to_chunk(game->lvl, src.x, src.y);
 	ft_bzero(game->lvl->path_grid, nb_cases * sizeof(t_path_case));
 	game->lvl->path_grid[start].dst_end = distance(game->lvl->canvas->chunks[start].pos,
-			game->lvl->canvas->chunks[game->lvl->exit_chunk].pos) / (SIZE_CHUNK);
+			game->lvl->canvas->chunks[game->lvl->exit_chunk].pos) / SIZE_CHUNK;
 	if (game->lvl->path_grid[start].dst_end == 0)
 		return ;
 	game->lvl->path_grid[start].tot = game->lvl->path_grid[start].dst_end;
@@ -137,12 +137,7 @@ void	a_star(t_game *game, t_vector2 src)
 			break;
 		min = _get_min(game->lvl, nb_cases);
 		end = _fill_the_four(game->lvl, min);
-		// if (ISDEBUG && min > -1)
-		// 	game->lvl->canvas->chunks_to_redraw[min] = 1;
-		// print_path(game);
 	}
-	// printf("fin : %d\n", game->lvl->path_grid[end].parent);
-	// int i;
-	// print_parents(game->lvl, end);
-	// printf("i : %d\n", i);
+	if (ISDEBUG && min > -1)
+		draw_shortest_path(game->lvl, end);
 }

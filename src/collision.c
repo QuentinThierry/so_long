@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 19:18:33 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/12 01:17:11 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/13 21:31:34 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	check_col_exit(t_game *game)
 		exit_game(game);
 }
 
-t_collider	*check_col_collectible(t_game *game)
+void	check_col_collectible(t_game *game)
 {
 	int	i;
 
@@ -78,7 +78,15 @@ t_collider	*check_col_collectible(t_game *game)
 			collide_on_collec(game, &game->lvl->collec_col[i]);
 		++i;
 	}
-	return (NULL);
+	if (game->lvl->player2)
+		return ;
+	while (game->lvl->collec_col[i].id != -1)
+	{
+		if (is_colliding(game->lvl->player2->collider, &game->lvl->collec_col[i])
+			&& game->lvl->collec_col[i].has_been_triggered == 0)
+			collide_on_collec(game, &game->lvl->collec_col[i]);
+		++i;
+	}
 }
 
 t_collider	*check_wall_collision(t_level *lvl, t_collider *src)

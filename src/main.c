@@ -6,21 +6,12 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/13 20:17:50 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/13 23:02:20 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 #include <stdlib.h>
-
-void	my_mlx_pixel_put(t_sprite *sprite, int x, int y, unsigned int color)
-{
-	char	*dst;
-
-	dst = sprite->img_ptr->data +
-		(y * sprite->line_length + x * sprite->opp);
-	*(unsigned int*)dst = color;
-}
 
 void	calculate_fps(int *fps, double *elapsed)
 {
@@ -142,8 +133,10 @@ int	on_update(t_game *game)
 	}
 	play_animations(game);
 	recalculate_chunks(game->lvl);
-	a_star(game, *game->lvl->player1->pos);
 	draw_on_window(game);
+	a_star(game, *game->lvl->player1->pos);
+	mlx_put_image_to_window(game->mlx, game->window,
+			game->lvl->cam->sprite->img_ptr, 0, 0);
 	clear_chunks_to_redraw(game->lvl->canvas);
 	
 	calculate_fps(&game->fps, &game->elapsed);
@@ -214,7 +207,7 @@ int	on_start(t_game *game, char *map, t_vector2 map_size)
 	gettimeofday(&game->lvl->start_time, NULL);
 
 	game->lvl->is_animating_cam = HAS_CAM_ANIM;
-	a_star(game, *game->lvl->player1->pos);
+	// a_star(game, *game->lvl->player1->pos);
 	return (0);
 }
 

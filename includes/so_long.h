@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/13 21:10:47 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/13 22:29:41 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@
 # define NB_RUN 8
 
 // --=======----=======-- DEBUG --=======----=======--
-# define ISDEBUG 0
+# define ISDEBUG 1
 
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
@@ -349,7 +349,7 @@ int				init_collisions(t_level *lvl);
 
 // collision.c
 t_collider		*check_wall_collision(t_level *lvl, t_collider *src);
-t_collider		*check_col_collectible(t_game *game);
+void			check_col_collectible(t_game *game);
 void			check_col_enemy(t_game *game);
 void			check_col_exit(t_game *game);
 
@@ -414,8 +414,12 @@ void			clear_image(t_sprite *sprite);
 unsigned int	get_color_at(t_sprite *sprite, t_vector2 pos);
 void			blend_images(t_sprite *back, t_sprite *front, t_vector2 pos);
 
+// draw_line.c
+void			draw_line(t_sprite *sprite, t_vector2 src, t_vector2 dest, t_color color);
+
 // debug.c
 void			debug_calculate(t_level *lvl);
+void			draw_shortest_path(t_level *lvl, int end);
 
 // main.c
 void			draw_rectangle(t_sprite *sprite, t_vector2 pos,

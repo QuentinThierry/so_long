@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 20:18:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/13 21:00:39 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/13 23:02:16 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,5 @@ int	draw_on_window(t_game *game)
 	render_camera(game->lvl, *game->lvl->cam->pos);
 	if (ISDEBUG)
 		debug_calculate(game->lvl);
-	mlx_put_image_to_window(game->mlx, game->window,
-			game->lvl->cam->sprite->img_ptr, 0, 0);
 	return (0);
 }
