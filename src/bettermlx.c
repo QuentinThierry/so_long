@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:25:20 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/12 01:54:33 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/14 05:13:55 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,27 +27,25 @@ static t_img	*resize_img(void *mlx, t_img *src,
 {
 	t_img		*dst;
 	t_fvector2	ratio;
-	int	x;
-	int	y;
+	int			x;
+	int			y;
 
 	dst = mlx_new_image(mlx, dst_size.x, dst_size.y);
 	if (!dst)
 		return (NULL);
 	ratio.x = (double)(dst_size.x) / (double)(src_size.x);
 	ratio.y = (double)(dst_size.y) / (double)(src_size.y);
-	y = 0;
-	while (y < src_size.y)
+	y = -1;
+	while (++y < src_size.y)
 	{
-		x = 0;
-		while (x < src_size.x)
+		x = -1;
+		while (++x < src_size.x)
 		{
-			*(unsigned int *)(dst->data + (int)(y * ratio.y) * dst->size_line
-				+ (int)(x * ratio.x) * (dst->bpp / 8)) =
-				*(unsigned int *)(src->data + y * src->size_line
-				+ x * (src->bpp / 8));
-			x++;
+			*(unsigned int *)(dst->data + (int)(y * ratio.y) *dst->size_line
+					+ (int)(x * ratio.x) *(dst->bpp / 8))
+				= *(unsigned int *)(src->data + y * src->size_line
+					+ x * (src->bpp / 8));
 		}
-		y++;
 	}
 	mlx_destroy_image(mlx, src);
 	return (dst);
@@ -70,6 +68,6 @@ t_img	*btmlx_xpm_file_to_image(void *mlx, char *path,
 		return (src);
 	dst = resize_img(mlx, src, dst_size, src_size);
 	if (!dst)
-		return(NULL);
+		return (NULL);
 	return (dst);
 }

@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/14 04:36:08 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/14 05:08:47 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -301,7 +301,6 @@ size_t			ft_strlen(const char *s);
 int				equals(char	*s1, char *s2);
 void			*ft_calloc(size_t nmemb, size_t size);
 
-
 // list.c
 t_list			*ft_lstnew(char *content);
 int				ft_lstsize(t_list *lst);
@@ -398,9 +397,13 @@ t_fvector2		direction_normalized(t_vector2 src, t_vector2 dest);
 //pathfinding.c
 void			a_star(t_game *game, t_vector2 dest);
 
-// animations.c
-void			camera_animation_to_exit(t_game *game);
+// animations1.c
+void			camera_animation_to_exit(t_level *lvl);
 void			play_animations(t_game *game);
+
+// animations_player
+void			play_anim_player1(t_game *game);
+void			play_anim_player2(t_game *game);
 
 // image_flip.c
 void			flip_image_y(t_sprite *sprite);
@@ -408,7 +411,7 @@ void			flip_image_x(t_sprite *sprite);
 
 // image_operations.c
 int				draw_image_on_image(t_sprite *dest, t_sprite *src,
-						t_vector2 pos, int is_alpha_sensitive);
+					t_vector2 pos, int is_alpha_sensitive);
 void			clear_image(t_sprite *sprite);
 
 // colors.c
@@ -416,7 +419,8 @@ unsigned int	get_color_at(t_sprite *sprite, t_vector2 pos);
 void			blend_images(t_sprite *back, t_sprite *front, t_vector2 pos);
 
 // draw_line.c
-void			draw_line(t_sprite *sprite, t_vector2 src, t_vector2 dest, t_color color);
+void			draw_line(t_sprite *sprite,
+					t_vector2 src, t_vector2 dest, t_color color);
 
 // debug.c
 void			debug_calculate(t_level *lvl);

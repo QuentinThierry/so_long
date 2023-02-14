@@ -6,14 +6,13 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:42:19 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/11 21:45:28 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/14 05:09:21 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
-#include <sys/time.h>
 
-void	camera_animation_to_exit(t_game *game)
+void	camera_animation_to_exit(t_level *lvl)
 {
 	struct timeval	time;
 	double			delay;
@@ -22,134 +21,23 @@ void	camera_animation_to_exit(t_game *game)
 	t_fvector2		dir;
 
 	gettimeofday(&time, NULL);
-	delay = (((double)(time.tv_usec - game->lvl->start_time.tv_usec) / CLOCKS_PER_SEC)
-		+ time.tv_sec - game->lvl->start_time.tv_sec);
-	if (delay >= CAM_ANIM_TIME_SEC + 1)
-		game->lvl->is_animating_cam = 0;
-	else
-	{
-		if (delay >= CAM_ANIM_TIME_SEC)
-			delay = CAM_ANIM_TIME_SEC;
-		exit_pos = game->lvl->canvas->chunks[find_exit_chunk(game->lvl->map)].pos;
-		dist = distance(*game->lvl->player1->pos, exit_pos);
-		dir = direction_normalized(*game->lvl->player1->pos, exit_pos);
-		*game->lvl->cam->pos = (t_vector2){
-			(game->lvl->player1->pos->x) + (dir.x * dist) * (delay / CAM_ANIM_TIME_SEC)
-			- (((float)SCREEN_WIDTH / 2) + (float)game->lvl->player1->sprite->size.x / 2),
-			(game->lvl->player1->pos->y) + dir.y * dist * (delay / CAM_ANIM_TIME_SEC)
-			- (((float)SCREEN_HEIGHT / 2) + (float)game->lvl->player1->sprite->size.y / 2),
-		};
-	}
-}
-
-int	_player_idle_animation_base(t_player *player, struct timeval *last_time)
-{
-	struct timeval	time;
-	double			delay;
-
-	gettimeofday(&time, NULL);
-	delay = (((double)(time.tv_usec - last_time->tv_usec) / CLOCKS_PER_SEC)
-		+ time.tv_sec - last_time->tv_sec);
-	if (delay >= ANIM_TIME_IDLE0)
-	{
-		gettimeofday(last_time, NULL);
-		player->sprite->image_id++;
-		if (player->sprite->image_id >= ANIM_NB_IDLE + e_player_idle_0_0)
-		{
-			player->sprite->image_id = e_player_idle_0_0;
-			return (1);
-		}
-	}
-	return (0);
-}
-
-void	_player_idle_animation_rare(t_player *player, struct timeval *last_time)
-{
-	struct timeval	time;
-	double			delay;
-
-	gettimeofday(&time, NULL);
-	delay = (((double)(time.tv_usec - last_time->tv_usec) / CLOCKS_PER_SEC)
-		+ time.tv_sec - last_time->tv_sec);
-	if (delay >= ANIM_TIME_IDLE1)
-	{
-		player->sprite->image_id++;
-		if (player->sprite->image_id >= ANIM_NB_IDLE + e_player_idle_1_0)
-			player->sprite->image_id = e_player_idle_0_0;
-		gettimeofday(last_time, NULL);
-	}
-}
-
-void	_player_run_animation(t_player *player, struct timeval *last_time)
-{
-	struct timeval	time;
-	double			delay;
-
-	gettimeofday(&time, NULL);
-	delay = (((double)(time.tv_usec - last_time->tv_usec) / CLOCKS_PER_SEC)
-		+ time.tv_sec - last_time->tv_sec);
-	if (delay >= ANIM_TIME_RUN)
-	{
-		player->sprite->image_id++;
-		if (player->sprite->image_id >= ANIM_NB_RUN
-			+ e_player_run_0_0)
-			player->sprite->image_id = e_player_run_0_0;
-		gettimeofday(last_time, NULL);
-	}
-}
-
-void	play_anim_player2(t_game *game)
-{
-	static struct timeval	anim_time = {0, 0};
-	
-	if (anim_time.tv_sec == 0 && anim_time.tv_usec == 0)
-		anim_time = game->lvl->start_time;
-	if (game->lvl->player2->dir.x || game->lvl->player2->dir.y)
-	{
-		if (game->lvl->player2->sprite->image_id < e_player_run_0_0)
-			game->lvl->player2->sprite->image_id = e_player_run_0_0;
-		_player_run_animation(game->lvl->player2, &anim_time);
-	}
-	else
-	{
-		if (game->lvl->player2->sprite->image_id >= e_player_run_0_0)
-			game->lvl->player2->sprite->image_id = e_player_idle_0_0;
-		if (game->lvl->player2->sprite->image_id >= e_player_idle_1_0)
-			_player_idle_animation_rare(game->lvl->player2, &anim_time);
-		else
-		{
-			if(_player_idle_animation_base(game->lvl->player2, &anim_time)
-				&& rand() % 100 < ANIM_RARE_IDLE_CHANCE)
-				game->lvl->player2->sprite->image_id = e_player_idle_1_0;
-		}
-	}
-}
-
-void	play_anim_player1(t_game *game)
-{
-	static struct timeval	anim_time = {0, 0};
-	
-	if (anim_time.tv_sec == 0 && anim_time.tv_usec == 0)
-		anim_time = game->lvl->start_time;
-	if (game->lvl->player1->dir.x || game->lvl->player1->dir.y)
-	{
-		if (game->lvl->player1->sprite->image_id < e_player_run_0_0)
-			game->lvl->player1->sprite->image_id = e_player_run_0_0;
-		_player_run_animation(game->lvl->player1, &anim_time);
-	}
-	else
-	{
-		if (game->lvl->player1->sprite->image_id >= e_player_run_0_0)
-			game->lvl->player1->sprite->image_id = e_player_idle_0_0;
-		if (game->lvl->player1->sprite->image_id >= e_player_idle_1_0)
-			_player_idle_animation_rare(game->lvl->player1, &anim_time);
-		else
-		{
-			if(_player_idle_animation_base(game->lvl->player1, &anim_time)
-				&& rand() % 100 < ANIM_RARE_IDLE_CHANCE)
-				game->lvl->player1->sprite->image_id = e_player_idle_1_0;
-		}
-	}
+	delay = (((double)(time.tv_usec - lvl->start_time.tv_usec)
+				/ CLOCKS_PER_SEC) + time.tv_sec - lvl->start_time.tv_sec);
+	if (delay >= CAM_ANIM_TIME_SEC)
+		lvl->is_animating_cam = 0;
+	return ;
+	if (delay >= CAM_ANIM_TIME_SEC)
+		delay = CAM_ANIM_TIME_SEC;
+	exit_pos = lvl->canvas->chunks[find_exit_chunk(lvl->map)].pos;
+	dist = distance(*lvl->player1->pos, exit_pos);
+	dir = direction_normalized(*lvl->player1->pos, exit_pos);
+	*lvl->cam->pos = (t_vector2){(lvl->player1->pos->x) + (dir.x * dist)
+		* (delay / CAM_ANIM_TIME_SEC) - (((float)SCREEN_WIDTH / 2)
+			+ (float)lvl->player1->sprite->size.x / 2),
+		(lvl->player1->pos->y) + dir.y * dist * (delay / CAM_ANIM_TIME_SEC)
+		- (((float)SCREEN_HEIGHT / 2)
+			+ (float)lvl->player1->sprite->size.y / 2),
+	};
 }
 
 void	play_animations(t_game *game)

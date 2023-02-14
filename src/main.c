@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/14 04:42:39 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/14 05:09:08 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int	on_update(t_game *game)
 	if (!frame && !fps)
 		calculate_fps(&game->fps, &game->elapsed);
 	if (game->lvl->is_animating_cam)
-		camera_animation_to_exit(game);
+		camera_animation_to_exit(game->lvl);
 	else
 	{
 		update_player_1(game);
