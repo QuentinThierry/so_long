@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 18:30:53 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/14 03:10:34 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/14 03:38:45 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,26 @@
 static void	_move_player(t_game *game, t_player *player,
 		int is_x, int is_y)
 {
-	double	new_posx;
-	double	new_posy;
+	double	deltax;
+	double	deltay;
 
 	if (!player->dir.x && !player->dir.y)
 		return ;
 	if (is_x)
 	{
-		new_posx = player->exact_pos.x +
-				(double)(player->dir.x) * SPEED * game->elapsed;
-		player->exact_pos.x = new_posx;
-		player->pos->x = floor(new_posx);
+		deltax = (double)(player->dir.x) * SPEED * game->elapsed;
+		if (deltax > SIZE_CHUNK || deltax < -SIZE_CHUNK)
+			deltax = SIZE_CHUNK * player->dir.x;
+		player->exact_pos.x += deltax;
+		player->pos->x = floor(player->exact_pos.x);
 	}
 	if (is_y)
 	{
-		new_posy = player->exact_pos.y +
-				(double)(player->dir.y) * SPEED * game->elapsed;
-		player->exact_pos.y = new_posy;
-		player->pos->y = floor(new_posy);
+		deltay = (double)(player->dir.y) * SPEED * game->elapsed;
+		if (deltay > SIZE_CHUNK || deltay < -SIZE_CHUNK)
+			deltay = SIZE_CHUNK * player->dir.y;
+		player->exact_pos.y += deltay;
+		player->pos->y = floor(player->exact_pos.y);
 	}
 }
 
@@ -68,39 +70,6 @@ static void	_reverse_move_player(t_player *player,
 			set_player_pos_y(player, collider->pos->y - PLAYER_HEIGHT);
 	}
 }
-
-// static void	_reverse_move_player(t_player *player,
-// 		t_collider *collider, t_vector2 is_xy)
-// {
-// 	if (!player->dir.x && !player->dir.y)
-// 		return ;
-// 	if (is_xy.x)
-// 	{
-// 		if (player->dir.x < 0)
-// 		{
-// 			player->exact_pos.x = collider->pos->x + SIZE_CHUNK;
-// 			player->pos->x = floor(player->exact_pos.x);
-// 		}
-// 		else
-// 		{
-// 			player->exact_pos.x = collider->pos->x - PLAYER_WIDTH;
-// 			player->pos->x = floor(player->exact_pos.x);
-// 		}
-// 	}
-// 	if (is_xy.y)
-// 	{
-// 		if (player->dir.y < 0)
-// 		{
-// 			player->exact_pos.y = collider->pos->y + SIZE_CHUNK;
-// 			player->pos->y = floor(player->exact_pos.y);
-// 		}
-// 		else
-// 		{
-// 			player->exact_pos.y = collider->pos->y - PLAYER_HEIGHT;
-// 			player->pos->y = floor(player->exact_pos.y);
-// 		}
-// 	}
-// }
 
 void	player_movement(t_game *game, t_player *player)
 {
