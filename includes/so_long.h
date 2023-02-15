@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/15 18:51:37 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/15 21:39:58 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@
 # define ANIM_NB_RUN_E 5
 
 // --=======----=======-- DEBUG --=======----=======--
-# define ISDEBUG 0
+# define ISDEBUG 1
 
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
@@ -310,6 +310,8 @@ char			*get_address_at(t_sprite *sprite, int x, int y);
 size_t			ft_strlen(const char *s);
 int				equals(char	*s1, char *s2);
 void			*ft_calloc(size_t nmemb, size_t size);
+char			*ft_strdup(const char *s);
+void			*ft_memset(void *s, int c, size_t n);
 
 // list.c
 t_list			*ft_lstnew(char *content);
@@ -414,7 +416,10 @@ t_vector2		sub_vector2(t_vector2 vec1, t_vector2 vec2);
 void			cpy_vector(t_vector2 *dest, t_vector2 src);
 
 //pathfinding.c
-void			a_star(t_game *game, t_vector2 dest);
+void			a_star(t_game *game, t_vector2 src, t_vector2 dest, char **path_map);
+
+// check_valid_path.c
+int				check_valid_path(t_game *game);
 
 // animations.c
 void			camera_animation_to_exit(t_level *lvl);

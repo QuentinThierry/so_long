@@ -14,6 +14,7 @@ SRC = $(addprefix $(SRC_DIR), \
 	bettermlx.c \
 	camera.c \
 	camera_utils.c \
+	check_valid_path.c \
 	chunks_utils.c \
 	chunks.c \
 	collision.c \

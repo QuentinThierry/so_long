@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:19:55 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/15 19:02:53 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/15 21:34:06 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	enemy_movement(t_game *game)
 		find_chunk_under(game->lvl->canvas, enemy->sprite);
 		if (enemy->is_triggered)
 		{
-			a_star(game, *enemy->pos);
+			a_star(game, *enemy->pos, game->lvl->canvas->chunks[game->lvl->exit_chunk].pos, NULL);
 			enemy->dir = 
 					direction_normalized(*enemy->pos,
 					*enemy->target->pos);

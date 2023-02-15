@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 00:05:30 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/11 17:07:54 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/15 21:39:47 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,4 +149,32 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	while (i < (size * nmemb))
 		((char *)res)[i++] = 0;
 	return (res);
+}
+
+char	*ft_strdup(const char *s)
+{
+	char	*res;
+	size_t	i;
+
+	res = malloc(sizeof(char) * (ft_strlen(s) + 1));
+	if (!res)
+		return (NULL);
+	i = 0;
+	while (s[i])
+	{
+		res[i] = ((char *)s)[i];
+		i++;
+	}
+	res[i] = 0;
+	return (res);
+}
+
+void	*ft_memset(void *s, int c, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < n)
+		((char *)s)[i++] = c;
+	return (s);
 }
