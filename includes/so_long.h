@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/15 18:02:36 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/15 18:43:48 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,6 +239,7 @@ typedef struct s_enemy
 	struct s_sprite		*sprite;
 	t_vector2			*size;
 	t_vector2			*pos;
+	struct timeval		anim_time;
 	t_fvector2			exact_pos;
 	t_fvector2			dir;
 	struct s_collider	*collider;

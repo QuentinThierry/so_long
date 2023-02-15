@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 20:30:28 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/15 01:34:53 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/15 18:42:24 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,25 +70,23 @@ void	_enemy_idle_animation_rare(t_enemy *enemy, struct timeval *last_time)
 
 void	play_anim_enemy(t_game *game, t_enemy *enemy)
 {
-	static struct timeval	anim_time = {0, 0};
-
-	if (anim_time.tv_sec == 0 && anim_time.tv_usec == 0)
-		anim_time = game->lvl->start_time;
+	if (enemy->anim_time.tv_sec == 0 && enemy->anim_time.tv_usec == 0)
+		enemy->anim_time = game->lvl->start_time;
 	if (enemy->is_triggered)
 	{
 		if (enemy->sprite->image_id < e_enemy_run_0_0)
 			enemy->sprite->image_id = e_enemy_run_0_0;
-		_enemy_run_animation(enemy, &anim_time);
+		_enemy_run_animation(enemy, &enemy->anim_time);
 	}
 	else
 	{
 		if (enemy->sprite->image_id >= e_enemy_run_0_0)
 			enemy->sprite->image_id = e_enemy_idle_0_0;
 		if (enemy->sprite->image_id >= e_enemy_idle_1_0)
-			_enemy_idle_animation_rare(enemy, &anim_time);
+			_enemy_idle_animation_rare(enemy, &enemy->anim_time);
 		else
 		{
-			if (_enemy_idle_animation_base(enemy, &anim_time)
+			if (_enemy_idle_animation_base(enemy, &enemy->anim_time)
 				&& (rand() % 100) < ANIM_RARE_IDLE_CHANCE_E)
 				enemy->sprite->image_id = e_enemy_idle_1_0;
 		}

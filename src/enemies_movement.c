@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:19:55 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/15 18:02:17 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/15 18:42:39 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,9 @@ static void	_move_enemy(t_game *game, int id, int is_x, int is_y)
 	}
 }
 
-
 static void	_reverse_move_enemy(t_enemy *enemy,
 		t_collider *collider, t_vector2 is_xy)
 {
-	if (!enemy->dir.x && !enemy->dir.y)
-		return ;
 	if (!enemy->dir.x && !enemy->dir.y)
 		return ;
 	if (is_xy.x)
@@ -78,14 +75,14 @@ void	check_trigger_enemy(t_game *game, t_player *player)
 	i = 0;
 	while (game->lvl->enemies[i])
 	{
-		if (is_inside_load_range(game, *game->lvl->enemies[i]->pos))
-		{
+		// if (is_inside_load_range(game, *game->lvl->enemies[i]->pos))
+		// {
 			if (sqrdistance(*game->lvl->enemies[i]->pos, *player->pos)
 				< DISTANCE_AGGRO * DISTANCE_AGGRO)
 				game->lvl->enemies[i]->is_triggered = 1;
 			else
 				game->lvl->enemies[i]->is_triggered = 0;
-		}
+		// }
 		++i;
 	}
 }

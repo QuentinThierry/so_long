@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:25:50 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/15 16:44:11 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/15 18:41:56 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static t_enemy	*_instantiate_enemy(t_img **images, int id)
 	if (!enemy->sprite)
 		return (free(enemy), NULL);
 	enemy->sprite->image_id = e_enemy_idle_0_0;
+	enemy->anim_time = (struct timeval){0, 0};
 	btmlx_get_addr(enemy->sprite, images[e_enemy_idle_0_0]);
 	enemy->pos = &enemy->sprite->pos;
 	enemy->size = &enemy->sprite->size;
