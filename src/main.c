@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/15 05:40:05 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/15 18:04:34 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,16 +75,6 @@ void	init_map_variables(t_game *game)
 	}
 	recalculate_chunks(game->lvl);
 	clear_chunks_to_redraw(game->lvl->canvas);
-}
-
-int	is_inside_load_range(t_game *game, t_vector2 pos)
-{
-	return (pos.x > game->lvl->cam->pos->x - OFFSET_CAM_LOAD
-		&& pos.x < game->lvl->cam->pos->x
-			+ game->lvl->cam->size->x + OFFSET_CAM_LOAD
-		&& pos.y < game->lvl->cam->pos->y
-			+ game->lvl->cam->size->y + OFFSET_CAM_LOAD
-		&& pos.y > game->lvl->cam->pos->y - OFFSET_CAM_LOAD);
 }
 
 void	move_camera_on_player(t_camera *cam, t_player *player)

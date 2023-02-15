@@ -13,6 +13,7 @@ SRC = $(addprefix $(SRC_DIR), \
 	animations_player.c \
 	bettermlx.c \
 	camera.c \
+	camera_utils.c \
 	chunks_utils.c \
 	chunks.c \
 	collision.c \

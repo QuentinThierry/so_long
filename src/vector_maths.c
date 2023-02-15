@@ -6,11 +6,31 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 02:16:51 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/10 18:13:14 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/15 17:53:10 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
+
+t_vector2	add_vector2(t_vector2 vec1, t_vector2 vec2)
+{
+	vec1.x += vec2.x; 
+	vec1.y += vec2.y;
+	return (vec1);
+}
+
+t_vector2	sub_vector2(t_vector2 vec1, t_vector2 vec2)
+{
+	vec1.x -= vec2.x;
+	vec1.y -= vec2.y;
+	return (vec1);
+}
+
+void	cpy_vector(t_vector2 *dest, t_vector2 src)
+{
+	dest->x = src.x;
+	dest->y = src.y;
+}
 
 float	magnitude(t_vector2 vector)
 {

@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/15 01:35:15 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/15 18:02:36 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@
 //# define NB_RUN 8
 # define ANIM_NB_IDLE0_E 5
 # define ANIM_NB_IDLE1_E 14
-# define ANIM_RARE_IDLE_CHANCE_E 50
+# define ANIM_RARE_IDLE_CHANCE_E 10
 # define ANIM_TIME_IDLE0_E 0.3
 # define ANIM_TIME_IDLE1_E 0.3
 # define ANIM_TIME_RUN_E 0.1
@@ -329,6 +329,11 @@ int				find_exit_chunk(char *map);
 void			render_camera(t_level *lvl, t_vector2 pos);
 void			move_camera(t_game *game);
 
+// camera_utils.c
+t_vector2		get_offset_for_cam(t_camera *cam, t_vector2 pos_to_offset);
+int				is_inside_load_range(t_game *game, t_vector2 pos);
+int				is_inside_camera(t_camera *cam, t_vector2 pos);
+
 // bettermlx.c
 void			btmlx_get_addr(t_sprite *sprite, t_img *img);
 t_img			*btmlx_xpm_file_to_image(void *mlx, char *path,
@@ -402,6 +407,10 @@ float			distance(t_vector2 src, t_vector2 dest);
 int				sqrdistance(t_vector2 src, t_vector2 dest);
 t_fvector2		direction_normalized(t_vector2 src, t_vector2 dest);
 
+t_vector2		add_vector2(t_vector2 vec1, t_vector2 vec2); 
+t_vector2		sub_vector2(t_vector2 vec1, t_vector2 vec2);
+void			cpy_vector(t_vector2 *dest, t_vector2 src);
+
 //pathfinding.c
 void			a_star(t_game *game, t_vector2 dest);
 
@@ -421,8 +430,8 @@ void			flip_image_y(t_sprite *sprite);
 void			flip_image_x(t_sprite *sprite);
 
 // image_operations.c
-int				draw_image_on_image(t_sprite *dest, t_sprite *src,
-					t_vector2 pos, int is_alpha_sensitive);
+int	draw_image_on_image(t_sprite *dest, t_sprite *src,
+						t_vector2 pos, int is_alpha_sensitive);
 void			clear_image(t_sprite *sprite);
 
 // colors.c
@@ -440,6 +449,5 @@ void			draw_shortest_path(t_level *lvl, int end);
 // main.c
 void			draw_rectangle(t_sprite *sprite, t_vector2 pos,
 					t_vector2 size, int color);
-int				is_inside_load_range(t_game *game, t_vector2 pos);
 
 #endif
