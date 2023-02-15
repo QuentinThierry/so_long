@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 02:00:21 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/12 01:49:25 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/15 01:35:15 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,26 +107,30 @@ enum e_img_id
 	e_collec3_2,
 	e_collec3_3,
 	e_collec3_4,
-	e_enemy_0_0,
-	e_enemy_0_1,
-	e_enemy_0_2,
-	e_enemy_0_3,
-	e_enemy_0_4,
-	e_enemy_1_0,
-	e_enemy_1_1,
-	e_enemy_1_2,
-	e_enemy_1_3,
-	e_enemy_1_4,
-	e_enemy_2_0,
-	e_enemy_2_1,
-	e_enemy_2_2,
-	e_enemy_2_3,
-	e_enemy_2_4,
-	e_enemy_3_0,
-	e_enemy_3_1,
-	e_enemy_3_2,
-	e_enemy_3_3,
-	e_enemy_3_4,
+	e_enemy_idle_0_0,
+	e_enemy_idle_0_1,
+	e_enemy_idle_0_2,
+	e_enemy_idle_0_3,
+	e_enemy_idle_0_4,
+	e_enemy_idle_1_0,
+	e_enemy_idle_1_1,
+	e_enemy_idle_1_2,
+	e_enemy_idle_1_3,
+	e_enemy_idle_1_4,
+	e_enemy_idle_1_5,
+	e_enemy_idle_1_6,
+	e_enemy_idle_1_7,
+	e_enemy_idle_1_8,
+	e_enemy_idle_1_9,
+	e_enemy_idle_1_10,
+	e_enemy_idle_1_11,
+	e_enemy_idle_1_12,
+	e_enemy_idle_1_13,
+	e_enemy_run_0_0,
+	e_enemy_run_0_1,
+	e_enemy_run_0_2,
+	e_enemy_run_0_3,
+	e_enemy_run_0_4,
 	e_nb_img
 };
 
@@ -173,8 +177,32 @@ enum e_img_id
 # define FOREST_FLOWER_D "assets/forest/forest_flower_d.xpm"
 
 // ENNEMIES G
-# define FOREST_GHOST "assets/forest/forest_ghost.xpm"
-# define FOREST_GHOST_A "assets/forest/forest_ghost_angry.xpm"
+# define SLIME_B_IDLE0_0 "assets/slime/slime_b_idle0_0.xpm"
+# define SLIME_B_IDLE0_1 "assets/slime/slime_b_idle0_1.xpm"
+# define SLIME_B_IDLE0_2 "assets/slime/slime_b_idle0_2.xpm"
+# define SLIME_B_IDLE0_3 "assets/slime/slime_b_idle0_3.xpm"
+# define SLIME_B_IDLE0_4 "assets/slime/slime_b_idle0_4.xpm"
+# define SLIME_B_IDLE1_0 "assets/slime/slime_b_idle1_0.xpm"
+# define SLIME_B_IDLE1_1 "assets/slime/slime_b_idle1_1.xpm"
+# define SLIME_B_IDLE1_2 "assets/slime/slime_b_idle1_2.xpm"
+# define SLIME_B_IDLE1_3 "assets/slime/slime_b_idle1_3.xpm"
+# define SLIME_B_IDLE1_4 "assets/slime/slime_b_idle1_4.xpm"
+# define SLIME_B_IDLE1_5 "assets/slime/slime_b_idle1_5.xpm"
+# define SLIME_B_IDLE1_6 "assets/slime/slime_b_idle1_6.xpm"
+# define SLIME_B_IDLE1_7 "assets/slime/slime_b_idle1_7.xpm"
+# define SLIME_B_IDLE1_8 "assets/slime/slime_b_idle1_8.xpm"
+# define SLIME_B_IDLE1_9 "assets/slime/slime_b_idle1_9.xpm"
+# define SLIME_B_IDLE1_10 "assets/slime/slime_b_idle1_10.xpm"
+# define SLIME_B_IDLE1_11 "assets/slime/slime_b_idle1_11.xpm"
+# define SLIME_B_IDLE1_12 "assets/slime/slime_b_idle1_12.xpm"
+# define SLIME_B_IDLE1_13 "assets/slime/slime_b_idle1_13.xpm"
+
+# define SLIME_B_RUN0_0 "assets/slime/slime_b_run0_0.xpm"
+# define SLIME_B_RUN0_1 "assets/slime/slime_b_run0_1.xpm"
+# define SLIME_B_RUN0_2 "assets/slime/slime_b_run0_2.xpm"
+# define SLIME_B_RUN0_3 "assets/slime/slime_b_run0_3.xpm"
+# define SLIME_B_RUN0_4 "assets/slime/slime_b_run0_4.xpm"
+
 
 # define FOREST_TREE1 "assets/forest/forest_tree.xpm"
 # define FOREST_TREE2 "assets/forest/forest_tree2.xpm"

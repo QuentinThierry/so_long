@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:25:50 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/09 19:41:04 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/14 21:05:26 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ static t_enemy	*_instantiate_enemy(t_img **images, int id)
 	enemy->sprite = ft_calloc(sizeof(t_sprite), 1);
 	if (!enemy->sprite)
 		return (free(enemy), NULL);
-	enemy->sprite->image_id = e_enemy_0_0;
-	btmlx_get_addr(enemy->sprite, images[e_enemy_0_0]);
+	enemy->sprite->image_id = e_enemy_idle_0_0;
+	btmlx_get_addr(enemy->sprite, images[e_enemy_idle_0_0]);
 	enemy->pos = &enemy->sprite->pos;
 	enemy->size = &enemy->sprite->size;
 	enemy->collider = ft_calloc(sizeof(t_collider), 1);

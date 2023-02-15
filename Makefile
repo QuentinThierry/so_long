@@ -9,6 +9,7 @@ LIBS = -L$(INCLUDES)mlx -lmlx -lXext -lX11 -lm
 
 SRC = $(addprefix $(SRC_DIR), \
 	animations.c \
+	animations_enemies.c \
 	animations_player.c \
 	bettermlx.c \
 	camera.c \

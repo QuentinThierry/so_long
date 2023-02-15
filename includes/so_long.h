@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/14 05:08:47 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/15 01:35:15 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,13 +88,21 @@
 # define HAS_CAM_ANIM 0
 # define CAM_ANIM_TIME_SEC 5
 # define OFFSET_CAM_LOAD SIZE_CHUNK
-# define ANIM_NB_IDLE 6
-# define ANIM_RARE_IDLE_CHANCE 3
-# define ANIM_TIME_IDLE0 0.3
-# define ANIM_TIME_IDLE1 1
-# define ANIM_NB_RUN 8
-# define ANIM_TIME_RUN 0.2
-# define NB_RUN 8
+
+# define ANIM_NB_IDLE_P 6
+# define ANIM_RARE_IDLE_CHANCE_P 3
+# define ANIM_TIME_IDLE0_P 0.3
+# define ANIM_TIME_IDLE1_P 1
+# define ANIM_TIME_RUN_P 0.2
+# define ANIM_NB_RUN_P 8
+//# define NB_RUN 8
+# define ANIM_NB_IDLE0_E 5
+# define ANIM_NB_IDLE1_E 14
+# define ANIM_RARE_IDLE_CHANCE_E 50
+# define ANIM_TIME_IDLE0_E 0.3
+# define ANIM_TIME_IDLE1_E 0.3
+# define ANIM_TIME_RUN_E 0.1
+# define ANIM_NB_RUN_E 5
 
 // --=======----=======-- DEBUG --=======----=======--
 # define ISDEBUG 0
@@ -397,9 +405,12 @@ t_fvector2		direction_normalized(t_vector2 src, t_vector2 dest);
 //pathfinding.c
 void			a_star(t_game *game, t_vector2 dest);
 
-// animations1.c
+// animations.c
 void			camera_animation_to_exit(t_level *lvl);
 void			play_animations(t_game *game);
+
+// animations_enemies.c
+void			play_anim_enemy(t_game *game, t_enemy *enemy);
 
 // animations_player
 void			play_anim_player1(t_game *game);

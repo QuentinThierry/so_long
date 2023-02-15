@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:42:19 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/14 05:09:21 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/15 01:26:08 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,16 @@ void	camera_animation_to_exit(t_level *lvl)
 
 void	play_animations(t_game *game)
 {
+	int	i;
+
 	play_anim_player1(game);
 	if (game->lvl->player2)
 		play_anim_player2(game);
+	i = 0;
+	while (game->lvl->enemies[i])
+	{
+		if (is_inside_load_range(game, *game->lvl->enemies[i]->pos))
+			play_anim_enemy(game, game->lvl->enemies[i]);
+		i++;
+	}
 }
