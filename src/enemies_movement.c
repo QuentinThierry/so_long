@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:19:55 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/15 18:42:39 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/15 19:02:53 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,45 +75,52 @@ void	check_trigger_enemy(t_game *game, t_player *player)
 	i = 0;
 	while (game->lvl->enemies[i])
 	{
-		// if (is_inside_load_range(game, *game->lvl->enemies[i]->pos))
-		// {
+		if (is_inside_load_range(game, *game->lvl->enemies[i]->pos))
+		{
 			if (sqrdistance(*game->lvl->enemies[i]->pos, *player->pos)
 				< DISTANCE_AGGRO * DISTANCE_AGGRO)
+			{
 				game->lvl->enemies[i]->is_triggered = 1;
-			else
+				game->lvl->enemies[i]->target = player;
+			}
+			else if (game->lvl->enemies[i]->target == player)
+			{
 				game->lvl->enemies[i]->is_triggered = 0;
-		// }
+				game->lvl->enemies[i]->target = NULL;
+			}
+		}
 		++i;
 	}
 }
 
 void	enemy_movement(t_game *game)
 {
-	int	i;
-	t_collider *collider;
+	int			i;
+	t_collider	*collider;
+	t_enemy		*enemy;
 
 	i = -1;
-
 	while (game->lvl->enemies[++i])
 	{
-		if (!is_inside_load_range(game, *game->lvl->enemies[i]->pos))
+		enemy = game->lvl->enemies[i];
+		if (!is_inside_load_range(game, *enemy->pos))
 			continue ;
-		find_chunk_under(game->lvl->canvas, game->lvl->enemies[i]->sprite);
-		if (game->lvl->enemies[i]->is_triggered)
+		find_chunk_under(game->lvl->canvas, enemy->sprite);
+		if (enemy->is_triggered)
 		{
-			a_star(game, *game->lvl->enemies[i]->pos);
-			game->lvl->enemies[i]->dir = 
-					direction_normalized(*game->lvl->enemies[i]->pos,
-					*game->lvl->player1->pos);
+			a_star(game, *enemy->pos);
+			enemy->dir = 
+					direction_normalized(*enemy->pos,
+					*enemy->target->pos);
 			_move_enemy(game, i, 1, 0);
-			collider = check_wall_collision(game->lvl, game->lvl->enemies[i]->collider);
+			collider = check_wall_collision(game->lvl, enemy->collider);
 			if (collider)
-				_reverse_move_enemy(game->lvl->enemies[i], collider, (t_vector2){1, 0});
+				_reverse_move_enemy(enemy, collider, (t_vector2){1, 0});
 			_move_enemy(game, i, 0, 1);
-			collider = check_wall_collision(game->lvl, game->lvl->enemies[i]->collider);
+			collider = check_wall_collision(game->lvl, enemy->collider);
 			if (collider)
-				_reverse_move_enemy(game->lvl->enemies[i], collider, (t_vector2){0, 1});
-			find_chunk_under(game->lvl->canvas, game->lvl->enemies[i]->sprite);
+				_reverse_move_enemy(enemy, collider, (t_vector2){0, 1});
+			find_chunk_under(game->lvl->canvas, enemy->sprite);
 		}
 	}
 }

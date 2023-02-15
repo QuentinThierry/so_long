@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/15 18:43:48 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/15 18:51:37 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,6 +244,7 @@ typedef struct s_enemy
 	t_fvector2			dir;
 	struct s_collider	*collider;
 	int					is_triggered;
+	struct s_player		*target;
 }	t_enemy;
 
 typedef struct s_sprite

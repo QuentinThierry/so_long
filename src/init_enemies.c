@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:25:50 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/15 18:41:56 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/15 18:52:29 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	init_enemies(t_game *game)
 	nb_enemies = 0;
 	while (i < game->lvl->canvas->nb_chunks.y * game->lvl->canvas->nb_chunks.x)
 	{
-		if (game->lvl->map[i] == 'G')
+		if (game->lvl->map[i] == 'S')
 			nb_enemies++;
 		i++;
 	}
@@ -61,7 +61,7 @@ int	init_enemies(t_game *game)
 	j = 0;
 	while (i < game->lvl->canvas->nb_chunks.y * game->lvl->canvas->nb_chunks.x)
 	{
-		if (game->lvl->map[i] == 'G')
+		if (game->lvl->map[i] == 'S')
 		{
 			game->lvl->enemies[j] = _instantiate_enemy(game->lvl->images, j);
 			if (!game->lvl->enemies[j])
