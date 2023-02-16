@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 17:52:15 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/15 21:44:25 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/16 21:39:47 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	_get_min(t_level *lvl, int nb_cases)
 		}
 		++i;
 	}
-	if (min > -1)
+	if (min_pos > -1)
 		lvl->path_grid[min_pos].has_been_check = 1;
 	return (min_pos);
 }
@@ -79,7 +79,7 @@ static int	_fill_the_four(t_level *lvl, int pos, int end_chunk, char *path_map)
 				+ lvl->path_grid[index].dst_end;
 		if (lvl->path_grid[pos].parent != index)
 			lvl->path_grid[index].parent = pos;
-		if (lvl->path_grid[index].dst_end == 0 || (path_map && path_map[i] == '1'))
+		if ((lvl->path_grid[index].dst_end == 0) || (path_map && path_map[index] == '1'))
 			return (index);
 		++i;
 	}
@@ -88,12 +88,10 @@ static int	_fill_the_four(t_level *lvl, int pos, int end_chunk, char *path_map)
 
 void	_fill_map(t_path_case *path_grid, char **map)
 {
-	size_t	i;
-	size_t	size;
+	int	i;
 
 	i = 0;
-	size = ft_strlen(*map);
-	while (i < size)
+	while ((*map)[i])
 	{
 		if (path_grid[i].has_been_check)
 			(*map)[i] = '1';
@@ -101,7 +99,7 @@ void	_fill_map(t_path_case *path_grid, char **map)
 	}
 }
 
-void	a_star(t_game *game, t_vector2 src, t_vector2 dest, char **path_map)
+int	a_star(t_game *game, t_vector2 src, t_vector2 dest, char **path_map)
 {
 	int	start_chunk;
 	int	end_chunk;
@@ -117,23 +115,28 @@ void	a_star(t_game *game, t_vector2 src, t_vector2 dest, char **path_map)
 	game->lvl->path_grid[start_chunk].dst_end = sqrdistance(game->lvl->canvas->chunks[start_chunk].pos,
 			game->lvl->canvas->chunks[end_chunk].pos) / SIZE_CHUNK;
 	if (game->lvl->path_grid[start_chunk].dst_end == 0)
-		return ;
+		return (1);
 	game->lvl->path_grid[start_chunk].tot = game->lvl->path_grid[start_chunk].dst_end;
 	min = 0;
 	while (!end)
 	{
+		min = _get_min(game->lvl, nb_cases);
 		if (min == -1)
 			break;
-		min = _get_min(game->lvl, nb_cases);
 		if (path_map)
 			end = _fill_the_four(game->lvl, min, end_chunk, *path_map);
 		else
 			end = _fill_the_four(game->lvl, min, end_chunk, NULL);
 	}
+	if (!end)
+		return (0);
 	if (ISDEBUG && min > -1)
 		draw_shortest_path(game->lvl, end);
 	if (path_map)
+	{
 		_fill_map(game->lvl->path_grid, path_map);
+	}
+	return (end);
 }
 
 // void	print_parents(t_level *lvl, int i)
@@ -149,7 +152,26 @@ void	a_star(t_game *game, t_vector2 src, t_vector2 dest, char **path_map)
 // 	}
 // }
 
-// void	print_path(t_game *game)
+// void	_print_map2(int map_size, int mapx, char *map)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	printf("\n");
+// 	while (i < map_size)
+// 	{
+// 		if (map[i] == '1')
+// 			printf("\e[108m");
+// 		printf("%3d ", map[i]);
+// 		if (i % mapx == mapx - 1)
+// 			printf("\n");
+// 		if (map[i] == '1')
+// 			printf("\e[0m");
+// 		i++;
+// 	}
+// }
+
+// static void	_print_path(t_game *game)
 // {
 // 	int i;
 

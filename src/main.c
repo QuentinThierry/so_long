@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/15 21:43:48 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/16 21:38:58 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,6 @@ t_game	init_values(char *map, t_vector2 map_size)
 	game.lvl->map = map;
 	game.lvl->map_size = map_size;
 	game.lvl->exit_chunk = find_exit_chunk(game.lvl->map);
-	
 	load_images_forest(&game);
 	init_base_images(&game);
 	init_lvl_base(&game);
@@ -196,7 +195,8 @@ int	on_start(t_game *game, char *map, t_vector2 map_size)
 	gettimeofday(&game->lvl->start_time, NULL);
 
 	game->lvl->is_animating_cam = HAS_CAM_ANIM;
-	check_valid_path(game);
+	if(check_valid_path(game) != 1)
+		exit_game(game);
 	return (0);
 }
 

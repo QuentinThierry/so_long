@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/15 21:39:58 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/16 21:09:10 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -416,7 +416,7 @@ t_vector2		sub_vector2(t_vector2 vec1, t_vector2 vec2);
 void			cpy_vector(t_vector2 *dest, t_vector2 src);
 
 //pathfinding.c
-void			a_star(t_game *game, t_vector2 src, t_vector2 dest, char **path_map);
+int				a_star(t_game *game, t_vector2 src, t_vector2 dest, char **path_map);
 
 // check_valid_path.c
 int				check_valid_path(t_game *game);
@@ -437,7 +437,7 @@ void			flip_image_y(t_sprite *sprite);
 void			flip_image_x(t_sprite *sprite);
 
 // image_operations.c
-int	draw_image_on_image(t_sprite *dest, t_sprite *src,
+int				draw_image_on_image(t_sprite *dest, t_sprite *src,
 						t_vector2 pos, int is_alpha_sensitive);
 void			clear_image(t_sprite *sprite);
 
