@@ -6,12 +6,11 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:01:50 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/17 02:45:10 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/17 19:05:43 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
-#include <sys/mman.h>
 
 unsigned int	_get_color_at(t_sprite *pict, t_vector2 pos)
 {
@@ -76,6 +75,19 @@ void	blend_image_to_image(t_sprite *back, t_sprite *front,
 	height = fmin(back->size.y, front->size.y);
 	if (pos.x + width > back->size.x)
 		width -= pos.x + width - back->size.x;
+	if (pos.x < front->pos.x)
+	{
+		width += pos.x;
+		pos.x = 0;
+	}
+	if (pos.y + height > back->size.y)
+		height -= pos.y + height - back->size.y;
+	if (pos.y < 0)
+	{
+		height += pos.y;
+		pos.y = 0;
+	}
+
 	y = pos.y;
 	height += pos.y;
 	width += pos.x;

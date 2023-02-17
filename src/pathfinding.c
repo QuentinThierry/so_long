@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 17:52:15 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/16 21:39:47 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/17 18:35:14 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,29 +27,30 @@ static int	_get_new_case(int pos, int mapx, int dir)
 
 static int	_get_min(t_level *lvl, int nb_cases)
 {
-	int				i;
 	int	min;
-	int				min_pos;
+	int	min_pos;
+	int	i;
 
-	i = 0;
-	min = 0;
+	min = __INT_MAX__;
 	min_pos = -1;
+	i = 0;
 	while (i < nb_cases)
 	{
-		if ((lvl->path_grid[i].tot < min || min == 0) && lvl->path_grid[i].tot > 0
-			&& !lvl->path_grid[i].has_been_check)
+		if (!lvl->path_grid[i].has_been_check
+			&& lvl->path_grid[i].tot > 0
+			&& (lvl->path_grid[i].tot < min))
 		{
 			min = lvl->path_grid[i].tot;
 			min_pos = i;
 		}
-		++i;
+		i++;
 	}
 	if (min_pos > -1)
 		lvl->path_grid[min_pos].has_been_check = 1;
 	return (min_pos);
 }
 
-static int	_fill_the_four(t_level *lvl, int pos, int end_chunk, char *path_map)
+static int	_fill_the_four(t_level *lvl, int pos, char *path_map)
 {
 	int i;
 	int	index;
@@ -62,7 +63,7 @@ static int	_fill_the_four(t_level *lvl, int pos, int end_chunk, char *path_map)
 			continue ;
 		if (lvl->map[index] == '1' && ++i)
 		{
-			lvl->path_grid[index] = (t_path_case){-2, -2, -2, 0, -1};
+			lvl->path_grid[index] = (t_path_case){__INT_MAX__, -2, 0, -1};
 			continue ;
 		}
 		if (lvl->path_grid[index].dst_start &&
@@ -72,14 +73,11 @@ static int	_fill_the_four(t_level *lvl, int pos, int end_chunk, char *path_map)
 			continue ;
 		}
 		lvl->path_grid[index].dst_start = lvl->path_grid[pos].dst_start + 1;
-		lvl->path_grid[index].dst_end =
-				(sqrdistance(lvl->canvas->chunks[index].pos,
-				lvl->canvas->chunks[end_chunk].pos) + 1) / SIZE_CHUNK;
 		lvl->path_grid[index].tot = lvl->path_grid[index].dst_start
-				+ lvl->path_grid[index].dst_end;
+				+ lvl->dist_table[index];
 		if (lvl->path_grid[pos].parent != index)
 			lvl->path_grid[index].parent = pos;
-		if ((lvl->path_grid[index].dst_end == 0) || (path_map && path_map[index] == '1'))
+		if ((lvl->dist_table[index] == 0) || (path_map && path_map[index] == '1'))
 			return (index);
 		++i;
 	}
@@ -99,10 +97,9 @@ void	_fill_map(t_path_case *path_grid, char **map)
 	}
 }
 
-int	a_star(t_game *game, t_vector2 src, t_vector2 dest, char **path_map)
+int	a_star(t_game *game, t_vector2 src, char **path_map)
 {
 	int	start_chunk;
-	int	end_chunk;
 	int	nb_cases;
 	int	min;
 	int	end;
@@ -110,13 +107,10 @@ int	a_star(t_game *game, t_vector2 src, t_vector2 dest, char **path_map)
 	end = 0;
 	nb_cases = game->lvl->map_size.x * game->lvl->map_size.y;
 	start_chunk = pos_to_chunk(game->lvl, src.x, src.y);
-	end_chunk = pos_to_chunk(game->lvl, dest.x, dest.y);
 	ft_bzero(game->lvl->path_grid, nb_cases * sizeof(t_path_case));
-	game->lvl->path_grid[start_chunk].dst_end = sqrdistance(game->lvl->canvas->chunks[start_chunk].pos,
-			game->lvl->canvas->chunks[end_chunk].pos) / SIZE_CHUNK;
-	if (game->lvl->path_grid[start_chunk].dst_end == 0)
+	if (game->lvl->dist_table[start_chunk] == 0)
 		return (1);
-	game->lvl->path_grid[start_chunk].tot = game->lvl->path_grid[start_chunk].dst_end;
+	game->lvl->path_grid[start_chunk].tot = game->lvl->dist_table[start_chunk];
 	min = 0;
 	while (!end)
 	{
@@ -124,9 +118,9 @@ int	a_star(t_game *game, t_vector2 src, t_vector2 dest, char **path_map)
 		if (min == -1)
 			break;
 		if (path_map)
-			end = _fill_the_four(game->lvl, min, end_chunk, *path_map);
+			end = _fill_the_four(game->lvl, min, *path_map);
 		else
-			end = _fill_the_four(game->lvl, min, end_chunk, NULL);
+			end = _fill_the_four(game->lvl, min, NULL);
 	}
 	if (!end)
 		return (0);
@@ -188,3 +182,6 @@ int	a_star(t_game *game, t_vector2 src, t_vector2 dest, char **path_map)
 // 	}
 // 	printf("\n");
 // }
+
+
+

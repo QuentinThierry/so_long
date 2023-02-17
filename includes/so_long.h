@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/17 03:00:02 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/17 18:33:17 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ typedef struct s_level
 	int					nb_move;
 	struct s_sprite		*debug_sprite;
 	struct s_sprite		*debug_tile_sprite;
+	int					*dist_table;
 }	t_level;
 
 typedef struct s_canvas
@@ -207,7 +208,6 @@ typedef struct s_collider
 typedef struct s_path_case
 {
 	int	tot;
-	int	dst_end;
 	int	dst_start;
 	int	has_been_check;
 	int	parent;
@@ -397,7 +397,7 @@ t_vector2		sub_vector2(t_vector2 vec1, t_vector2 vec2);
 void			cpy_vector(t_vector2 *dest, t_vector2 src);
 
 //pathfinding.c
-int				a_star(t_game *game, t_vector2 src, t_vector2 dest, char **path_map);
+int				a_star(t_game *game, t_vector2 src, char **path_map);
 
 // check_valid_path.c
 int				check_valid_path(t_game *game);

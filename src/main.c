@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/17 02:54:44 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/17 19:21:14 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,9 +122,9 @@ int	on_update(t_game *game)
 	play_animations(game);
 	recalculate_chunks(game->lvl);
 	draw_on_window(game);
-	a_star(game, *game->lvl->player1->pos, game->lvl->canvas->chunks[game->lvl->exit_chunk].pos, NULL);
+	a_star(game, *game->lvl->player1->pos, NULL);
 	if (game->lvl->player2)
-		a_star(game, *game->lvl->player2->pos, game->lvl->canvas->chunks[game->lvl->exit_chunk].pos, NULL);
+		a_star(game, *game->lvl->player2->pos, NULL);
 	mlx_put_image_to_window(game->mlx, game->window,
 			game->lvl->cam->sprite->img_ptr, 0, 0);
 	clear_chunks_to_redraw(game->lvl->canvas);
@@ -178,6 +178,19 @@ t_game	init_values(char *map, t_vector2 map_size)
 	return (game);
 }
 
+void	init_dist_table(t_level *lvl, int *table, int size)
+{
+	int	i;
+
+	i = 0;
+	while (i < size)
+	{
+		table[i] = sqrdistance(lvl->canvas->chunks[i].pos,
+			lvl->canvas->chunks[lvl->exit_chunk].pos) / SIZE_CHUNK;
+		i++;
+	}
+}
+
 int	on_start(t_game *game, char *map, t_vector2 map_size)
 {
 	*game = init_values(map, map_size);
@@ -194,6 +207,7 @@ int	on_start(t_game *game, char *map, t_vector2 map_size)
 	gettimeofday(&game->lvl->start_time, NULL);
 
 	game->lvl->is_animating_cam = HAS_CAM_ANIM;
+	init_dist_table(game->lvl, game->lvl->dist_table, map_size.x * map_size.y);
 	if(check_valid_path(game) != 1)
 		exit_game(game);
 	return (0);

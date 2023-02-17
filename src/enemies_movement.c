@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:19:55 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/16 19:30:30 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/17 19:14:43 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,9 +108,7 @@ void	enemy_movement(t_game *game)
 		find_chunk_under(game->lvl->canvas, enemy->sprite);
 		if (enemy->is_triggered)
 		{
-			a_star(game, *enemy->pos, game->lvl->canvas->chunks[game->lvl->exit_chunk].pos, NULL);
-			enemy->dir = 
-					direction_normalized(*enemy->pos,
+			enemy->dir = direction_normalized(*enemy->pos,
 					*enemy->target->pos);
 			_move_enemy(game, i, 1, 0);
 			collider = check_wall_collision(game->lvl, enemy->collider);
@@ -120,6 +118,7 @@ void	enemy_movement(t_game *game)
 			collider = check_wall_collision(game->lvl, enemy->collider);
 			if (collider)
 				_reverse_move_enemy(enemy, collider, (t_vector2){0, 1});
+
 			find_chunk_under(game->lvl->canvas, enemy->sprite);
 		}
 	}

@@ -1,5 +1,5 @@
 NAME =		so_long
-CFLAGS =	-g3 -Wall -Wextra -Ofast#-fsanitize=address #-Werror
+CFLAGS =	-g3 -pg -Wall -Wextra -Ofast #-fsanitize=address #-Werror
 DEPS =		$(INCLUDES)so_long.h \
 			$(INCLUDES)get_next_line.h \
 			$(INCLUDES)textures.h \
@@ -8,7 +8,7 @@ DEPS =		$(INCLUDES)so_long.h \
 INCLUDES	= includes/
 SRC_DIR		= src/
 OBJ_DIR		= obj/
-CC =		clang
+CC =		gcc
 LIBS =		-L$(INCLUDES)mlx -lmlx -lXext -lX11 -lm
 
 SRC =		$(addprefix $(SRC_DIR), \

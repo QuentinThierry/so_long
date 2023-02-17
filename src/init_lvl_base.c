@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 17:45:49 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/14 04:31:26 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/17 15:42:51 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ void	init_lvl_base(t_game *game)
 	game->lvl->nb_move = 0;
 	game->lvl->path_grid = ft_calloc(game->lvl->map_size.x *
 		game->lvl->map_size.y, sizeof(t_path_case));
+	game->lvl->dist_table = ft_calloc(game->lvl->map_size.x *
+		game->lvl->map_size.y, sizeof(int));
 	if (ISDEBUG)
 	{
 		game->lvl->debug_sprite = ft_calloc(sizeof(t_sprite), 1);

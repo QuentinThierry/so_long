@@ -6,30 +6,30 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 21:16:24 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/16 21:38:40 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/17 18:00:42 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
-void	_print_map(int map_size, int mapx, char *map)
-{
-	int	i;
+// void	_print_map(int map_size, int mapx, char *map)
+// {
+// 	int	i;
 
-	i = 0;
-	printf("\n");
-	while (i < map_size)
-	{
-		if (map[i] == '1')
-			printf("\e[105m");
-		printf("%3d ", map[i]);
-		if (i % mapx == mapx - 1)
-			printf("\n");
-		if (map[i] == '1')
-			printf("\e[0m");
-		i++;
-	}
-}
+// 	i = 0;
+// 	printf("\n");
+// 	while (i < map_size)
+// 	{
+// 		if (map[i] == '1')
+// 			printf("\e[105m");
+// 		printf("%3d ", map[i]);
+// 		if (i % mapx == mapx - 1)
+// 			printf("\n");
+// 		if (map[i] == '1')
+// 			printf("\e[0m");
+// 		i++;
+// 	}
+// }
 
 int	check_valid_path(t_game *game)
 {
@@ -45,13 +45,13 @@ int	check_valid_path(t_game *game)
 		return (-1);
 	chunks = game->lvl->canvas->chunks;
 	player = game->lvl->player1;
-	if(!a_star(game, *player->pos, chunks[game->lvl->exit_chunk].pos, &map_cpy))
+	if(!a_star(game, *player->pos, &map_cpy))
 		return (free(map_cpy), 0);
 	i = 0;
 	while (i < size_map)
 	{
 		if (game->lvl->map[i] == 'C' 
-			&& !a_star(game, chunks[i].pos, *player->pos, &map_cpy))
+			&& !a_star(game, chunks[i].pos, &map_cpy))
 			return (free(map_cpy), 0);
 		i++;
 	}

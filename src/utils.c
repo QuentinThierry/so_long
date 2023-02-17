@@ -6,11 +6,12 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 00:05:30 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/17 02:58:40 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/17 18:28:45 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
+#include <stddef.h>
 #include <string.h>
 
 static size_t	get_size(unsigned int n)
@@ -57,14 +58,16 @@ char	*ft_itoa(int n)
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
 	size_t	i;
+	size_t	size;
 
+	size = sizeof(size_t);
 	i = 0;
-	if (n > sizeof(size_t))
+	if (n > size)
 	{
-		while (i < n - sizeof(size_t))
+		while (i < n - size)
 		{
 			*(size_t *)(dest + i) = *(size_t *)(src + i);
-			i += sizeof(size_t);
+			i += size;
 		}
 	}
 	while (i != n)

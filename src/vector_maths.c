@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 02:16:51 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/15 20:36:36 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/17 19:19:01 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ t_fvector2	normalize(t_vector2 vector)
 	float	magn;
 
 	magn = magnitude(vector);
+	if (magn == 0)
+		return ((t_fvector2){1,1});
 	return ((t_fvector2){vector.x / magn, vector.y / magn});
 }
 
