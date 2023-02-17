@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 19:18:33 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/14 02:01:57 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/17 20:35:16 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	check_col_exit(t_game *game)
 		&& (!game->lvl->player2
 		|| (is_colliding(game->lvl->player2->collider, game->lvl->exit_col)
 		&& game->lvl->nb_collec >= game->lvl->max_collec)))
-		exit_game(game);
+			game->is_end = 1;
 }
 
 void	check_col_collectible(t_game *game)

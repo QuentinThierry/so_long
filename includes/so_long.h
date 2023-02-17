@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/17 18:33:17 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/17 20:44:31 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,7 @@ typedef struct s_game
 	long			tot_fps;
 	long			tot_frame;
 	struct s_level	*lvl;
+	int				is_end;
 	void			(*press_on_key[NB_KEYS])(struct s_game *, int);
 }	t_game;
 
@@ -385,6 +386,9 @@ void			press_on_esc(t_game *game, int is_release); // quit
 // exit_game.c
 void			exit_game(t_game *game);
 
+// end_game.c
+void			end_game(t_game *game);
+
 // vector_maths.c
 float			magnitude(t_vector2 vector);
 t_fvector2		normalize(t_vector2 vector);
@@ -436,5 +440,6 @@ void			draw_shortest_path(t_level *lvl, int end);
 // main.c
 void			draw_rectangle(t_sprite *sprite, t_vector2 pos,
 					t_vector2 size, int color);
+int				on_update(t_game *game);
 
 #endif

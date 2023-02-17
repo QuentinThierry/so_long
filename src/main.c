@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/17 19:21:14 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/17 21:11:11 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,10 @@ int	on_update(t_game *game)
 
 	if (!frame && !fps)
 		calculate_fps(&game->fps, &game->elapsed);
+	
 	if (game->lvl->is_animating_cam)
 		camera_animation_to_exit(game->lvl);
-	else
+	else if (!game->is_end)
 	{
 		update_player_1(game);
 		if (game->lvl->player2)
@@ -118,6 +119,12 @@ int	on_update(t_game *game)
 		check_col_enemy(game);
 		check_col_collectible(game);
 		check_col_exit(game);
+	}
+	else
+	{
+		find_chunk_under(game->lvl->canvas, game->lvl->player1->sprite);
+		if (game->lvl->player2)
+			find_chunk_under(game->lvl->canvas, game->lvl->player2->sprite);
 	}
 	play_animations(game);
 	recalculate_chunks(game->lvl);
@@ -159,6 +166,7 @@ t_game	init_values(char *map, t_vector2 map_size)
 	game.tot_fps = 0;
 	game.elapsed = 0;
 	game.tot_frame = 0;
+	game.is_end = 0;
 	game.press_on_key[e_W] = &press_on_w;
 	game.press_on_key[e_A] = &press_on_a;
 	game.press_on_key[e_S] = &press_on_s;

@@ -6,20 +6,19 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 21:38:12 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/17 01:18:45 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/17 20:45:36 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
-#include <math.h>
 
-static void	_my_mlx_pixel_put(t_sprite *sprite, int x, int y, t_color color)
+void	my_mlx_pixel_put(t_sprite *sprite, int x, int y, unsigned int color)
 {
 	char	*dst;
 
 	dst = sprite->img_ptr->data +
 		(y * sprite->line_length + x * sprite->opp);
-	*(unsigned int*)dst = color.color;
+	*(unsigned int*)dst = color;
 }
 
 void	draw_line(t_camera *cam, t_vector2 src, t_vector2 dest, t_color color)
@@ -40,7 +39,7 @@ void	draw_line(t_camera *cam, t_vector2 src, t_vector2 dest, t_color color)
 			src.y + i * norm_vec.y
 		};
 		if (is_inside_camera(cam, coo))
-			_my_mlx_pixel_put(cam->sprite, coo.x, coo.y, color);
+			my_mlx_pixel_put(cam->sprite, coo.x, coo.y, color.color);
 		i++;
 	}
 }

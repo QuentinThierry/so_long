@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 05:04:51 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/15 01:30:23 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/17 21:04:02 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ void	play_anim_player2(t_game *game)
 
 	if (anim_time.tv_sec == 0 && anim_time.tv_usec == 0)
 		anim_time = game->lvl->start_time;
-	if (game->lvl->player2->dir.x || game->lvl->player2->dir.y)
+	if ((game->lvl->player2->dir.x || game->lvl->player2->dir.y)
+			&& !game->is_end)
 	{
 		if (game->lvl->player2->sprite->image_id < e_player_run_0_0)
 			game->lvl->player2->sprite->image_id = e_player_run_0_0;
@@ -101,7 +102,8 @@ void	play_anim_player1(t_game *game)
 
 	if (anim_time.tv_sec == 0 && anim_time.tv_usec == 0)
 		anim_time = game->lvl->start_time;
-	if (game->lvl->player1->dir.x || game->lvl->player1->dir.y)
+	if ((game->lvl->player1->dir.x || game->lvl->player1->dir.y)
+			&& !game->is_end)
 	{
 		if (game->lvl->player1->sprite->image_id < e_player_run_0_0)
 			game->lvl->player1->sprite->image_id = e_player_run_0_0;
