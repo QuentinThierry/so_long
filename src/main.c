@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/16 21:38:58 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/17 02:54:44 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ void	move_camera_on_player(t_camera *cam, t_player *player)
 		player->pos->y - SCREEN_HEIGHT / 2 + player->sprite->size.y / 2};
 	cam->exact_pos = (t_fvector2){cam->pos->x, cam->pos->y};
 }
-
 
 void	update_player_1(t_game *game)
 {

@@ -6,11 +6,12 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 00:05:30 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/15 21:39:47 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/17 02:58:40 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
+#include <string.h>
 
 static size_t	get_size(unsigned int n)
 {
@@ -51,13 +52,6 @@ char	*ft_itoa(int n)
 	if (n < 0)
 		res[0] = '-';
 	return (res);
-}
-
-inline int	min(int value1, int value2)
-{
-	if (value1 < value2)
-		return (value1);
-	return (value2);
 }
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)

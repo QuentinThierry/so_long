@@ -6,11 +6,12 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:01:50 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/10 20:40:23 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/17 02:45:10 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
+#include <sys/mman.h>
 
 unsigned int	_get_color_at(t_sprite *pict, t_vector2 pos)
 {
@@ -45,35 +46,44 @@ static t_color	_get_blended_color(t_color c_back, t_color c_front)
 	return (res);
 }
 
+inline static void	_apply_blend(t_sprite *back,
+		t_sprite *front, t_vector2 pos, t_vector2 xy)
+{
+	t_color			c_back;
+	t_color			c_front;
 
-void	blend_images(t_sprite *back, t_sprite *front, t_vector2 pos)
+	c_front = (t_color)_get_color_at(front,
+			(t_vector2){xy.x - pos.x, xy.y - pos.y});
+	if (c_front.alpha == 0xff)
+		_change_color(back, xy, c_front.color);
+	else if (c_front.alpha != 0)
+	{
+		c_back = (t_color)_get_color_at(back, xy);
+		c_back = _get_blended_color(c_back, c_front);
+		_change_color(back, xy, c_back.color);
+	}
+}
+
+void	blend_image_to_image(t_sprite *back, t_sprite *front,
+			t_vector2 pos)
 {
 	int				y;
 	int				x;
-	t_color			c_back;
-	t_color			c_front;
 	int				width;
 	int				height;
 
-	y = 0;
-	width = min(back->size.x, front->size.x);
-	height = min(back->size.y, front->size.y);
+	width = fmin(back->size.x, front->size.x);
+	height = fmin(back->size.y, front->size.y);
+	if (pos.x + width > back->size.x)
+		width -= pos.x + width - back->size.x;
+	y = pos.y;
+	height += pos.y;
+	width += pos.x;
 	while (y < height)
 	{
-		x = 0;
+		x = pos.x;
 		while (x < width)
-		{
-			c_front = (t_color)_get_color_at(front, (t_vector2){x, y});
-			if (c_front.alpha == 0xff)
-				_change_color(back, (t_vector2){pos.x + x, pos.y + y}, c_front.color);
-			else if (c_front.alpha != 0)
-			{
-				c_back = (t_color)_get_color_at(back, (t_vector2){pos.x + x, pos.y + y});
-				c_back = _get_blended_color(c_back, c_front);
-				_change_color(back, (t_vector2){pos.x + x, pos.y + y}, c_back.color);
-			}
-			++x;
-		}
+			_apply_blend(back, front, pos, (t_vector2){x++, y});
 		++y;
 	}
 }

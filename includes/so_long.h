@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/16 21:09:10 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/17 03:00:02 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,7 @@
 # include "mlx/mlx.h"
 # include "mlx/mlx_int.h"
 # include "textures.h"
-
-// --=======----=======-- WINDOWS --=======----=======--
-# define SCREEN_WIDTH 1024 // 1920 1024 2560 3840
-# define SCREEN_HEIGHT 720 // 1080 720 1440 2160
-# define SIZE_CHUNK 64
+# include "config.h"
 
 // --=======----=======-- KEY_MAP --=======----=======--
 # define KEY_W 119
@@ -57,45 +53,32 @@
 # define BLACK 0xFF000000
 
 // --=======----=======-- FPS --=======----=======--
-// # define FPS_VSYNC 0.00828
-# define FPS_VSYNC 0.000000828
 # define FRAME_RATE_DRAW_SPEED 100
 # define FPS_POSX 10
 # define FPS_POSY 20
 # define FPS_WIDTH 35
 # define FPS_HEIGHT 10
 # define FPS_COLOR BLACK
-# define HIGH_GRPHISM 1
+
 
 // --=======----=======-- PLAYER --=======----=======--
 # define SPEED 250
 # define PLAYER_WIDTH 42
 # define PLAYER_HEIGHT 34
 
-// --=======----=======-- CAMERA --=======----=======--
-# define CAM_SPEED 2500
-
 // --=======----=======-- ENEMIES --=======----=======--
 # define ENEMY_SPEED 175
 # define DISTANCE_AGGRO 300
 
-// --=======----=======-- MAP --=======----=======--
-# ifndef SEED
-#  define SEED 0
-# endif
-
 // --=======----=======-- ANIMATIONS --=======----=======--
-# define HAS_CAM_ANIM 0
 # define CAM_ANIM_TIME_SEC 5
 # define OFFSET_CAM_LOAD SIZE_CHUNK
-
 # define ANIM_NB_IDLE_P 6
 # define ANIM_RARE_IDLE_CHANCE_P 3
 # define ANIM_TIME_IDLE0_P 0.3
 # define ANIM_TIME_IDLE1_P 1
 # define ANIM_TIME_RUN_P 0.2
 # define ANIM_NB_RUN_P 8
-//# define NB_RUN 8
 # define ANIM_NB_IDLE0_E 5
 # define ANIM_NB_IDLE1_E 14
 # define ANIM_RARE_IDLE_CHANCE_E 10
@@ -103,9 +86,6 @@
 # define ANIM_TIME_IDLE1_E 0.3
 # define ANIM_TIME_RUN_E 0.1
 # define ANIM_NB_RUN_E 5
-
-// --=======----=======-- DEBUG --=======----=======--
-# define ISDEBUG 1
 
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
@@ -303,7 +283,6 @@ int				draw_on_window(t_game *game);
 
 // utils.c
 char			*ft_itoa(int n);
-int				min(int value1, int value2);
 void			*ft_memcpy(void *dest, const void *src, size_t n);
 void			ft_bzero(void *dest, size_t n);
 char			*get_address_at(t_sprite *sprite, int x, int y);
@@ -312,6 +291,8 @@ int				equals(char	*s1, char *s2);
 void			*ft_calloc(size_t nmemb, size_t size);
 char			*ft_strdup(const char *s);
 void			*ft_memset(void *s, int c, size_t n);
+void			*ft_sec_ft_memcpy(void *dest, const void *src,
+					size_t n, t_sprite *sprite);
 
 // list.c
 t_list			*ft_lstnew(char *content);
@@ -437,16 +418,15 @@ void			flip_image_y(t_sprite *sprite);
 void			flip_image_x(t_sprite *sprite);
 
 // image_operations.c
-int				draw_image_on_image(t_sprite *dest, t_sprite *src,
-						t_vector2 pos, int is_alpha_sensitive);
 void			clear_image(t_sprite *sprite);
 
 // colors.c
 unsigned int	get_color_at(t_sprite *sprite, t_vector2 pos);
-void			blend_images(t_sprite *back, t_sprite *front, t_vector2 pos);
+void			blend_image_to_image(t_sprite *back,
+					t_sprite *front, t_vector2 pos);
 
 // draw_line.c
-void			draw_line(t_sprite *sprite,
+void			draw_line(t_camera *camra,
 					t_vector2 src, t_vector2 dest, t_color color);
 
 // debug.c

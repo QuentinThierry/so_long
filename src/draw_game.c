@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 20:18:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/15 18:42:51 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/17 02:18:17 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ static void	_draw_enemies(t_game *game)
 		{
 			game->lvl->enemies[i]->sprite->img_ptr
 				= game->lvl->images[game->lvl->enemies[i]->sprite->image_id];
-			draw_image_on_image(game->lvl->canvas->sprite,
+			blend_image_to_image(game->lvl->canvas->sprite,
 				game->lvl->enemies[i]->sprite,
-				*game->lvl->enemies[i]->pos, 1);
+				*game->lvl->enemies[i]->pos);
 		}
 		++i;
 	}
@@ -40,8 +40,8 @@ static void	_draw_player1(t_game *game)
 		= game->lvl->images[game->lvl->player1->sprite->image_id];
 	if (game->lvl->player1->is_look_left == 1)
 		flip_image_y(game->lvl->player1->sprite);
-	draw_image_on_image(game->lvl->canvas->sprite, game->lvl->player1->sprite,
-		*game->lvl->player1->pos, 1);
+	blend_image_to_image(game->lvl->canvas->sprite, game->lvl->player1->sprite,
+		*game->lvl->player1->pos);
 	if (game->lvl->player1->is_look_left == 1)
 		flip_image_y(game->lvl->player1->sprite);
 }
@@ -54,8 +54,8 @@ static void	_draw_player2(t_game *game)
 		= game->lvl->images[game->lvl->player2->sprite->image_id];
 	if (game->lvl->player2->is_look_left == 1)
 		flip_image_y(game->lvl->player2->sprite);
-	draw_image_on_image(game->lvl->canvas->sprite, game->lvl->player2->sprite,
-			*game->lvl->player2->pos, 1);
+	blend_image_to_image(game->lvl->canvas->sprite, game->lvl->player2->sprite,
+			*game->lvl->player2->pos);
 	if (game->lvl->player2->is_look_left == 1)
 		flip_image_y(game->lvl->player2->sprite);
 }

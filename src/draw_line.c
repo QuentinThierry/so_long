@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 21:38:12 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/13 23:50:32 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/17 01:18:45 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	_my_mlx_pixel_put(t_sprite *sprite, int x, int y, t_color color)
 	*(unsigned int*)dst = color.color;
 }
 
-void	draw_line(t_sprite *sprite, t_vector2 src, t_vector2 dest, t_color color)
+void	draw_line(t_camera *cam, t_vector2 src, t_vector2 dest, t_color color)
 {
 	int	dist;
 	int	i;
@@ -30,7 +30,6 @@ void	draw_line(t_sprite *sprite, t_vector2 src, t_vector2 dest, t_color color)
 	t_fvector2 norm_vec;
 
 	norm_vec = direction_normalized(src, dest);
-	// printf("%f %f\n", norm_vec.x, norm_vec
 	dist = (int)distance(src, dest) + 1;
 	i = 0;
 	while (i < dist)
@@ -40,7 +39,8 @@ void	draw_line(t_sprite *sprite, t_vector2 src, t_vector2 dest, t_color color)
 			src.x + i * norm_vec.x,
 			src.y + i * norm_vec.y
 		};
-		_my_mlx_pixel_put(sprite, coo.x, coo.y, color);
+		if (is_inside_camera(cam, coo))
+			_my_mlx_pixel_put(cam->sprite, coo.x, coo.y, color);
 		i++;
 	}
 }

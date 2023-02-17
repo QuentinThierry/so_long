@@ -1,46 +1,50 @@
-NAME = so_long
-CFLAGS = -g3 -Wall -Wextra -Ofast #-fsanitize=address #-Werror
-DEPS = $(INCLUDES)so_long.h $(INCLUDES)get_next_line.h  $(INCLUDES)textures.h Makefile
-INCLUDES = includes/
-SRC_DIR = src/
-OBJ_DIR = obj/
-CC = clang
-LIBS = -L$(INCLUDES)mlx -lmlx -lXext -lX11 -lm
+NAME =		so_long
+CFLAGS =	-g3 -Wall -Wextra -Ofast#-fsanitize=address #-Werror
+DEPS =		$(INCLUDES)so_long.h \
+			$(INCLUDES)get_next_line.h \
+			$(INCLUDES)textures.h \
+			$(INCLUDES)config.h \
+			Makefile
+INCLUDES	= includes/
+SRC_DIR		= src/
+OBJ_DIR		= obj/
+CC =		clang
+LIBS =		-L$(INCLUDES)mlx -lmlx -lXext -lX11 -lm
 
-SRC = $(addprefix $(SRC_DIR), \
-	animations.c \
-	animations_enemies.c \
-	animations_player.c \
-	bettermlx.c \
-	camera.c \
-	camera_utils.c \
-	check_valid_path.c \
-	chunks_utils.c \
-	chunks.c \
-	collision.c \
-	colors.c \
-	debug.c \
-	draw_game.c \
-	draw_line.c \
-	exit_game.c\
-	init_enemies.c \
-	enemies_movement.c \
-	get_next_line_utils.c \
-	get_next_line.c \
-	image_flip.c \
-	image_operations.c \
-	init_collision.c \
-	init_lvl_base.c \
-	keys.c \
-	list_utils.c \
-	load_forest_images.c\
-	parsing.c \
-	pathfinding.c \
-	player_move.c \
-	sprite_choose.c \
-	utils.c \
-	vector_maths.c \
-	main.c)
+SRC =		$(addprefix $(SRC_DIR), \
+			animations.c \
+			animations_enemies.c \
+			animations_player.c \
+			bettermlx.c \
+			camera.c \
+			camera_utils.c \
+			check_valid_path.c \
+			chunks_utils.c \
+			chunks.c \
+			collision.c \
+			colors.c \
+			debug.c \
+			draw_game.c \
+			draw_line.c \
+			exit_game.c\
+			init_enemies.c \
+			enemies_movement.c \
+			get_next_line_utils.c \
+			get_next_line.c \
+			image_flip.c \
+			image_operations.c \
+			init_collision.c \
+			init_lvl_base.c \
+			keys.c \
+			list_utils.c \
+			load_forest_images.c\
+			parsing.c \
+			pathfinding.c \
+			player_move.c \
+			sprite_choose.c \
+			utils.c \
+			vector_maths.c \
+			main.c)
 
 OBJ = $(patsubst $(SRC_DIR)%.c,$(OBJ_DIR)%.o,$(SRC))
 

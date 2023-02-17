@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 17:02:14 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/15 17:28:26 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/17 01:12:49 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@ int	is_inside_load_range(t_game *game, t_vector2 pos)
 
 int	is_inside_camera(t_camera *cam, t_vector2 pos)
 {
-	return (pos.x > cam->pos->x && pos.x < cam->pos->x + cam->size->x
-	&& pos.y < cam->pos->y + cam->size->y  && pos.y > cam->pos->y);
+	t_vector2	pos2;
+
+	pos2 = get_offset_for_cam(cam, *cam->pos);
+	return (pos.x > pos2.x && pos.x < pos2.x + cam->size->x
+		&& pos.y < pos2.y + cam->size->y && pos.y > pos2.y);
 }
