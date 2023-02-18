@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 00:04:43 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/17 21:35:45 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 16:39:00 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,13 @@
 
 // --=======----=======-- FPS --=======----=======--
 // # define FPS_VSYNC 0.00828
-# define FPS_VSYNC 0.000000828
+# define FPS_VSYNC 0.00828
 
 // --=======----=======-- CAMERA --=======----=======--
 # define CAM_SPEED 500
 
 // --=======----=======-- GRAPHISM --=======----=======--
-# define HIGH_GRPHISM 1
-# define HAS_CAM_ANIM 0
+# define HAS_CAM_ANIM 1
 
 // --=======----=======-- MAP --=======----=======--
 # ifndef SEED
@@ -37,6 +36,6 @@
 # define END_TIME 5
 
 // --=======----=======-- DEBUG --=======----=======--
-# define ISDEBUG 1
+# define ISDEBUG 0
 
 #endif

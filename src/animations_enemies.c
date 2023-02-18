@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 20:30:28 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/15 18:42:24 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 16:36:14 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,4 +91,6 @@ void	play_anim_enemy(t_game *game, t_enemy *enemy)
 				enemy->sprite->image_id = e_enemy_idle_1_0;
 		}
 	}
+	if (game->lvl->is_animating_cam)
+		find_chunk_under(game->lvl->canvas, enemy->sprite);
 }

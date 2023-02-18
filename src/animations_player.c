@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 05:04:51 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/17 21:04:02 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 16:35:50 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ void	play_anim_player2(t_game *game)
 				game->lvl->player2->sprite->image_id = e_player_idle_1_0;
 		}
 	}
+	if (game->lvl->is_animating_cam)
+		find_chunk_under(game->lvl->canvas, game->lvl->player2->sprite);
 }
 
 void	play_anim_player1(t_game *game)
@@ -122,4 +124,6 @@ void	play_anim_player1(t_game *game)
 				game->lvl->player1->sprite->image_id = e_player_idle_1_0;
 		}
 	}
+	if (game->lvl->is_animating_cam)
+		find_chunk_under(game->lvl->canvas, game->lvl->player1->sprite);
 }

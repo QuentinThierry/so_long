@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/17 21:11:11 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 16:32:36 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,18 @@ void	move_camera_on_player(t_camera *cam, t_player *player)
 	cam->exact_pos = (t_fvector2){cam->pos->x, cam->pos->y};
 }
 
-void	update_player_1(t_game *game)
+void	update_cam_pos(t_game *game)
 {
-	player_movement(game, game->lvl->player1);
 	if (game->lvl->cam->is_cam_lock == 1)
 		move_camera_on_player(game->lvl->cam, game->lvl->player1);
 	else
 		move_camera(game);
+}
+
+void	update_player_1(t_game *game)
+{
+	player_movement(game, game->lvl->player1);
+
 	check_trigger_enemy(game, game->lvl->player1);
 }
 
@@ -109,12 +114,14 @@ int	on_update(t_game *game)
 		calculate_fps(&game->fps, &game->elapsed);
 	
 	if (game->lvl->is_animating_cam)
+	
 		camera_animation_to_exit(game->lvl);
 	else if (!game->is_end)
 	{
 		update_player_1(game);
 		if (game->lvl->player2)
 			update_player_2(game);
+		update_cam_pos(game);
 		enemy_movement(game);
 		check_col_enemy(game);
 		check_col_collectible(game);

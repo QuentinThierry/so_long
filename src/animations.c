@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:42:19 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/15 18:42:30 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 16:34:59 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,8 @@ void	camera_animation_to_exit(t_level *lvl)
 	gettimeofday(&time, NULL);
 	delay = (((double)(time.tv_usec - lvl->start_time.tv_usec)
 				/ CLOCKS_PER_SEC) + time.tv_sec - lvl->start_time.tv_sec);
-	if (delay >= CAM_ANIM_TIME_SEC)
+	if (delay >= CAM_ANIM_TIME_SEC + 1)
 		lvl->is_animating_cam = 0;
-	return ;
 	if (delay >= CAM_ANIM_TIME_SEC)
 		delay = CAM_ANIM_TIME_SEC;
 	exit_pos = lvl->canvas->chunks[find_exit_chunk(lvl->map)].pos;

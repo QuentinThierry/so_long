@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 02:00:21 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/15 01:35:15 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 16:12:03 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,9 +172,9 @@ enum e_img_id
 # define FOREST_STICK "assets/forest/forest_stick.xpm"
 
 // COLLECTIBLES C
-# define FOREST_FLOWER_R "assets/forest/forest_flower_red.xpm"
-# define FOREST_FLOWER_Y "assets/forest/forest_flower_yellow.xpm"
-# define FOREST_FLOWER_D "assets/forest/forest_flower_d.xpm"
+# define FOREST_FLOWER_R "assets/forest/acorn.xpm"
+# define FOREST_FLOWER_Y "assets/forest/acorn.xpm"
+# define FOREST_FLOWER_D "assets/forest/acorn_empty.xpm"
 
 // ENNEMIES G
 # define SLIME_B_IDLE0_0 "assets/slime/slime_b_idle0_0.xpm"
