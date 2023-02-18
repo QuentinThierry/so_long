@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 17:52:15 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/18 20:27:06 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 23:08:08 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,34 +50,39 @@ static int	_get_min(t_level *lvl, int nb_cases)
 	return (min_pos);
 }
 
+static int	is_valid_index(t_level *lvl, int index, int pos)
+{
+	if (lvl->map[index] == '1')
+	{
+		lvl->path_grid[index] = (t_path_case){__INT_MAX__, -2, 0, -1};
+		return (0);
+	}
+	if (lvl->path_grid[index].dst_start
+		&& lvl->path_grid[index].dst_start < lvl->path_grid[pos].dst_start)
+		return (0);
+	return (1);
+}
+
 static int	_fill_the_four(t_level *lvl, int pos, char *path_map)
 {
-	int i;
+	int	i;
 	int	index;
 
 	i = 0;
 	while (i < 4)
 	{
-		index = _get_new_case(pos, lvl->map_size.x, i);
 		if (!(pos >= 0 && pos < lvl->map_size.x * lvl->map_size.x) && ++i)
 			continue ;
-		if (lvl->map[index] == '1' && ++i)
-		{
-			lvl->path_grid[index] = (t_path_case){__INT_MAX__, -2, 0, -1};
+		index = _get_new_case(pos, lvl->map_size.x, i);
+		if (!is_valid_index(lvl, index, pos) && ++i)
 			continue ;
-		}
-		if (lvl->path_grid[index].dst_start &&
-			lvl->path_grid[index].dst_start < lvl->path_grid[pos].dst_start)
-		{
-			i++;
-			continue ;
-		}
 		lvl->path_grid[index].dst_start = lvl->path_grid[pos].dst_start + 1;
 		lvl->path_grid[index].tot = lvl->path_grid[index].dst_start
-				+ lvl->dist_table[index];
+			+ lvl->dist_table[index];
 		if (lvl->path_grid[pos].parent != index)
 			lvl->path_grid[index].parent = pos;
-		if ((lvl->dist_table[index] == 0) || (path_map && path_map[index] == '1'))
+		if ((lvl->dist_table[index] == 0)
+			|| (path_map && path_map[index] == '1'))
 			return (index);
 		++i;
 	}
@@ -97,39 +102,44 @@ void	_fill_map(t_path_case *path_grid, char **map)
 	}
 }
 
+static int	iterate_on_map(t_level *lvl, int nb_cases, char **path_map)
+{
+	int	end;
+	int	min;
+
+	end = 0;
+	while (!end)
+	{
+		min = _get_min(lvl, nb_cases);
+		if (min == -1)
+			break ;
+		if (path_map)
+			end = _fill_the_four(lvl, min, *path_map);
+		else
+			end = _fill_the_four(lvl, min, NULL);
+	}
+	return (end);
+}
+
 int	a_star(t_game *game, t_vector2 src, char **path_map)
 {
 	int	start_chunk;
 	int	nb_cases;
-	int	min;
 	int	end;
 
-	end = 0;
 	nb_cases = game->lvl->map_size.x * game->lvl->map_size.y;
 	start_chunk = pos_to_chunk(game->lvl, src.x, src.y);
 	ft_bzero(game->lvl->path_grid, nb_cases * sizeof(t_path_case));
 	if (game->lvl->dist_table[start_chunk] == 0)
 		return (1);
 	game->lvl->path_grid[start_chunk].tot = game->lvl->dist_table[start_chunk];
-	min = 0;
-	while (!end)
-	{
-		min = _get_min(game->lvl, nb_cases);
-		if (min == -1)
-			break;
-		if (path_map)
-			end = _fill_the_four(game->lvl, min, *path_map);
-		else
-			end = _fill_the_four(game->lvl, min, NULL);
-	}
+	end = iterate_on_map(game->lvl, nb_cases, path_map);
 	if (!end)
 		return (0);
-	if (ISDEBUG && min > -1)
+	if (ISDEBUG)
 		draw_shortest_path(game->lvl, end);
 	if (path_map)
-	{
 		_fill_map(game->lvl->path_grid, path_map);
-	}
 	return (end);
 }
 
@@ -182,6 +192,3 @@ int	a_star(t_game *game, t_vector2 src, char **path_map)
 // 	}
 // 	printf("\n");
 // }
-
-
-

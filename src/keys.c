@@ -6,28 +6,14 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 16:06:07 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/18 22:21:11 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 23:11:00 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
-enum e_key_map	get_key(int key)
+static enum e_key_map	_get_key2(int key)
 {
-	if (key == KEY_W)
-		return (e_W);
-	if (key == KEY_A)
-		return (e_A);
-	if (key == KEY_S)
-		return (e_S);
-	if (key == KEY_D)
-		return (e_D);
-	if (key == KEY_P)
-		return (e_P);
-	if (key == KEY_L)
-		return (e_L);
-	if (key == KEY_LA)
-		return (e_LA);
 	if (key == KEY_UA)
 		return (e_UA);
 	if (key == KEY_RA)
@@ -49,9 +35,28 @@ enum e_key_map	get_key(int key)
 	return (NB_KEYS);
 }
 
+enum e_key_map	get_key(int key)
+{
+	if (key == KEY_W)
+		return (e_W);
+	if (key == KEY_A)
+		return (e_A);
+	if (key == KEY_S)
+		return (e_S);
+	if (key == KEY_D)
+		return (e_D);
+	if (key == KEY_P)
+		return (e_P);
+	if (key == KEY_L)
+		return (e_L);
+	if (key == KEY_LA)
+		return (e_LA);
+	return (_get_key2(key));
+}
+
 int	press_key(int key, t_game *game)
 {
-	enum e_key_map e_key;
+	enum e_key_map	e_key;
 
 	e_key = get_key(key);
 	if (e_key < NB_KEYS)
@@ -61,7 +66,7 @@ int	press_key(int key, t_game *game)
 
 int	release_key(int key, t_game *game)
 {
-	enum e_key_map e_key;
+	enum e_key_map	e_key;
 
 	e_key = get_key(key);
 	if (e_key < NB_KEYS)
@@ -129,7 +134,6 @@ void	press_on_ua(t_game *game, int is_release)
 		game->lvl->cam->dir.y += 1;
 }
 
-
 void	press_on_da(t_game *game, int is_release)
 {
 	if (!is_release)
@@ -172,7 +176,7 @@ void	press_on_4(t_game *game, int is_release)
 			game->lvl->player2->dir.x += -1;
 		else
 			game->lvl->player2->dir.x += 1;
-		}
+	}
 }
 
 void	press_on_5(t_game *game, int is_release)

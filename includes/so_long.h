@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/18 22:20:08 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 23:44:18 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@
 # define FPS_WIDTH 35
 # define FPS_HEIGHT 10
 # define FPS_COLOR BLACK
-
 
 // --=======----=======-- PLAYER --=======----=======--
 # define SPEED 250
@@ -398,7 +397,7 @@ float			distance(t_vector2 src, t_vector2 dest);
 int				sqrdistance(t_vector2 src, t_vector2 dest);
 t_fvector2		direction_normalized(t_vector2 src, t_vector2 dest);
 
-t_vector2		add_vector2(t_vector2 vec1, t_vector2 vec2); 
+t_vector2		add_vector2(t_vector2 vec1, t_vector2 vec2);
 t_vector2		sub_vector2(t_vector2 vec1, t_vector2 vec2);
 void			cpy_vector(t_vector2 *dest, t_vector2 src);
 
@@ -436,7 +435,6 @@ void			blend_one_pixel(t_sprite *back, t_vector2 pos, t_color color);
 void			draw_line(t_camera *camera,
 					t_vector2 src, t_vector2 dest, t_color color);
 void			draw_line_sparkles(t_level *lvl, int end);
-
 
 // debug.c
 void			debug_calculate(t_level *lvl);

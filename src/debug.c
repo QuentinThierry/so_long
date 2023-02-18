@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 18:50:40 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/18 20:37:33 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 23:17:37 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ static void	_debug_draw_hover_chunks(t_level *lvl)
 	i = 0;
 	while (i < lvl->canvas->nb_chunks.x * (lvl->canvas->nb_chunks.y))
 	{
-		if (lvl->canvas->chunks_to_redraw[i] == 1 )
+		if (lvl->canvas->chunks_to_redraw[i] == 1)
 		{
 			blend_image_to_image(lvl->cam->sprite,
 				lvl->debug_tile_sprite,
-			get_offset_for_cam(lvl->cam, lvl->canvas->chunks[i].pos));
+				get_offset_for_cam(lvl->cam, lvl->canvas->chunks[i].pos));
 		}
 		++i;
 	}
@@ -43,9 +43,9 @@ void	draw_shortest_path(t_level *lvl, int end)
 		coo1x = lvl->canvas->chunks[end].pos.x - lvl->cam->pos->x + offset;
 		coo1y = lvl->canvas->chunks[end].pos.y - lvl->cam->pos->y + offset;
 		coo2x = lvl->canvas->chunks[lvl->path_grid[end].parent].pos.x
-				- lvl->cam->pos->x + offset;
+			- lvl->cam->pos->x + offset;
 		coo2y = lvl->canvas->chunks[lvl->path_grid[end].parent].pos.y
-				- lvl->cam->pos->y + offset;
+			- lvl->cam->pos->y + offset;
 		draw_line(lvl->cam,
 			(t_vector2){coo1x, coo1y},
 			(t_vector2){coo2x, coo2y},

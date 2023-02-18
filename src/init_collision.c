@@ -6,36 +6,41 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 16:04:49 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/09 16:52:54 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 22:38:53 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
-// static void	assign()
+static int	count_on_map(t_level *lvl, char c)
+{
+	int	res;
+	int	i;
 
-// last index is empty and has -1 id
-// id 0 is player
+	res = 0;
+	i = 0;
+	while (i < lvl->map_size.x * lvl->map_size.y)
+	{
+		if (lvl->map[i] == c)
+			res++;
+		++i;
+	}
+	return (res);
+}
+
 static int	create_wall_colliders(t_level *lvl)
 {
 	int	nb_walls;
 	int	i;
 	int	j;
 
-	i = 0;
-	nb_walls = 0;
-	while (i < lvl->map_size.x * lvl->map_size.y)
-	{
-		if (lvl->map[i] == '1')
-			nb_walls++;
-		++i;
-	}
+	nb_walls = count_on_map(lvl, '1');
 	lvl->wall_col = ft_calloc(sizeof(t_collider), (nb_walls + 1));
 	if (!lvl->wall_col)
 		return (0);
-	i = 0;
+	i = -1;
 	j = 0;
-	while (i < lvl->map_size.x * lvl->map_size.y)
+	while (++i < lvl->map_size.x * lvl->map_size.y)
 	{
 		if (lvl->map[i] == '1')
 		{
@@ -46,7 +51,6 @@ static int	create_wall_colliders(t_level *lvl)
 			lvl->wall_col[j].has_been_triggered = 0;
 			++j;
 		}
-		++i;
 	}
 	lvl->wall_col[j].id = -1;
 	return (1);
@@ -58,20 +62,13 @@ static int	create_collec_colliders(t_level *lvl)
 	int	i;
 	int	j;
 
-	i = 0;
-	nb_triggers = 0;
-	while (i < lvl->map_size.x * lvl->map_size.y)
-	{
-		if (lvl->map[i] == 'C')
-			nb_triggers++;
-		++i;
-	}
+	nb_triggers = count_on_map(lvl, 'C');
 	lvl->collec_col = ft_calloc(sizeof(t_collider), (nb_triggers + 1));
 	if (!lvl->collec_col)
 		return (0);
-	i = 0;
+	i = -1;
 	j = 0;
-	while (i < lvl->map_size.x * lvl->map_size.y)
+	while (++i < lvl->map_size.x * lvl->map_size.y)
 	{
 		if (lvl->map[i] == 'C')
 		{
@@ -82,7 +79,6 @@ static int	create_collec_colliders(t_level *lvl)
 			lvl->collec_col[j].has_been_triggered = 0;
 			++j;
 		}
-		++i;
 	}
 	lvl->collec_col[j].id = -1;
 	return (1);
@@ -103,7 +99,6 @@ static int	create_exit_collider(t_level *lvl)
 	lvl->exit_col->has_been_triggered = 0;
 	return (1);
 }
-
 
 int	init_collisions(t_level *lvl)
 {

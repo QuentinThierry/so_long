@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 19:53:25 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/17 21:38:57 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 23:16:43 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,13 @@ void	_play_on_win_game(t_game *game, double elapsed)
 		color.red = 0;
 		color.green = 0;
 		color.blue = 0;
-		dst = game->lvl->background->img_ptr->data + i * game->lvl->cam->sprite->opp;
-		*(unsigned int*)dst = color.color;
+		dst = game->lvl->background->img_ptr->data + i
+			* game->lvl->cam->sprite->opp;
+		*(unsigned int *)dst = color.color;
 		i++;
 	}
-	blend_image_to_image(game->lvl->cam->sprite, game->lvl->background, (t_vector2){0,0});
+	blend_image_to_image(game->lvl->cam->sprite,
+		game->lvl->background, (t_vector2){0, 0});
 }
 
 double	get_elapsed(struct timeval *prev_time)
@@ -40,7 +42,7 @@ double	get_elapsed(struct timeval *prev_time)
 
 	gettimeofday(&tmp, NULL);
 	elapsed = (((double)(tmp.tv_usec - prev_time->tv_usec) / CLOCKS_PER_SEC)
-		+ tmp.tv_sec - prev_time->tv_sec);
+			+ tmp.tv_sec - prev_time->tv_sec);
 	return (elapsed);
 }
 
@@ -51,11 +53,8 @@ void	end_game(t_game *game)
 
 	if (!time.tv_sec)
 		gettimeofday(&time, NULL);
-
 	elapsed = get_elapsed(&time);
 	_play_on_win_game(game, elapsed);
-	
 	if ((elapsed) > END_TIME)
 		exit_game(game);
-
 }

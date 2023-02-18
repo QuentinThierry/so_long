@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:19:55 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/18 18:37:17 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 23:15:09 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,15 @@ static void	_move_enemy(t_game *game, int id, int is_x, int is_y)
 		return ;
 	if (is_x)
 	{
-		new_posx = game->lvl->enemies[id]->exact_pos.x +
-				game->lvl->enemies[id]->dir.x * ENEMY_SPEED * game->elapsed;
+		new_posx = game->lvl->enemies[id]->exact_pos.x
+			+ game->lvl->enemies[id]->dir.x * ENEMY_SPEED * game->elapsed;
 		game->lvl->enemies[id]->exact_pos.x = new_posx;
 		game->lvl->enemies[id]->pos->x = floor(new_posx);
 	}
 	if (is_y)
 	{
-		new_posy = game->lvl->enemies[id]->exact_pos.y +
-				game->lvl->enemies[id]->dir.y * ENEMY_SPEED * game->elapsed;
+		new_posy = game->lvl->enemies[id]->exact_pos.y
+			+ game->lvl->enemies[id]->dir.y * ENEMY_SPEED * game->elapsed;
 		game->lvl->enemies[id]->exact_pos.y = new_posy;
 		game->lvl->enemies[id]->pos->y = floor(new_posy);
 	}
@@ -93,10 +93,26 @@ void	check_trigger_enemy(t_game *game, t_player *player)
 	}
 }
 
+inline static void	_deplacement(t_game *game, t_enemy *enemy, int i)
+{
+	t_collider	*collider;
+
+	enemy->dir = direction_normalized(*enemy->pos,
+			*enemy->target->pos);
+	_move_enemy(game, i, 1, 0);
+	collider = check_wall_collision(game->lvl, enemy->collider);
+	if (collider)
+		_reverse_move_enemy(enemy, collider, (t_vector2){1, 0});
+	_move_enemy(game, i, 0, 1);
+	collider = check_wall_collision(game->lvl, enemy->collider);
+	if (collider)
+		_reverse_move_enemy(enemy, collider, (t_vector2){0, 1});
+	find_chunk_under(game->lvl->canvas, enemy->sprite);
+}
+
 void	enemy_movement(t_game *game)
 {
 	int			i;
-	t_collider	*collider;
 	t_enemy		*enemy;
 
 	i = -1;
@@ -111,18 +127,6 @@ void	enemy_movement(t_game *game)
 			continue ;
 		find_chunk_under(game->lvl->canvas, enemy->sprite);
 		if (enemy->is_triggered)
-		{
-			enemy->dir = direction_normalized(*enemy->pos,
-					*enemy->target->pos);
-			_move_enemy(game, i, 1, 0);
-			collider = check_wall_collision(game->lvl, enemy->collider);
-			if (collider)
-				_reverse_move_enemy(enemy, collider, (t_vector2){1, 0});
-			_move_enemy(game, i, 0, 1);
-			collider = check_wall_collision(game->lvl, enemy->collider);
-			if (collider)
-				_reverse_move_enemy(enemy, collider, (t_vector2){0, 1});
-			find_chunk_under(game->lvl->canvas, enemy->sprite);
-		}
+			_deplacement(game, enemy, i);
 	}
 }

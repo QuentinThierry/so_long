@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 02:00:21 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/18 20:48:19 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 23:44:36 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,6 @@ enum e_img_id
 # define SLIME_B_RUN0_2 "assets/slime/slime_b_run0_2.xpm"
 # define SLIME_B_RUN0_3 "assets/slime/slime_b_run0_3.xpm"
 # define SLIME_B_RUN0_4 "assets/slime/slime_b_run0_4.xpm"
-
 
 # define FOREST_TREE1 "assets/forest/forest_tree.xpm"
 # define FOREST_TREE2 "assets/forest/forest_tree2.xpm"
