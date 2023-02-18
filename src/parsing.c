@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 14:19:42 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/18 21:56:55 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 22:00:48 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static char	*get_line_as_tab(char *line)
 	if (!res)
 		return (NULL);
 	i = 0;
-	while(i < size)
+	while (i < size)
 	{
 		res[i] = line[i];
 		i++;
@@ -72,7 +72,7 @@ static char	*get_line_as_tab(char *line)
 	return (res);
 }
 
-static int is_rectangle(t_list *list, int size)
+static int	is_rectangle(t_list *list, int size)
 {
 	while (list)
 	{
@@ -83,11 +83,11 @@ static int is_rectangle(t_list *list, int size)
 	return (1);
 }
 
-static char **list_to_map(t_list *list, int *x, int *y)
+static char	**list_to_map(t_list *list, int *x, int *y)
 {
 	char	**map;
 	int		i;
-	
+
 	*y = ft_lstsize(list);
 	if (*y < 3)
 		return (NULL);
@@ -159,12 +159,12 @@ int	is_closed(char **map, int x, int y)
 	int	j;
 
 	i = 0;
-	while(i < x)
+	while (i < x)
 	{
 		j = 0;
-		if (map[0][i] != '1' || map[y-1][i] != '1')
+		if (map[0][i] != '1' || map[y - 1][i] != '1')
 			return (0);
-		while ((i == 0 || i == x-1) && j < y-1)
+		while ((i == 0 || i == x - 1) && j < y - 1)
 		{
 			if (map[j][i] != '1')
 				return (0);
@@ -196,7 +196,7 @@ static int	change_flag(char letter, int flag)
 
 static int	has_all_elem_once(char **map, int x, int y)
 {
-	int	flag;
+	int		flag;
 	int		i;
 	int		j;
 
@@ -219,7 +219,7 @@ static int	has_all_elem_once(char **map, int x, int y)
 	return (1);
 }
 
-char	*map2D_to_1D(char **map2D, t_vector2 map_size)
+char	*map2d_to_1d(char **map2D, t_vector2 map_size)
 {
 	char	*map;
 	int		x;
@@ -232,7 +232,7 @@ char	*map2D_to_1D(char **map2D, t_vector2 map_size)
 	while (y < map_size.y)
 	{
 		x = 0;
-		while(x < map_size.x)
+		while (x < map_size.x)
 		{
 			map[y * map_size.x + x] = map2D[y][x];
 			x++;
@@ -245,28 +245,28 @@ char	*map2D_to_1D(char **map2D, t_vector2 map_size)
 
 int	parse_map(const char *file_name, char **map, t_vector2 *map_size)
 {
-	char	**map2D;
+	char	**map2d;
 	int		fd;
 	int		x;
 	int		y;
 
 	x = 0;
-	if(!is_ber(file_name))
+	if (!is_ber(file_name))
 		return (0);
 	fd = open(file_name, O_RDWR);
-	if(fd == -1)
+	if (fd == -1)
 		return (0);
-	map2D = read_map(fd, &x, &y);
+	map2d = read_map(fd, &x, &y);
 	close(fd);
-	if (!map2D)
+	if (!map2d)
 		return (0);
-	if(!is_closed(map2D, x, y))
-		return (free_tab2d(map2D, y), 0);
-	if(!has_all_elem_once(map2D, x, y))
-		return (free_tab2d(map2D, y), 0);
+	if (!is_closed(map2d, x, y))
+		return (free_tab2d(map2d, y), 0);
+	if (!has_all_elem_once(map2d, x, y))
+		return (free_tab2d(map2d, y), 0);
 	*map_size = (t_vector2){x, y};
-	*map = map2D_to_1D(map2D, *map_size);
-	free_tab2d(map2D, y);
+	*map = map2d_to_1d(map2d, *map_size);
+	free_tab2d(map2d, y);
 	if (!*map)
 		return (0);
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:25:50 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/18 18:35:47 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 22:14:31 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static t_enemy	*_instantiate_enemy(t_img **images, int id)
 {
-	t_enemy *enemy;
+	t_enemy	*enemy;
 
 	enemy = ft_calloc(sizeof(t_enemy), 1);
 	if (!enemy)
@@ -41,43 +41,47 @@ static t_enemy	*_instantiate_enemy(t_img **images, int id)
 	return (enemy);
 }
 
-int	init_enemies(t_game *game)
+static int	get_nb_enemies(t_level *lvl)
+{
+	int	i;
+	int	nb_enemies;
+
+	nb_enemies = 0;
+	i = 0;
+	while (i < lvl->canvas->nb_chunks.y * lvl->canvas->nb_chunks.x)
+	{
+		if (lvl->map[i] == 'S')
+			nb_enemies++;
+		i++;
+	}
+	return (nb_enemies);
+}
+
+int	init_enemies(t_level *lvl)
 {
 	int	i;
 	int	j;
 	int	nb_enemies;
 
-	i = 0;
-	nb_enemies = 0;
-	while (i < game->lvl->canvas->nb_chunks.y * game->lvl->canvas->nb_chunks.x)
-	{
-		if (game->lvl->map[i] == 'S')
-			nb_enemies++;
-		i++;
-	}
-	game->lvl->enemies = ft_calloc(sizeof(t_enemy *), (nb_enemies + 1));
-	if (!game->lvl->enemies)
+	nb_enemies = get_nb_enemies(lvl);
+	lvl->enemies = ft_calloc(sizeof(t_enemy *), (nb_enemies + 1));
+	if (!lvl->enemies)
 		return (0);
-	i = 0;
+	i = -1;
 	j = 0;
-	while (i < game->lvl->canvas->nb_chunks.y * game->lvl->canvas->nb_chunks.x)
+	while (++i < lvl->canvas->nb_chunks.y * lvl->canvas->nb_chunks.x)
 	{
-		if (game->lvl->map[i] == 'S')
-		{
-			game->lvl->enemies[j] = _instantiate_enemy(game->lvl->images, j);
-			if (!game->lvl->enemies[j])
-				return (0);
-			*game->lvl->enemies[j]->pos = game->lvl->canvas->chunks[i].pos;
-			game->lvl->enemies[j]->exact_pos = (t_fvector2)
-			{
-				game->lvl->enemies[j]->pos->x,
-				game->lvl->enemies[j]->pos->y
-			};
-			game->lvl->enemies[j]->dir = (t_fvector2){1, 1};
-			j++;
-		}
-		i++;
+		if (lvl->map[i] != 'S')
+			continue ;
+		lvl->enemies[j] = _instantiate_enemy(lvl->images, j);
+		if (!lvl->enemies[j])
+			return (0);
+		*lvl->enemies[j]->pos = lvl->canvas->chunks[i].pos;
+		lvl->enemies[j]->exact_pos = (t_fvector2)
+		{lvl->enemies[j]->pos->x, lvl->enemies[j]->pos->y};
+		lvl->enemies[j]->dir = (t_fvector2){1, 1};
+		j++;
 	}
-	game->lvl->enemies[nb_enemies] = NULL;
+	lvl->enemies[nb_enemies] = NULL;
 	return (1);
 }

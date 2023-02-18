@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 02:16:51 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/17 19:19:01 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 22:24:52 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_vector2	add_vector2(t_vector2 vec1, t_vector2 vec2)
 {
-	vec1.x += vec2.x; 
+	vec1.x += vec2.x;
 	vec1.y += vec2.y;
 	return (vec1);
 }
@@ -43,14 +43,14 @@ t_fvector2	normalize(t_vector2 vector)
 
 	magn = magnitude(vector);
 	if (magn == 0)
-		return ((t_fvector2){1,1});
+		return ((t_fvector2){1, 1});
 	return ((t_fvector2){vector.x / magn, vector.y / magn});
 }
 
 float	distance(t_vector2 src, t_vector2 dest)
 {
-	return (sqrtf((dest.y - src.y) * (dest.y - src.y) 
-		+ (dest.x - src.x) * (dest.x - src.x)));
+	return (sqrtf((dest.y - src.y) * (dest.y - src.y)
+			+ (dest.x - src.x) * (dest.x - src.x)));
 }
 
 int	sqrdistance(t_vector2 src, t_vector2 dest)

@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/18 21:25:48 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 22:20:25 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,7 @@ t_game	init_values(char *map, t_vector2 map_size)
 	game.lvl->exit_chunk = find_exit_chunk(game.lvl->map);
 	load_images_forest(&game);
 	init_base_images(&game);
-	init_lvl_base(&game);
+	init_lvl_base(game.lvl);
 
 	game.fps = 0;
 	game.tot_fps = 0;
@@ -238,7 +238,7 @@ int	on_start(t_game *game, char *map, t_vector2 map_size)
 	game->lvl->canvas->origin = (t_vector2){0, 0};
 	init_chunks(game->lvl);
 	init_map_variables(game);
-	init_enemies(game);
+	init_enemies(game->lvl);
 	init_collisions(game->lvl);
 
 	gettimeofday(&game->lvl->start_time, NULL);

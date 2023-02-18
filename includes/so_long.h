@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/18 21:55:08 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 22:20:08 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -328,8 +328,8 @@ t_img			*btmlx_xpm_file_to_image(void *mlx, char *path,
 					t_vector2 dst_size);
 
 // init_lvl_base.c
-void			init_lvl_base(t_game *game);
-void			init_player2(t_game *game);
+void			init_lvl_base(t_level *lvl);
+void			init_player2(t_level *lvl);
 
 // sprite_choose.c
 enum e_img_id	choose_image(char *map, int chunk);
@@ -358,7 +358,7 @@ void			check_col_exit(t_game *game);
 void			player_movement(t_game *game, t_player *player);
 
 // init_enemies.c
-int				init_enemies(t_game *game);	
+int				init_enemies(t_level *lvl);
 
 //enemies_movement.c
 void			enemy_movement(t_game *game);

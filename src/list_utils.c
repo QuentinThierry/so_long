@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 15:14:09 by qthierry          #+#    #+#             */
-/*   Updated: 2023/01/18 19:34:07 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 22:23:34 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void	ft_lstadd_back(t_list **lst, t_list *elem)
 	else
 		*lst = elem;
 }
-
 
 void	free_list(t_list **lst)
 {
