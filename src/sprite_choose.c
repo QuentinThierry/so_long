@@ -6,13 +6,13 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 00:20:20 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/06 20:48:09 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 21:43:51 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
-static enum e_img_id get_map_info(char *map, int chunk)
+static enum e_img_id	_get_map_info(char *map, int chunk)
 {
 	if (map[chunk] == '0')
 		return (e_ground0_0);
@@ -22,12 +22,10 @@ static enum e_img_id get_map_info(char *map, int chunk)
 		return (e_exit_0);
 	if (map[chunk] == 'C')
 		return (e_collec0_0);
-	//if (map[chunk] == 'M')
-	//	return (e_ennemy);
 	return (e_ground0_0);
 }
 
-static enum e_img_id choose_ground()
+static enum e_img_id	_choose_ground(void)
 {
 	int	rng;
 
@@ -41,7 +39,7 @@ static enum e_img_id choose_ground()
 	return (e_ground0_0);
 }
 
-static enum e_img_id choose_wall()
+static enum e_img_id	_choose_wall(void)
 {
 	int	rng;
 
@@ -55,7 +53,7 @@ static enum e_img_id choose_wall()
 	return (e_wall0_0);
 }
 
-static enum e_img_id choose_collec()
+static enum e_img_id	_choose_collec(void)
 {
 	int	rng;
 
@@ -69,20 +67,18 @@ static enum e_img_id choose_collec()
 	return (e_collec0_0);
 }
 
-enum e_img_id choose_image(char *map, int chunk)
+enum e_img_id	choose_image(char *map, int chunk)
 {
-	enum e_img_id id;
+	enum e_img_id	id;
 
-	id = get_map_info(map, chunk);
+	id = _get_map_info(map, chunk);
 	if (id == e_ground0_0)
-		return (choose_ground());
+		return (_choose_ground());
 	if (id == e_wall0_0)
-		return (choose_wall());
+		return (_choose_wall());
 	if (id == e_exit_0)
 		return (e_exit_0);
 	if (id == e_collec0_0)
-		return (choose_collec());
+		return (_choose_collec());
 	return (e_ground0_0);
-	//if (id == e_ennemy0_0)
-	//	return (choose_ennemy());
 }

@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/18 21:05:58 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 21:55:08 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -416,8 +416,8 @@ void			play_animations(t_game *game);
 void			play_anim_enemy(t_game *game, t_enemy *enemy);
 
 // animations_player
-void			play_anim_player1(t_game *game);
-void			play_anim_player2(t_game *game);
+void			play_anim_player1(t_level *lvl, int is_end);
+void			play_anim_player2(t_level *lvl, int is_end);
 
 // image_flip.c
 void			flip_image_y(t_sprite *sprite);

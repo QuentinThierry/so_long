@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:39:38 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/18 20:48:57 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 21:39:31 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ static void	_load_player_idle(t_game *game)
 			FOREST_SQR_IDLE1_5, (t_vector2){PLAYER_WIDTH, PLAYER_HEIGHT});
 }
 
-static void _load_player_run(t_game *game)
+static void	_load_player_run(t_game *game)
 {
 	game->lvl->images[e_player_run_0_0] = btmlx_xpm_file_to_image(game->mlx,
 			FOREST_SQR_RUN0_0, (t_vector2){PLAYER_WIDTH, PLAYER_HEIGHT});

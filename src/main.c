@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/18 21:19:53 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 21:25:48 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,6 @@ void	draw_arrow_to_end(t_level *lvl, t_player *player)
 	pos_arrow = (t_vector2){norm_dir.x * DIST_ARROW, norm_dir.y * DIST_ARROW};
 	pos_arrow = get_offset_for_cam(lvl->cam, add_vector2(pos_arrow, player_pos_mid));
 	blend_image_to_image(lvl->cam->sprite, lvl->arrow, pos_arrow);
-	// my_mlx_pixel_put(lvl->cam->sprite, pos_arrow, RED);
 }
 
 int	on_update(t_game *game)
