@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/18 18:16:44 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 21:05:58 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@
 # define SPEED 250
 # define PLAYER_WIDTH 42
 # define PLAYER_HEIGHT 34
+# define DIST_ARROW 32
 
 // --=======----=======-- ENEMIES --=======----=======--
 # define ENEMY_SPEED 175
@@ -153,6 +154,7 @@ typedef struct s_level
 	struct s_img		**images;
 	struct s_camera		*cam;
 	struct s_sprite		*background;
+	struct s_sprite		*arrow;
 	struct s_player		*player1;
 	struct s_player		*player2;
 	struct s_enemy		**enemies;
@@ -278,7 +280,7 @@ typedef union u_color
 
 // others
 void			my_mlx_pixel_put(t_sprite *sprite,
-					int x, int y, unsigned int color);
+					t_vector2 pos, unsigned int color);
 
 // draw_game.c
 int				draw_on_window(t_game *game);
@@ -428,10 +430,13 @@ void			clear_image(t_sprite *sprite);
 unsigned int	get_color_at(t_sprite *sprite, t_vector2 pos);
 void			blend_image_to_image(t_sprite *back,
 					t_sprite *front, t_vector2 pos);
+void			blend_one_pixel(t_sprite *back, t_vector2 pos, t_color color);
 
 // draw_line.c
-void			draw_line(t_camera *camra,
+void			draw_line(t_camera *camera,
 					t_vector2 src, t_vector2 dest, t_color color);
+void			draw_line_sparkles(t_level *lvl, int end);
+
 
 // debug.c
 void			debug_calculate(t_level *lvl);
@@ -441,5 +446,7 @@ void			draw_shortest_path(t_level *lvl, int end);
 void			draw_rectangle(t_sprite *sprite, t_vector2 pos,
 					t_vector2 size, int color);
 int				on_update(t_game *game);
+
+void			draw_arrow_to_end(t_level *lvl, t_player *player);
 
 #endif

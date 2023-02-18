@@ -6,13 +6,13 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 21:38:12 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/17 20:45:36 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 20:39:02 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
-void	my_mlx_pixel_put(t_sprite *sprite, int x, int y, unsigned int color)
+void	img_mlx_pixel_put(t_sprite *sprite, int x, int y, unsigned int color)
 {
 	char	*dst;
 
@@ -39,7 +39,7 @@ void	draw_line(t_camera *cam, t_vector2 src, t_vector2 dest, t_color color)
 			src.y + i * norm_vec.y
 		};
 		if (is_inside_camera(cam, coo))
-			my_mlx_pixel_put(cam->sprite, coo.x, coo.y, color.color);
+			img_mlx_pixel_put(cam->sprite, coo.x, coo.y, color.color);
 		i++;
 	}
 }

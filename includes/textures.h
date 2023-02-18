@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 02:00:21 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/18 16:12:03 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 20:48:19 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ enum e_img_id
 	e_canvas,
 	e_camera,
 	e_background,
+	e_arrow,
 	e_debug,
 	e_debug_tile,
 	e_player_idle_0_0,
@@ -137,6 +138,7 @@ enum e_img_id
 // --=======----=======-- IMAGES --=======----=======--
 
 # define FOREST_BACKGROUND "assets/forest/forest_background.xpm"
+# define ARROW "assets/others/arrow.xpm"
 
 // PLAYER IDLE
 # define FOREST_SQR_IDLE0_0 "assets/squirrel/squirrel_idle0_0.xpm"

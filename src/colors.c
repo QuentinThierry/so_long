@@ -6,27 +6,27 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:01:50 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/18 19:03:13 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 21:06:12 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
-static unsigned int	_get_color_at(t_sprite *pict, t_vector2 pos)
+static unsigned int	_get_color_at(t_sprite *sprite, t_vector2 pos)
 {
 	char	*dst;
 
-	dst = pict->img_ptr->data +
-		(pos.y * pict->line_length + pos.x * pict->opp);
+	dst = sprite->img_ptr->data +
+		(pos.y * sprite->line_length + pos.x * sprite->opp);
 	return (*(unsigned int*)(dst));
 }
 
-static void	_change_color(t_sprite *pict, t_vector2 pos, unsigned int color)
+static void	_change_color(t_sprite *sprite, t_vector2 pos, unsigned int color)
 {
 	char	*dst;
 
-	dst = pict->img_ptr->data +
-		(pos.y * pict->line_length + pos.x * pict->opp);
+	dst = sprite->img_ptr->data +
+		(pos.y * sprite->line_length + pos.x * sprite->opp);
 	*(unsigned int*)(dst) = color;
 }
 
@@ -45,7 +45,7 @@ static t_color	_get_blended_color(t_color c_back, t_color c_front)
 	return (res);
 }
 
-inline static void	_apply_blend(t_sprite *back,
+inline static void	apply_blend(t_sprite *back,
 		t_sprite *front, t_vector2 pos, t_vector2 xy)
 {
 	t_color			c_back;
@@ -96,7 +96,7 @@ void	blend_image_to_image(t_sprite *back, t_sprite *front,
 		x = pos.x;
 		while (x < width)
 		{
-			_apply_blend(back, front, pos, (t_vector2){x, y});
+			apply_blend(back, front, pos, (t_vector2){x, y});
 			x++;
 		}
 		++y;

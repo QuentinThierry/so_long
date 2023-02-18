@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 18:50:40 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/17 03:01:29 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 20:37:33 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	draw_shortest_path(t_level *lvl, int end)
 		draw_line(lvl->cam,
 			(t_vector2){coo1x, coo1y},
 			(t_vector2){coo2x, coo2y},
-			(t_color)RED);
+			(t_color)((unsigned int)0x20FF0000));
 		end = lvl->path_grid[end].parent;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 20:18:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/18 18:37:45 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 20:40:35 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,11 @@ int	draw_on_window(t_game *game)
 	if (game->is_end)
 		end_game(game);
 	else if (ISDEBUG)
+	{
 		debug_calculate(game->lvl);
+		a_star(game, *game->lvl->player1->pos, NULL);
+		if (game->lvl->player2)
+			a_star(game, *game->lvl->player2->pos, NULL);
+	}
 	return (0);
 }
