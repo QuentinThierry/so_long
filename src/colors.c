@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:01:50 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/18 18:47:56 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 19:03:13 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ inline static void	_apply_blend(t_sprite *back,
 
 	c_front = (t_color)_get_color_at(front,
 			(t_vector2){xy.x - pos.x, xy.y - pos.y});
-	// printf("ici : %x\n", c_front.alpha);
 	if (c_front.alpha == 0xff)
 		_change_color(back, xy, c_front.color);
 	else if (c_front.alpha != 0)
@@ -78,7 +77,7 @@ void	blend_image_to_image(t_sprite *back, t_sprite *front,
 		width -= pos.x + width - back->size.x;
 	if (pos.x < front->pos.x)
 	{
-		width += pos.x - 1;
+		width += pos.x;
 		pos.x = 0;
 	}
 	if (pos.y + height > back->size.y)
@@ -91,11 +90,15 @@ void	blend_image_to_image(t_sprite *back, t_sprite *front,
 	y = pos.y;
 	height += pos.y;
 	width += pos.x;
+	
 	while (y < height)
 	{
 		x = pos.x;
 		while (x < width)
-			_apply_blend(back, front, pos, (t_vector2){x++, y});
+		{
+			_apply_blend(back, front, pos, (t_vector2){x, y});
+			x++;
+		}
 		++y;
 	}
 }
