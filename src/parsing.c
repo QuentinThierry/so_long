@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 14:19:42 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/09 17:22:24 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 21:56:55 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,7 +258,7 @@ int	parse_map(const char *file_name, char **map, t_vector2 *map_size)
 		return (0);
 	map2D = read_map(fd, &x, &y);
 	close(fd);
-	if (!*map2D)
+	if (!map2D)
 		return (0);
 	if(!is_closed(map2D, x, y))
 		return (free_tab2d(map2D, y), 0);
