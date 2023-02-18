@@ -6,13 +6,13 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:01:50 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/17 19:05:43 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 18:47:56 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
-unsigned int	_get_color_at(t_sprite *pict, t_vector2 pos)
+static unsigned int	_get_color_at(t_sprite *pict, t_vector2 pos)
 {
 	char	*dst;
 
@@ -53,6 +53,7 @@ inline static void	_apply_blend(t_sprite *back,
 
 	c_front = (t_color)_get_color_at(front,
 			(t_vector2){xy.x - pos.x, xy.y - pos.y});
+	// printf("ici : %x\n", c_front.alpha);
 	if (c_front.alpha == 0xff)
 		_change_color(back, xy, c_front.color);
 	else if (c_front.alpha != 0)
@@ -77,7 +78,7 @@ void	blend_image_to_image(t_sprite *back, t_sprite *front,
 		width -= pos.x + width - back->size.x;
 	if (pos.x < front->pos.x)
 	{
-		width += pos.x;
+		width += pos.x - 1;
 		pos.x = 0;
 	}
 	if (pos.y + height > back->size.y)
@@ -87,7 +88,6 @@ void	blend_image_to_image(t_sprite *back, t_sprite *front,
 		height += pos.y;
 		pos.y = 0;
 	}
-
 	y = pos.y;
 	height += pos.y;
 	width += pos.x;

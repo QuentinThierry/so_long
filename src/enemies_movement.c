@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:19:55 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/17 19:14:43 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 18:37:17 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,10 @@ void	enemy_movement(t_game *game)
 	while (game->lvl->enemies[++i])
 	{
 		enemy = game->lvl->enemies[i];
+		if (enemy->dir.x < 0)
+			enemy->is_look_left = 1;
+		else
+			enemy->is_look_left = -1;
 		if (!is_inside_load_range(game, *enemy->pos))
 			continue ;
 		find_chunk_under(game->lvl->canvas, enemy->sprite);
@@ -118,7 +122,6 @@ void	enemy_movement(t_game *game)
 			collider = check_wall_collision(game->lvl, enemy->collider);
 			if (collider)
 				_reverse_move_enemy(enemy, collider, (t_vector2){0, 1});
-
 			find_chunk_under(game->lvl->canvas, enemy->sprite);
 		}
 	}

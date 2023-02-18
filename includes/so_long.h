@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/17 20:44:31 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 18:16:44 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,6 +226,7 @@ typedef struct s_enemy
 	struct s_collider	*collider;
 	int					is_triggered;
 	struct s_player		*target;
+	int					is_look_left;
 }	t_enemy;
 
 typedef struct s_sprite
@@ -286,7 +287,6 @@ int				draw_on_window(t_game *game);
 char			*ft_itoa(int n);
 void			*ft_memcpy(void *dest, const void *src, size_t n);
 void			ft_bzero(void *dest, size_t n);
-char			*get_address_at(t_sprite *sprite, int x, int y);
 size_t			ft_strlen(const char *s);
 int				equals(char	*s1, char *s2);
 void			*ft_calloc(size_t nmemb, size_t size);

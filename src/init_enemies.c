@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:25:50 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/15 18:52:29 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 18:35:47 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static t_enemy	*_instantiate_enemy(t_img **images, int id)
 	enemy->collider->image_id = &enemy->sprite->image_id;
 	enemy->collider->pos = enemy->pos;
 	enemy->collider->size = enemy->size;
+	enemy->is_look_left = 1;
 	return (enemy);
 }
 

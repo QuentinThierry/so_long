@@ -6,11 +6,17 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:06:33 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/11 17:07:17 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 18:05:13 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
+
+static inline char	*_get_address_at(t_sprite *sprite, int x, int y)
+{
+	return (sprite->img_ptr->data + (y * sprite->line_length)
+			+ (x * sprite->opp));
+}
 
 void	flip_image_y(t_sprite *pict)
 {
@@ -29,41 +35,13 @@ void	flip_image_y(t_sprite *pict)
 		x = 0;
 		while (x < size_x / 2)
 		{
-			tmp = *(unsigned int*)(get_address_at(pict, x, y));
-			*(unsigned int*)(get_address_at(pict, x, y)) = 
-				*(unsigned int*)(get_address_at(pict, size_x - x, y));
-				*(unsigned int*)(get_address_at(pict, size_x - x, y))
+			tmp = *(unsigned int*)(_get_address_at(pict, x, y));
+			*(unsigned int*)(_get_address_at(pict, x, y)) = 
+				*(unsigned int*)(_get_address_at(pict, size_x - x, y));
+				*(unsigned int*)(_get_address_at(pict, size_x - x, y))
 				= tmp;
 			++x;
 		}
 		++y;
-	}
-}
-
-void flip_image_x(t_sprite *pict)
-{
-	int			x;
-	int			y;
-	int			size_x;
-	int			size_y;
-	unsigned	tmp;
-
-	x = 0;
-	y = 0;
-	size_x = pict->size.x;
-	size_y = pict->size.y;
-	while (x < size_x)
-	{
-		y = 0;
-		while (y < size_y / 2)
-		{
-			tmp = *(unsigned int*)(get_address_at(pict, x, y));
-			*(unsigned int*)(get_address_at(pict, x, y)) = 
-				*(unsigned int*)(get_address_at(pict, size_x - x, y));
-			*(unsigned int*)(get_address_at(pict, size_x - x, y))
-				= tmp;
-			++y;
-		}
-		++x;
 	}
 }

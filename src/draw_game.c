@@ -6,12 +6,21 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 20:18:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/17 21:11:38 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 18:37:45 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../includes/so_long.h"
+
+unsigned int	_get_color_at(t_sprite *pict, t_vector2 pos)
+{
+	char	*dst;
+
+	dst = pict->img_ptr->data +
+		(pos.y * pict->line_length + pos.x * pict->opp);
+	return (*(unsigned int*)(dst));
+}
 
 static void	_draw_enemies(t_game *game)
 {
@@ -24,9 +33,13 @@ static void	_draw_enemies(t_game *game)
 		{
 			game->lvl->enemies[i]->sprite->img_ptr
 				= game->lvl->images[game->lvl->enemies[i]->sprite->image_id];
+			if (game->lvl->enemies[i]->is_look_left < 0)
+				flip_image_y(game->lvl->enemies[i]->sprite);
 			blend_image_to_image(game->lvl->canvas->sprite,
 				game->lvl->enemies[i]->sprite,
 				*game->lvl->enemies[i]->pos);
+			if (game->lvl->enemies[i]->is_look_left < 0)
+				flip_image_y(game->lvl->enemies[i]->sprite);
 		}
 		++i;
 	}

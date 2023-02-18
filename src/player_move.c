@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 18:30:53 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/15 19:03:15 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 17:14:07 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,6 @@ void	player_movement(t_game *game, t_player *player)
 
 	chunk_before = pos_to_chunk(game->lvl, player->pos->x, player->pos->y);
 	if (player->dir.x)
-		player->is_look_left = -player->dir.x;
-	if (player == game->lvl->player2)
 		player->is_look_left = -player->dir.x;
 	find_chunk_under(game->lvl->canvas, player->sprite);
 	_move_player(game, player, 1, 0);

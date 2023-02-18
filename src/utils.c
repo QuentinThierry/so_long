@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 00:05:30 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/17 18:28:45 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/18 17:46:44 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,6 @@ void	ft_bzero(void *dest, size_t n)
 		*(unsigned char *)(dest + i) = 0;
 		i++;
 	}
-}
-
-inline char	*get_address_at(t_sprite *sprite, int x, int y)
-{
-	return (sprite->img_ptr->data + (y * sprite->line_length)
-			+ (x * sprite->opp));
 }
 
 size_t	ft_strlen(const char *s)
