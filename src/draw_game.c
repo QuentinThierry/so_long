@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 20:18:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/18 22:29:26 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/20 17:48:04 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,18 +63,21 @@ static void	_draw_player2(t_game *game)
 		flip_image_y(game->lvl->player2->sprite);
 }
 
-static void	_draw_players(t_game *game)
+void	draw_ui(t_game *game)
 {
-	_draw_player1(game);
-	if (game->lvl->player2)
-		_draw_player2(game);
+	blend_image_to_image(game->lvl->cam->sprite, game->lvl->ui, game->lvl->ui->pos);
+	// mlx_string_put(game->mlx, game->window, 500, 500, RED, ft_itoa(game->lvl->nb_move));
 }
 
 int	draw_on_window(t_game *game)
 {
 	_draw_enemies(game);
-	_draw_players(game);
+	_draw_player1(game);
+	if (game->lvl->player2)
+		_draw_player2(game);
 	render_camera(game->lvl, *game->lvl->cam->pos);
+	draw_arrow_to_end(game->lvl, game->lvl->player1);
+	draw_ui(game);
 	if (game->is_end)
 		end_game(game);
 	else if (ISDEBUG)

@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/18 23:42:32 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/20 17:55:20 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ int	on_update(t_game *game)
 	play_animations(game);
 	recalculate_chunks(game->lvl);
 	draw_on_window(game);
-	draw_arrow_to_end(game->lvl, game->lvl->player1);
+
 	mlx_put_image_to_window(game->mlx, game->window,
 		game->lvl->cam->sprite->img_ptr, 0, 0);
 	clear_chunks_to_redraw(game->lvl->canvas);
@@ -236,6 +236,35 @@ void	init_dist_table(t_level *lvl, int *table, int size)
 	}
 }
 
+void	init_ui(t_game *game)
+{
+	t_img		*tmp_img;
+	t_sprite	tmp_sprite;
+
+	tmp_img = resize_img(game->mlx, game->lvl->images[e_collec0_0],
+		(t_vector2){game->lvl->ui->size.x / 14, game->lvl->ui->size.y / 2},
+			(t_vector2){game->lvl->images[e_collec0_0]->width,
+			game->lvl->images[e_collec0_0]->height});
+	btmlx_get_addr(&tmp_sprite, tmp_img);
+	tmp_sprite.pos.x = game->lvl->ui->pos.x + (game->lvl->ui->size.x / 4);
+	tmp_sprite.pos.y = game->lvl->ui->pos.y + (game->lvl->ui->size.y / 2) - tmp_sprite.size.y / 2;
+	blend_image_to_image(game->lvl->ui, &tmp_sprite, tmp_sprite.pos);
+	mlx_destroy_image(game->mlx, tmp_img);
+
+	tmp_img = resize_img(game->mlx, game->lvl->images[e_player_idle_0_0],
+		(t_vector2){game->lvl->ui->size.x / 12, game->lvl->ui->size.y / 2},
+			(t_vector2){game->lvl->images[e_player_idle_0_0]->width,
+			game->lvl->images[e_player_idle_0_0]->height});
+	btmlx_get_addr(&tmp_sprite, tmp_img);
+	tmp_sprite.pos.x = game->lvl->ui->pos.x + (game->lvl->ui->size.x / 2);
+	tmp_sprite.pos.y = game->lvl->ui->pos.y + (game->lvl->ui->size.y / 2) - tmp_sprite.size.y / 2;
+	blend_image_to_image(game->lvl->ui, &tmp_sprite, tmp_sprite.pos);
+	mlx_destroy_image(game->mlx, tmp_img);
+	
+	game->lvl->ui->pos.x = SCREEN_WIDTH / 2 - (game->lvl->ui->size.x / 2);
+	game->lvl->ui->pos.y = 0;
+}
+
 int	on_start(t_game *game, char *map, t_vector2 map_size)
 {
 	*game = init_values(map, map_size);
@@ -246,6 +275,7 @@ int	on_start(t_game *game, char *map, t_vector2 map_size)
 	init_map_variables(game);
 	init_enemies(game->lvl);
 	init_collisions(game->lvl);
+	init_ui(game);
 	gettimeofday(&game->lvl->start_time, NULL);
 	game->lvl->is_animating_cam = HAS_CAM_ANIM;
 	init_dist_table(game->lvl, game->lvl->dist_table, map_size.x * map_size.y);

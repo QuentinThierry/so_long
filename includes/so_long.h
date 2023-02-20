@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/18 23:44:18 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/20 17:56:19 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,10 @@
 # define PLAYER_WIDTH 42
 # define PLAYER_HEIGHT 34
 # define DIST_ARROW 32
+
+// // --=======----=======-- UI --=======----=======--
+// # define UI_POS_COLLECX 10
+// # define UI_POS_COLLECY 5
 
 // --=======----=======-- ENEMIES --=======----=======--
 # define ENEMY_SPEED 175
@@ -154,6 +158,8 @@ typedef struct s_level
 	struct s_camera		*cam;
 	struct s_sprite		*background;
 	struct s_sprite		*arrow;
+	struct s_sprite		*ui;
+	struct s_vector2	ui_pos;
 	struct s_player		*player1;
 	struct s_player		*player2;
 	struct s_enemy		**enemies;
@@ -323,6 +329,8 @@ int				is_inside_camera(t_camera *cam, t_vector2 pos);
 
 // bettermlx.c
 void			btmlx_get_addr(t_sprite *sprite, t_img *img);
+t_img			*resize_img(void *mlx, t_img *src,
+					t_vector2 dst_size, t_vector2 src_size);
 t_img			*btmlx_xpm_file_to_image(void *mlx, char *path,
 					t_vector2 dst_size);
 

@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:25:20 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/14 05:13:55 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/20 17:47:42 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	btmlx_get_addr(t_sprite *sprite, t_img *img)
 	sprite->size.y = img->height;
 }
 
-static t_img	*resize_img(void *mlx, t_img *src,
+t_img	*resize_img(void *mlx, t_img *src,
 					t_vector2 dst_size, t_vector2 src_size)
 {
 	t_img		*dst;
@@ -47,7 +47,6 @@ static t_img	*resize_img(void *mlx, t_img *src,
 					+ x * (src->bpp / 8));
 		}
 	}
-	mlx_destroy_image(mlx, src);
 	return (dst);
 }
 
@@ -68,6 +67,7 @@ t_img	*btmlx_xpm_file_to_image(void *mlx, char *path,
 		return (src);
 	dst = resize_img(mlx, src, dst_size, src_size);
 	if (!dst)
-		return (NULL);
+		return (mlx_destroy_image(mlx, src), NULL);
+	mlx_destroy_image(mlx, src);
 	return (dst);
 }
