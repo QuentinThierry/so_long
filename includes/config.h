@@ -6,15 +6,15 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 00:04:43 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/20 17:53:36 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/20 19:53:18 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CONFIG_H
 # define CONFIG_H
 // --=======----=======-- WINDOWS --=======----=======--
-# define SCREEN_WIDTH 1024 // 1920 1024 2560 3840
-# define SCREEN_HEIGHT 720 // 1080 720 1440 2160
+# define SCREEN_WIDTH 1024 // 1024 1920 2560 3840
+# define SCREEN_HEIGHT 720 // 720 1080 720 1440 2160
 # define SIZE_CHUNK 64
 
 // --=======----=======-- FPS --=======----=======--

@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 17:45:49 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/20 13:48:31 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/20 19:50:44 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,12 @@ void	init_lvl_base(t_level *lvl)
 	lvl->arrow = ft_calloc(sizeof(t_sprite), 1);
 	lvl->arrow->image_id = e_arrow;
 	btmlx_get_addr(lvl->arrow, lvl->images[e_arrow]);
-	lvl->ui = ft_calloc(sizeof(t_sprite), 1);
-	lvl->ui->image_id = e_ui;
-	btmlx_get_addr(lvl->ui, lvl->images[e_ui]);
+	if (SCREEN_WIDTH >= 100 && SCREEN_HEIGHT >= 100)
+	{
+		lvl->ui = ft_calloc(sizeof(t_sprite), 1);
+		lvl->ui->image_id = e_ui;
+		btmlx_get_addr(lvl->ui, lvl->images[e_ui]);
+	}
 	lvl->nb_collec = 0;
 	lvl->max_collec = 0;
 	lvl->nb_move = 0;

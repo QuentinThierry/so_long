@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/20 17:55:20 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/20 20:30:37 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ void	draw_arrow_to_end(t_level *lvl, t_player *player)
 	blend_image_to_image(lvl->cam->sprite, lvl->arrow, pos_arrow);
 }
 
+
 int	on_update(t_game *game)
 {
 	static unsigned int	frame = 0;
@@ -165,7 +166,6 @@ int	on_update(t_game *game)
 	play_animations(game);
 	recalculate_chunks(game->lvl);
 	draw_on_window(game);
-
 	mlx_put_image_to_window(game->mlx, game->window,
 		game->lvl->cam->sprite->img_ptr, 0, 0);
 	clear_chunks_to_redraw(game->lvl->canvas);
@@ -250,7 +250,6 @@ void	init_ui(t_game *game)
 	tmp_sprite.pos.y = game->lvl->ui->pos.y + (game->lvl->ui->size.y / 2) - tmp_sprite.size.y / 2;
 	blend_image_to_image(game->lvl->ui, &tmp_sprite, tmp_sprite.pos);
 	mlx_destroy_image(game->mlx, tmp_img);
-
 	tmp_img = resize_img(game->mlx, game->lvl->images[e_player_idle_0_0],
 		(t_vector2){game->lvl->ui->size.x / 12, game->lvl->ui->size.y / 2},
 			(t_vector2){game->lvl->images[e_player_idle_0_0]->width,
@@ -260,7 +259,6 @@ void	init_ui(t_game *game)
 	tmp_sprite.pos.y = game->lvl->ui->pos.y + (game->lvl->ui->size.y / 2) - tmp_sprite.size.y / 2;
 	blend_image_to_image(game->lvl->ui, &tmp_sprite, tmp_sprite.pos);
 	mlx_destroy_image(game->mlx, tmp_img);
-	
 	game->lvl->ui->pos.x = SCREEN_WIDTH / 2 - (game->lvl->ui->size.x / 2);
 	game->lvl->ui->pos.y = 0;
 }
@@ -275,7 +273,8 @@ int	on_start(t_game *game, char *map, t_vector2 map_size)
 	init_map_variables(game);
 	init_enemies(game->lvl);
 	init_collisions(game->lvl);
-	init_ui(game);
+	if (SCREEN_WIDTH > 100 && SCREEN_HEIGHT > 100)
+		init_ui(game);
 	gettimeofday(&game->lvl->start_time, NULL);
 	game->lvl->is_animating_cam = HAS_CAM_ANIM;
 	init_dist_table(game->lvl, game->lvl->dist_table, map_size.x * map_size.y);
@@ -303,9 +302,11 @@ int	main(int argc, char const *argv[])
 	srand((unsigned int)seed);
 	if (on_start(&game, map, map_size))
 		return (1);
+	
 	mlx_hook(game.window, KeyPress, KeyPressMask, &press_key, &game);
 	mlx_hook(game.window, KeyRelease, KeyReleaseMask, &release_key, &game);
 	mlx_loop_hook(game.mlx, on_update, &game.mlx);
+	
 	mlx_loop(game.mlx);
 	mlx_do_key_autorepeaton(game.mlx);
 	return (0);
