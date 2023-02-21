@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 00:20:20 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/18 21:43:51 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/21 19:00:50 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,6 @@ static enum e_img_id	_choose_wall(void)
 	int	rng;
 
 	rng = rand() % 100;
-	if (rng < 5)
-		return (e_wall3_0);
-	if (rng < 15)
-		return (e_wall2_0);
 	if (rng < 50)
 		return (e_wall1_0);
 	return (e_wall0_0);
@@ -55,15 +51,6 @@ static enum e_img_id	_choose_wall(void)
 
 static enum e_img_id	_choose_collec(void)
 {
-	int	rng;
-
-	rng = rand() % 100;
-	if (rng < 5)
-		return (e_collec2_0);
-	if (rng < 15)
-		return (e_collec2_0);
-	if (rng < 50)
-		return (e_collec1_0);
 	return (e_collec0_0);
 }
 

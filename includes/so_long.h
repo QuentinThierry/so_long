@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/20 17:56:19 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/21 19:56:27 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@
 # define BLUE 0xFF0000FF
 # define WHITE 0xFFFFFFFF
 # define BLACK 0xFF000000
+# define DARK_GRAY 0xFF666666
+# define LIGHT_GRAY 0xFFCCCCCC
 
 // --=======----=======-- FPS --=======----=======--
 # define FRAME_RATE_DRAW_SPEED 100
@@ -66,10 +68,6 @@
 # define PLAYER_HEIGHT 34
 # define DIST_ARROW 32
 
-// // --=======----=======-- UI --=======----=======--
-// # define UI_POS_COLLECX 10
-// # define UI_POS_COLLECY 5
-
 // --=======----=======-- ENEMIES --=======----=======--
 # define ENEMY_SPEED 175
 # define DISTANCE_AGGRO 300
@@ -81,7 +79,7 @@
 # define ANIM_RARE_IDLE_CHANCE_P 3
 # define ANIM_TIME_IDLE0_P 0.3
 # define ANIM_TIME_IDLE1_P 1
-# define ANIM_TIME_RUN_P 0.2
+# define ANIM_TIME_RUN_P 0.1
 # define ANIM_NB_RUN_P 8
 # define ANIM_NB_IDLE0_E 5
 # define ANIM_NB_IDLE1_E 14
@@ -159,6 +157,7 @@ typedef struct s_level
 	struct s_sprite		*background;
 	struct s_sprite		*arrow;
 	struct s_sprite		*ui;
+	struct s_sprite		*black_screen;
 	struct s_vector2	ui_pos;
 	struct s_player		*player1;
 	struct s_player		*player2;
@@ -289,6 +288,7 @@ void			my_mlx_pixel_put(t_sprite *sprite,
 
 // draw_game.c
 int				draw_on_window(t_game *game);
+void			draw_ui(t_game *game);
 
 // utils.c
 char			*ft_itoa(int n);

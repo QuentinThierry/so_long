@@ -6,106 +6,26 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:39:38 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/20 17:54:32 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/21 19:48:36 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
-static void	_load_ground1(t_game *game)
+static void	_load_ground_wall(t_game *game)
 {
 	game->lvl->images[e_ground0_0] = btmlx_xpm_file_to_image(game->mlx,
 			FOREST_GROUND, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_ground0_1] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_GROUND, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_ground0_2] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_GROUND, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_ground0_3] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_GROUND, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_ground0_4] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_GROUND, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_ground1_0] = btmlx_xpm_file_to_image(game->mlx,
 			FOREST_GRASS, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_ground1_1] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_GRASS, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_ground1_2] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_GRASS, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_ground1_3] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_GRASS, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_ground1_4] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_STICK, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-}
-
-static void	_load_ground2(t_game *game)
-{
 	game->lvl->images[e_ground2_0] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_STICK, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_ground2_1] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_STICK, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_ground2_2] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_STICK, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_ground2_3] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_STICK, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_ground2_4] = btmlx_xpm_file_to_image(game->mlx,
 			FOREST_STICK, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_ground3_0] = btmlx_xpm_file_to_image(game->mlx,
 			FOREST_STONE, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_ground3_1] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_STONE, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_ground3_2] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_STONE, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_ground3_3] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_STONE, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_ground3_4] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_STONE, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-}
-
-static void	_load_wall1(t_game *game)
-{
 	game->lvl->images[e_wall0_0] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_TREE1, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_wall0_1] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_TREE1, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_wall0_2] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_TREE1, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_wall0_3] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_TREE1, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_wall0_4] = btmlx_xpm_file_to_image(game->mlx,
 			FOREST_TREE1, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_wall1_0] = btmlx_xpm_file_to_image(game->mlx,
 			FOREST_TREE2, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_wall1_1] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_TREE2, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_wall1_2] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_TREE2, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_wall1_3] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_TREE2, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_wall1_4] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_TREE2, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-}
-
-static void	_load_wall2(t_game *game)
-{
-	game->lvl->images[e_wall2_0] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_TREE1, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_wall2_1] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_TREE1, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_wall2_2] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_TREE1, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_wall2_3] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_TREE1, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_wall2_4] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_TREE1, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_wall3_0] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_TREE1, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_wall3_1] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_TREE1, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_wall3_2] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_TREE1, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_wall3_3] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_TREE1, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_wall3_4] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_TREE1, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 }
 
 static void	_load_player_idle(t_game *game)
@@ -156,69 +76,17 @@ static void	_load_player_run(t_game *game)
 			FOREST_SQR_RUN0_7, (t_vector2){PLAYER_WIDTH, PLAYER_HEIGHT});
 }
 
-static void	_load_exit(t_game *game)
-{
-	game->lvl->images[e_exit_0] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_EXIT, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_exit_1] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_EXIT, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_exit_2] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_EXIT, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_exit_3] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_EXIT, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_exit_4] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_EXIT, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-}
-
-static void	_load_collec1(t_game *game)
+static void	_load_collec_exit(t_game *game)
 {
 	game->lvl->images[e_collec0_0] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_FLOWER_R, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_collec0_1] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_FLOWER_R, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_collec0_2] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_FLOWER_R, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_collec0_3] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_FLOWER_R, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_collec0_4] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_FLOWER_R, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_ACORN, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_collec1_0] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_FLOWER_Y, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_collec1_1] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_FLOWER_Y, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_collec1_2] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_FLOWER_Y, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_collec1_3] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_FLOWER_Y, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_collec1_4] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_FLOWER_Y, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+			FOREST_ACORN_EMPT, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
+		game->lvl->images[e_exit_0] = btmlx_xpm_file_to_image(game->mlx,
+			FOREST_EXIT, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 }
 
-static void	_load_collec2(t_game *game)
-{
-	game->lvl->images[e_collec2_0] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_FLOWER_Y, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_collec2_1] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_FLOWER_Y, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_collec2_2] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_FLOWER_Y, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_collec2_3] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_FLOWER_Y, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_collec2_4] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_FLOWER_Y, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_collec3_0] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_FLOWER_D, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_collec3_1] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_FLOWER_D, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_collec3_2] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_FLOWER_D, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_collec3_3] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_FLOWER_D, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_collec3_4] = btmlx_xpm_file_to_image(game->mlx,
-			FOREST_FLOWER_D, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-}
-
-static void	_load_ennemy(t_game *game)
+static void	_load_ennemy_idle1(t_game *game)
 {
 	game->lvl->images[e_enemy_idle_0_0] = btmlx_xpm_file_to_image(game->mlx,
 			SLIME_B_IDLE0_0, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
@@ -242,7 +110,7 @@ static void	_load_ennemy(t_game *game)
 			SLIME_B_IDLE1_4, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 }
 
-static void	_load_ennemy2(t_game *game)
+static void	_load_ennemy_idle2(t_game *game)
 {
 	game->lvl->images[e_enemy_idle_1_5] = btmlx_xpm_file_to_image(game->mlx,
 			SLIME_B_IDLE1_5, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
@@ -288,7 +156,7 @@ static void	load_special_images(t_game *game)
 			(t_vector2){SIZE_CHUNK / 4, SIZE_CHUNK / 4});
 	game->lvl->images[e_ui]
 		= btmlx_xpm_file_to_image(game->mlx, UI,
-			(t_vector2){SCREEN_WIDTH / 5, SCREEN_HEIGHT / 25});
+			(t_vector2){SCREEN_WIDTH / UI_RATIO, SCREEN_HEIGHT / (2.5 * UI_RATIO)});
 	if (!ISDEBUG)
 		return ;
 	game->lvl->images[e_debug]
@@ -302,17 +170,12 @@ void	load_images_forest(t_game *game)
 {
 	game->lvl->images = ft_calloc(sizeof(t_img *), e_nb_img);
 	load_special_images(game);
-	_load_ground1(game);
-	_load_ground2(game);
-	_load_wall1(game);
-	_load_wall2(game);
+	_load_ground_wall(game);
 	_load_player_idle(game);
 	_load_player_run(game);
-	_load_exit(game);
-	_load_collec1(game);
-	_load_collec2(game);
-	_load_ennemy(game);
-	_load_ennemy2(game);
+	_load_collec_exit(game);
+	_load_ennemy_idle1(game);
+	_load_ennemy_idle2(game);
 	_load_enemy_run(game);
 }
 

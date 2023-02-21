@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 02:00:21 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/20 13:49:42 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/21 19:37:03 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,70 +45,14 @@ enum e_img_id
 	e_player_run_0_6,
 	e_player_run_0_7,
 	e_ground0_0,
-	e_ground0_1,
-	e_ground0_2,
-	e_ground0_3,
-	e_ground0_4,
 	e_ground1_0,
-	e_ground1_1,
-	e_ground1_2,
-	e_ground1_3,
-	e_ground1_4,
 	e_ground2_0,
-	e_ground2_1,
-	e_ground2_2,
-	e_ground2_3,
-	e_ground2_4,
 	e_ground3_0,
-	e_ground3_1,
-	e_ground3_2,
-	e_ground3_3,
-	e_ground3_4,
 	e_wall0_0,
-	e_wall0_1,
-	e_wall0_2,
-	e_wall0_3,
-	e_wall0_4,
 	e_wall1_0,
-	e_wall1_1,
-	e_wall1_2,
-	e_wall1_3,
-	e_wall1_4,
-	e_wall2_0,
-	e_wall2_1,
-	e_wall2_2,
-	e_wall2_3,
-	e_wall2_4,
-	e_wall3_0,
-	e_wall3_1,
-	e_wall3_2,
-	e_wall3_3,
-	e_wall3_4,
 	e_exit_0,
-	e_exit_1,
-	e_exit_2,
-	e_exit_3,
-	e_exit_4,
 	e_collec0_0,
-	e_collec0_1,
-	e_collec0_2,
-	e_collec0_3,
-	e_collec0_4,
 	e_collec1_0,
-	e_collec1_1,
-	e_collec1_2,
-	e_collec1_3,
-	e_collec1_4,
-	e_collec2_0,
-	e_collec2_1,
-	e_collec2_2,
-	e_collec2_3,
-	e_collec2_4,
-	e_collec3_0,
-	e_collec3_1,
-	e_collec3_2,
-	e_collec3_3,
-	e_collec3_4,
 	e_enemy_idle_0_0,
 	e_enemy_idle_0_1,
 	e_enemy_idle_0_2,
@@ -140,7 +84,7 @@ enum e_img_id
 
 # define FOREST_BACKGROUND "assets/forest/forest_background.xpm"
 # define ARROW "assets/others/arrow.xpm"
-# define UI "assets/cube.xpm"
+# define UI "assets/others/ui.xpm"
 
 // PLAYER IDLE
 # define FOREST_SQR_IDLE0_0 "assets/squirrel/squirrel_idle0_0.xpm"
@@ -176,11 +120,10 @@ enum e_img_id
 # define FOREST_STICK "assets/forest/forest_stick.xpm"
 
 // COLLECTIBLES C
-# define FOREST_FLOWER_R "assets/forest/acorn.xpm"
-# define FOREST_FLOWER_Y "assets/forest/acorn.xpm"
-# define FOREST_FLOWER_D "assets/forest/acorn_empty.xpm"
+# define FOREST_ACORN "assets/forest/acorn.xpm"
+# define FOREST_ACORN_EMPT "assets/forest/acorn_empty.xpm"
 
-// ENNEMIES G
+// ENNEMIES S
 # define SLIME_B_IDLE0_0 "assets/slime/slime_b_idle0_0.xpm"
 # define SLIME_B_IDLE0_1 "assets/slime/slime_b_idle0_1.xpm"
 # define SLIME_B_IDLE0_2 "assets/slime/slime_b_idle0_2.xpm"

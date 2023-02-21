@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 20:18:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/20 20:22:21 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/21 19:06:03 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,21 @@ static void	_draw_player2(t_game *game)
 
 void	draw_ui(t_game *game)
 {
-	if (SCREEN_WIDTH >= 100 && SCREEN_HEIGHT >= 100)
-		blend_image_to_image(game->lvl->cam->sprite, game->lvl->ui, game->lvl->ui->pos);
+	int	moves_posx;
+	int	moves_posy;
+	int	collec_posx;
+	int	collec_posy;
+
+	moves_posx = game->lvl->ui->pos.x + (game->lvl->ui->size.x / 4);
+	moves_posy = game->lvl->ui->pos.y + (game->lvl->ui->size.y / 2);
+	blend_image_to_image(game->lvl->cam->sprite, game->lvl->ui, game->lvl->ui->pos);
+
+	collec_posx = game->lvl->ui->pos.x + ((game->lvl->ui->size.x / 4) * 3);
+	collec_posy = game->lvl->ui->pos.y + (game->lvl->ui->size.y / 2);
+	mlx_string_put(game->mlx, game->window, moves_posx, moves_posy,
+		DARK_GRAY, ft_itoa(game->lvl->nb_move));
+	mlx_string_put(game->mlx, game->window, collec_posx, collec_posy,
+		DARK_GRAY, ft_itoa(game->lvl->nb_collec));
 }
 
 int	draw_on_window(t_game *game)
@@ -77,7 +90,6 @@ int	draw_on_window(t_game *game)
 		_draw_player2(game);
 	render_camera(game->lvl, *game->lvl->cam->pos);
 	draw_arrow_to_end(game->lvl, game->lvl->player1);
-	draw_ui(game);
 	if (game->is_end)
 		end_game(game);
 	else if (ISDEBUG)
