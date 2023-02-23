@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/21 19:56:27 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/23 02:31:32 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -428,7 +428,7 @@ void			play_anim_player2(t_level *lvl, int is_end);
 
 // image_flip.c
 void			flip_image_y(t_sprite *sprite);
-void			flip_image_x(t_sprite *sprite);
+void			rotate_image(t_sprite *sprite, int angle);
 
 // image_operations.c
 void			clear_image(t_sprite *sprite);
