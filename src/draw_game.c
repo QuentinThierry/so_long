@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 20:18:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/21 19:06:03 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/23 17:55:47 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,8 @@ int	draw_on_window(t_game *game)
 	if (game->lvl->player2)
 		_draw_player2(game);
 	render_camera(game->lvl, *game->lvl->cam->pos);
-	draw_arrow_to_end(game->lvl, game->lvl->player1);
+	if (!is_inside_load_range(game, game->lvl->canvas->chunks[game->lvl->exit_chunk].pos))
+		draw_arrow_to_end(game->lvl, game->lvl->player1);
 	if (game->is_end)
 		end_game(game);
 	else if (ISDEBUG)

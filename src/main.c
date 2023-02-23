@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/23 03:07:33 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/23 17:57:24 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	update_cam_pos(t_game *game)
 void	update_player_1(t_game *game)
 {
 	player_movement(game, game->lvl->player1);
-	draw_arrow_to_end(game->lvl, game->lvl->player1);
+	// draw_arrow_to_end(game->lvl, game->lvl->player1);
 	check_trigger_enemy(game, game->lvl->player1);
 }
 
@@ -281,8 +281,7 @@ int	main(int argc, char const *argv[])
 	srand((unsigned int)seed);
 	if (on_start(&game, map, map_size))
 		return (1);
-	
-	rotate_image(game.lvl->arrow, 45);
+
 	mlx_hook(game.window, KeyPress, KeyPressMask, &press_key, &game);
 	mlx_hook(game.window, KeyRelease, KeyReleaseMask, &release_key, &game);
 	mlx_loop_hook(game.mlx, on_update, &game.mlx);

@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 02:00:21 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/21 19:37:03 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/23 17:57:40 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ enum e_img_id
 // --=======----=======-- IMAGES --=======----=======--
 
 # define FOREST_BACKGROUND "assets/forest/forest_background.xpm"
-# define ARROW "assets/others/arrow.xpm"
 # define UI "assets/others/ui.xpm"
 
 // PLAYER IDLE
