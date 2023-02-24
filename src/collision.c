@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 19:18:33 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/24 02:43:21 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/24 16:13:57 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	is_colliding(t_collider *collider1, t_collider *collider2)
 void	collide_on_collec(t_game *game, t_collider *collider)
 {
 	game->lvl->nb_collec++;
-	*collider->image_id = e_collec1_0;
+	*collider->image_id = e_collec1;
 	collider->has_been_triggered = 1;
 }
 

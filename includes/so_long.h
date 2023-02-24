@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/24 02:26:41 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/24 16:03:38 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <math.h>
 # include <sys/types.h>
 # include <time.h>
-# include <fcntl.h>
 # include "mlx/mlx.h"
 # include "mlx/mlx_int.h"
 # include "textures.h"
@@ -66,7 +65,7 @@
 # define SPEED 250
 # define PLAYER_WIDTH 42
 # define PLAYER_HEIGHT 34
-# define DIST_ARROW 32
+# define DIST_ARROW 64
 
 // --=======----=======-- ENEMIES --=======----=======--
 # define ENEMY_SPEED 175

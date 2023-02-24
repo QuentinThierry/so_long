@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 02:00:21 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/24 01:34:32 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/24 16:15:47 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,15 @@ enum e_img_id
 	e_player_run_0_5,
 	e_player_run_0_6,
 	e_player_run_0_7,
-	e_ground0_0,
-	e_ground1_0,
-	e_ground2_0,
-	e_ground3_0,
+	e_ground0,
+	e_ground1,
+	e_ground2,
+	e_ground3,
 	e_wall0_0,
 	e_wall1_0,
-	e_exit_0,
-	e_collec0_0,
-	e_collec1_0,
+	e_exit,
+	e_collec0,
+	e_collec1,
 	e_enemy_idle_0_0,
 	e_enemy_idle_0_1,
 	e_enemy_idle_0_2,

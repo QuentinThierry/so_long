@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:39:38 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/24 02:53:45 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/24 16:16:17 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 static void	_load_ground_wall(t_game *game)
 {
-	game->lvl->images[e_ground0_0] = btmlx_xpm_file_to_image(game->mlx,
+	game->lvl->images[e_ground0] = btmlx_xpm_file_to_image(game->mlx,
 			FOREST_GROUND, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_ground1_0] = btmlx_xpm_file_to_image(game->mlx,
+	game->lvl->images[e_ground1] = btmlx_xpm_file_to_image(game->mlx,
 			FOREST_GRASS, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_ground2_0] = btmlx_xpm_file_to_image(game->mlx,
+	game->lvl->images[e_ground2] = btmlx_xpm_file_to_image(game->mlx,
 			FOREST_STICK, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_ground3_0] = btmlx_xpm_file_to_image(game->mlx,
+	game->lvl->images[e_ground3] = btmlx_xpm_file_to_image(game->mlx,
 			FOREST_STONE, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 	game->lvl->images[e_wall0_0] = btmlx_xpm_file_to_image(game->mlx,
 			FOREST_TREE1, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
@@ -78,11 +78,11 @@ static void	_load_player_run(t_game *game)
 
 static void	_load_collec_exit(t_game *game)
 {
-	game->lvl->images[e_collec0_0] = btmlx_xpm_file_to_image(game->mlx,
+	game->lvl->images[e_collec0] = btmlx_xpm_file_to_image(game->mlx,
 			FOREST_ACORN, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-	game->lvl->images[e_collec1_0] = btmlx_xpm_file_to_image(game->mlx,
+	game->lvl->images[e_collec1] = btmlx_xpm_file_to_image(game->mlx,
 			FOREST_ACORN_EMPT, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
-		game->lvl->images[e_exit_0] = btmlx_xpm_file_to_image(game->mlx,
+		game->lvl->images[e_exit] = btmlx_xpm_file_to_image(game->mlx,
 			FOREST_EXIT, (t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 }
 
