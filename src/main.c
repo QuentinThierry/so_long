@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/24 02:00:20 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/24 02:36:24 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,29 +41,6 @@ void	calculate_fps(int *fps, double *elapsed)
 	*elapsed = delay + (!delay);
 	*fps = (int)(1.0 / *elapsed);
 	prev_time = tmp;
-}
-
-// a changer
-void	show_fps(t_game *game, t_vector2 pos, int fps)
-{
-	int		i;
-	int		j;
-	char	*str_fps;
-
-	i = 0;
-	j = 0;
-	while (j < FPS_HEIGHT)
-	{
-		i = 0;
-		while (i < FPS_WIDTH)
-			mlx_pixel_put(game->mlx, game->window,
-				FPS_POSX + i++, FPS_POSY - j, WHITE);
-		j++;
-	}
-	str_fps = ft_itoa(fps);
-	mlx_string_put(game->mlx, game->window, pos.x,
-		pos.y, FPS_COLOR, str_fps);
-	free(str_fps);
 }
 
 void	init_map_variables(t_game *game)
@@ -107,7 +84,6 @@ void	update_cam_pos(t_game *game)
 void	update_player_1(t_game *game)
 {
 	player_movement(game, game->lvl->player1);
-	// draw_arrow_to_end(game->lvl, game->lvl->player1);
 	check_trigger_enemy(game, game->lvl->player1);
 }
 
@@ -141,11 +117,6 @@ void	draw_arrow_to_end(t_level *lvl, t_player *player)
 
 int	on_update(t_game *game)
 {
-	static unsigned int	frame = 0;
-	static int			fps = 0;
-
-	if (!frame && !fps)
-		calculate_fps(&game->fps, &game->elapsed);
 	if (game->lvl->is_animating_cam)
 		camera_animation_to_exit(game->lvl);
 	else if (!game->is_end)
@@ -175,13 +146,7 @@ int	on_update(t_game *game)
 	calculate_fps(&game->fps, &game->elapsed);
 	game->tot_fps += game->fps;
 	game->tot_frame++;
-	if (frame % FRAME_RATE_DRAW_SPEED == 0)
-	{
-		fps = game->fps;
-		frame = 0;
-	}
-	show_fps(game, (t_vector2){FPS_POSX, FPS_POSY}, fps);
-	frame++;
+
 	return (0);
 }
 
@@ -292,3 +257,43 @@ int	main(int argc, char const *argv[])
 	mlx_do_key_autorepeaton(game.mlx);
 	return (0);
 }
+
+// show fps on screen :
+// add in 'on_update' at begin to draw_fps on screen
+//static unsigned int	frame = 0;
+//static int			fps = 0;
+
+//if (!frame && !fps)
+//	calculate_fps(&game->fps, &game->elapsed);
+
+// this at end
+//if (frame % FRAME_RATE_DRAW_SPEED == 0)
+//{
+//	fps = game->fps;
+//	frame = 0;
+//}
+//frame++;
+//show_fps(game, (t_vector2){FPS_POSX, FPS_POSY}, fps);
+
+// this at top of file
+//void	show_fps(t_game *game, t_vector2 pos, int fps)
+//{
+//	int		i;
+//	int		j;
+//	char	*str_fps;
+
+//	i = 0;
+//	j = 0;
+//	while (j < FPS_HEIGHT)
+//	{
+//		i = 0;
+//		while (i < FPS_WIDTH)
+//			mlx_pixel_put(game->mlx, game->window,
+//				FPS_POSX + i++, FPS_POSY - j, WHITE);
+//		j++;
+//	}
+//	str_fps = ft_itoa(fps);
+//	mlx_string_put(game->mlx, game->window, pos.x,
+//		pos.y, FPS_COLOR, str_fps);
+//	free(str_fps);
+//}

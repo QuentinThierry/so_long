@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 01:06:41 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/16 21:37:54 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/24 02:50:38 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,15 @@ static void	_free_level(t_game *game, t_level *lvl)
 	_free_player(lvl->player1);
 	_free_player(lvl->player2);
 	_free_enemies(lvl->enemies);
-	free(lvl->wall_col);
-	free(lvl->collec_col);
-	free(lvl->enemy_col);
-	free(lvl->exit_col);
-	free(lvl->map);
+	(free(lvl->wall_col), free(lvl->collec_col),
+		free(lvl->enemy_col), free(lvl->exit_col), free(lvl->map));
 	free(lvl->path_grid);
 	free(lvl->debug_sprite);
 	free(lvl->debug_tile_sprite);
+	free(lvl->arrow);
+	free(lvl->end_screen);
+	free(lvl->ui);
+	free(lvl->dist_table);
 	if (!lvl->canvas)
 		return ;
 	free(lvl->canvas->chunks);
@@ -95,6 +96,7 @@ void	exit_game(t_game *game)
 	free(game->mlx);
 	if (!game->tot_frame)
 		game->tot_frame = 1;
-	printf("Fps average : %f\n", (float)game->tot_fps/game->tot_frame);
 	exit(EXIT_SUCCESS);
 }
+//write(1, "DEBUG : \n\tFPS average : ", 24);
+//ft_putnbr_fd((float)game->tot_fps/game->tot_frame, 1);

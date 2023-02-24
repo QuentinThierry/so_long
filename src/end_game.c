@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 19:53:25 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/24 01:55:09 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/24 02:23:38 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,25 @@ void	end_game(t_game *game)
 	double					elapsed;
 
 	if (!time.tv_sec)
+	{
 		gettimeofday(&time, NULL);
+		if (game->is_end == END_WIN)
+			write(1, "You won!\nCongratulations!\n", 26);
+		else if (game->is_end == END_LOSEP1)
+		{
+			if (game->lvl->player2)
+				write(1, "You lost!\nBlame player 1!\n", 26);
+			else
+				write(1, "You lost!\nYou can only blame yourself!\n", 39);
+		}
+		else
+			write(1, "You lost!\nBlame player 2!\n", 26);
+		write(1, "Movements : ", 12);
+		ft_putnbr_fd(game->lvl->nb_move, 1);
+		write(1, "\nCan you beat it? ;)\n", 21);
+	}
 	elapsed = get_elapsed(&time);
 	_play_on_win_game(game, elapsed);
-	if ((elapsed) > END_TIME)
+	if (elapsed > END_TIME)
 		exit_game(game);
 }

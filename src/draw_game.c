@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 20:18:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/23 17:55:47 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/24 02:54:20 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,21 +65,30 @@ static void	_draw_player2(t_game *game)
 
 void	draw_ui(t_game *game)
 {
-	int	moves_posx;
-	int	moves_posy;
-	int	collec_posx;
-	int	collec_posy;
+	int		moves_posx;
+	int		moves_posy;
+	int		collec_posx;
+	int		collec_posy;
+	char	*str;
 
 	moves_posx = game->lvl->ui->pos.x + (game->lvl->ui->size.x / 4);
 	moves_posy = game->lvl->ui->pos.y + (game->lvl->ui->size.y / 2);
-	blend_image_to_image(game->lvl->cam->sprite, game->lvl->ui, game->lvl->ui->pos);
-
+	blend_image_to_image(game->lvl->cam->sprite,
+		game->lvl->ui, game->lvl->ui->pos);
 	collec_posx = game->lvl->ui->pos.x + ((game->lvl->ui->size.x / 4) * 3);
 	collec_posy = game->lvl->ui->pos.y + (game->lvl->ui->size.y / 2);
+	str = ft_itoa(game->lvl->nb_move);
+	if (!str)
+		exit_game(game);
 	mlx_string_put(game->mlx, game->window, moves_posx, moves_posy,
-		DARK_GRAY, ft_itoa(game->lvl->nb_move));
+		DARK_GRAY, str);
+	free(str);
+	str = ft_itoa(game->lvl->nb_collec);
+	if (!str)
+		exit_game(game);
 	mlx_string_put(game->mlx, game->window, collec_posx, collec_posy,
-		DARK_GRAY, ft_itoa(game->lvl->nb_collec));
+		DARK_GRAY, str);
+	free(str);
 }
 
 int	draw_on_window(t_game *game)
@@ -89,7 +98,8 @@ int	draw_on_window(t_game *game)
 	if (game->lvl->player2)
 		_draw_player2(game);
 	render_camera(game->lvl, *game->lvl->cam->pos);
-	if (!is_inside_load_range(game, game->lvl->canvas->chunks[game->lvl->exit_chunk].pos))
+	if (!is_inside_load_range(game,
+			game->lvl->canvas->chunks[game->lvl->exit_chunk].pos))
 		draw_arrow_to_end(game->lvl, game->lvl->player1);
 	if (game->is_end)
 		end_game(game);

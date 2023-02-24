@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/24 01:41:46 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/24 02:26:41 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,12 @@
 # define ANIM_TIME_IDLE1_E 0.3
 # define ANIM_TIME_RUN_E 0.1
 # define ANIM_NB_RUN_E 5
+
+// --=======----=======-- END --=======----=======--
+
+# define END_LOSEP1 1
+# define END_LOSEP2 2
+# define END_WIN 3
 
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
@@ -301,6 +307,7 @@ char			*ft_strdup(const char *s);
 void			*ft_memset(void *s, int c, size_t n);
 void			*ft_sec_ft_memcpy(void *dest, const void *src,
 					size_t n, t_sprite *sprite);
+void			ft_putnbr_fd(int n, int fd);
 
 // list.c
 t_list			*ft_lstnew(char *content);

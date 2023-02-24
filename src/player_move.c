@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 18:30:53 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/18 17:14:07 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/24 02:34:15 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,6 @@ void	player_movement(t_game *game, t_player *player)
 	if (collider)
 		_reverse_move_player(player, collider, (t_vector2){0, 1});
 	if (chunk_before != pos_to_chunk(game->lvl, player->pos->x, player->pos->y))
-	{
 		game->lvl->nb_move++;
-		printf("movements : %d\n", game->lvl->nb_move);
-	}
 	find_chunk_under(game->lvl->canvas, player->sprite);
 }

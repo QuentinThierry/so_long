@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 00:05:30 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/18 21:46:16 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/24 02:09:21 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,4 +166,25 @@ void	*ft_memset(void *s, int c, size_t n)
 	while (i < n)
 		((char *)s)[i++] = c;
 	return (s);
+}
+
+static void	_ft_putchar_fd(char c, int fd)
+{
+	write(fd, &c, 1);
+}
+
+void	ft_putnbr_fd(int n, int fd)
+{
+	unsigned int	ncpy;
+
+	ncpy = n * (1 | -(n < 0));
+	if (n < 0)
+		write(fd, "-", 1);
+	if (ncpy >= 10)
+	{
+		ft_putnbr_fd(ncpy / 10, fd);
+		ft_putnbr_fd(ncpy % 10, fd);
+	}
+	else
+		_ft_putchar_fd(ncpy + '0', fd);
 }

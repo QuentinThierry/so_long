@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:25:20 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/20 19:30:09 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/24 02:53:01 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,9 @@ t_img	*resize_img(void *mlx, t_img *src,
 		{
 			*(unsigned int *)(dst->data + (int)(y) *dst->size_line
 					+ (int)(x) *(dst->bpp / 8))
-				= *(unsigned int *)(src->data + (int)(y*ratio.y) * src->size_line
-					+ (int)(x*ratio.x) * (src->bpp / 8));
+				= *(unsigned int *)(src->data + (int)(y * ratio.y)
+					*src->size_line
+					+ (int)(x * ratio.x) *(src->bpp / 8));
 		}
 	}
 	return (dst);
