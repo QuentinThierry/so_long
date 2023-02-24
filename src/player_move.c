@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 18:30:53 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/24 02:34:15 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/24 17:12:18 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	_move_player(t_game *game, t_player *player,
 	{
 		deltax = (double)(player->dir.x) * SPEED * game->elapsed;
 		if (deltax > SIZE_CHUNK || deltax < -SIZE_CHUNK)
-			deltax = SIZE_CHUNK * player->dir.x;
+			deltax = (SIZE_CHUNK - 1) * player->dir.x;
 		player->exact_pos.x += deltax;
 		player->pos->x = floor(player->exact_pos.x);
 	}
@@ -32,7 +32,7 @@ static void	_move_player(t_game *game, t_player *player,
 	{
 		deltay = (double)(player->dir.y) * SPEED * game->elapsed;
 		if (deltay > SIZE_CHUNK || deltay < -SIZE_CHUNK)
-			deltay = SIZE_CHUNK * player->dir.y;
+			deltay = (SIZE_CHUNK - 1) * player->dir.y;
 		player->exact_pos.y += deltay;
 		player->pos->y = floor(player->exact_pos.y);
 	}

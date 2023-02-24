@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:19:55 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/18 23:15:09 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/24 17:16:17 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,26 +24,53 @@ static inline void	set_enemy_pos_y(t_enemy *enemy, int delta)
 	enemy->pos->y = floor(enemy->exact_pos.y);
 }
 
-static void	_move_enemy(t_game *game, int id, int is_x, int is_y)
-{
-	double	new_posx;
-	double	new_posy;
+// static void	_move_enemy(t_game *game, int id, int is_x, int is_y)
+// {
+// 	double	new_posx;
+// 	double	new_posy;
 
-	if (!game->lvl->enemies[id]->dir.x && !game->lvl->enemies[id]->dir.y)
+// 	if (!game->lvl->enemies[id]->dir.x && !game->lvl->enemies[id]->dir.y)
+// 		return ;
+// 	if (is_x)
+// 	{
+// 		new_posx = game->lvl->enemies[id]->exact_pos.x
+// 			+ game->lvl->enemies[id]->dir.x * ENEMY_SPEED * game->elapsed;
+// 		game->lvl->enemies[id]->exact_pos.x = new_posx;
+// 		game->lvl->enemies[id]->pos->x = floor(new_posx);
+// 	}
+// 	if (is_y)
+// 	{
+// 		new_posy = game->lvl->enemies[id]->exact_pos.y
+// 			+ game->lvl->enemies[id]->dir.y * ENEMY_SPEED * game->elapsed;
+// 		game->lvl->enemies[id]->exact_pos.y = new_posy;
+// 		game->lvl->enemies[id]->pos->y = floor(new_posy);
+// 	}
+// }
+
+
+static void	_move_enemy(t_game *game, t_enemy *enemy,
+		int is_x, int is_y)
+{
+	double	deltax;
+	double	deltay;
+
+	if (!enemy->dir.x && !enemy->dir.y)
 		return ;
 	if (is_x)
 	{
-		new_posx = game->lvl->enemies[id]->exact_pos.x
-			+ game->lvl->enemies[id]->dir.x * ENEMY_SPEED * game->elapsed;
-		game->lvl->enemies[id]->exact_pos.x = new_posx;
-		game->lvl->enemies[id]->pos->x = floor(new_posx);
+		deltax = (double)(enemy->dir.x) * SPEED * game->elapsed;
+		if (deltax > SIZE_CHUNK || deltax < -SIZE_CHUNK)
+			deltax = (SIZE_CHUNK - 1) * enemy->dir.x;
+		enemy->exact_pos.x += deltax;
+		enemy->pos->x = floor(enemy->exact_pos.x);
 	}
 	if (is_y)
 	{
-		new_posy = game->lvl->enemies[id]->exact_pos.y
-			+ game->lvl->enemies[id]->dir.y * ENEMY_SPEED * game->elapsed;
-		game->lvl->enemies[id]->exact_pos.y = new_posy;
-		game->lvl->enemies[id]->pos->y = floor(new_posy);
+		deltay = (double)(enemy->dir.y) * SPEED * game->elapsed;
+		if (deltay > SIZE_CHUNK || deltay < -SIZE_CHUNK)
+			deltay = (SIZE_CHUNK - 1) * enemy->dir.y;
+		enemy->exact_pos.y += deltay;
+		enemy->pos->y = floor(enemy->exact_pos.y);
 	}
 }
 
@@ -93,17 +120,17 @@ void	check_trigger_enemy(t_game *game, t_player *player)
 	}
 }
 
-inline static void	_deplacement(t_game *game, t_enemy *enemy, int i)
+inline static void	_deplacement(t_game *game, t_enemy *enemy)
 {
 	t_collider	*collider;
 
 	enemy->dir = direction_normalized(*enemy->pos,
 			*enemy->target->pos);
-	_move_enemy(game, i, 1, 0);
+	_move_enemy(game, enemy, 1, 0);
 	collider = check_wall_collision(game->lvl, enemy->collider);
 	if (collider)
 		_reverse_move_enemy(enemy, collider, (t_vector2){1, 0});
-	_move_enemy(game, i, 0, 1);
+	_move_enemy(game, enemy, 0, 1);
 	collider = check_wall_collision(game->lvl, enemy->collider);
 	if (collider)
 		_reverse_move_enemy(enemy, collider, (t_vector2){0, 1});
@@ -127,6 +154,6 @@ void	enemy_movement(t_game *game)
 			continue ;
 		find_chunk_under(game->lvl->canvas, enemy->sprite);
 		if (enemy->is_triggered)
-			_deplacement(game, enemy, i);
+			_deplacement(game, enemy);
 	}
 }
