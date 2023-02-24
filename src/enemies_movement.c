@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:19:55 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/24 17:16:17 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/24 17:23:35 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void	_move_enemy(t_game *game, t_enemy *enemy,
 		return ;
 	if (is_x)
 	{
-		deltax = (double)(enemy->dir.x) * SPEED * game->elapsed;
+		deltax = (double)(enemy->dir.x) * ENEMY_SPEED * game->elapsed;
 		if (deltax > SIZE_CHUNK || deltax < -SIZE_CHUNK)
 			deltax = (SIZE_CHUNK - 1) * enemy->dir.x;
 		enemy->exact_pos.x += deltax;
@@ -66,7 +66,7 @@ static void	_move_enemy(t_game *game, t_enemy *enemy,
 	}
 	if (is_y)
 	{
-		deltay = (double)(enemy->dir.y) * SPEED * game->elapsed;
+		deltay = (double)(enemy->dir.y) * ENEMY_SPEED * game->elapsed;
 		if (deltay > SIZE_CHUNK || deltay < -SIZE_CHUNK)
 			deltay = (SIZE_CHUNK - 1) * enemy->dir.y;
 		enemy->exact_pos.y += deltay;

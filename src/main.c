@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/24 02:36:24 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/24 17:37:53 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,7 +225,10 @@ int	on_start(t_game *game, char *map, t_vector2 map_size)
 	game->lvl->is_animating_cam = HAS_CAM_ANIM;
 	init_dist_table(game->lvl, game->lvl->dist_table, map_size.x * map_size.y);
 	if (check_valid_path(game) != 1)
+	{
+		write(1, "Error\nMap entry is not valid.\n", 30);
 		exit_game(game);
+	}
 	return (0);
 }
 
@@ -242,7 +245,7 @@ int	main(int argc, char const *argv[])
 		return (1);
 	if (!parse_map(argv[1], &map, &map_size))
 	{
-		argc = write(1, "Error\nMap entry is not valid.\n", 30);
+		write(1, "Error\nMap entry is not valid.\n", 30);
 		return (1);
 	}
 	srand((unsigned int)seed);

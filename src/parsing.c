@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 14:19:42 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/20 19:25:42 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/24 17:42:02 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,14 +183,16 @@ static int	change_flag(char letter, int flag)
 			return (-1);
 		flag |= 0x1;
 	}
-	if (letter == 'P')
+	else if (letter == 'P')
 	{
 		if ((flag & 0x2) != 0)
 			return (-1);
 		flag |= 0x2;
 	}
-	if (letter == 'C')
+	else if (letter == 'C')
 		flag |= 0x4;
+	else if (letter != 'S' && letter != '1' && letter != '0')
+		return (-1);
 	return (flag);
 }
 
