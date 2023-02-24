@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 02:00:21 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/23 17:57:40 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/24 01:34:32 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ enum e_img_id
 	e_background,
 	e_arrow,
 	e_ui,
+	e_end_screen,
 	e_debug,
 	e_debug_tile,
 	e_player_idle_0_0,

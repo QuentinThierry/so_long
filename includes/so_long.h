@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/23 17:58:01 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/24 01:41:46 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ typedef struct s_level
 	struct s_sprite		*background;
 	struct s_sprite		*arrow;
 	struct s_sprite		*ui;
-	struct s_sprite		*black_screen;
+	struct s_sprite		*end_screen;
 	struct s_vector2	ui_pos;
 	struct s_player		*player1;
 	struct s_player		*player2;

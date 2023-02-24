@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:39:38 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/23 17:58:16 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/24 01:43:29 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,8 @@ static void	load_special_images(t_game *game)
 	game->lvl->images[e_ui]
 		= btmlx_xpm_file_to_image(game->mlx, UI,
 			(t_vector2){SCREEN_WIDTH / UI_RATIO, SCREEN_HEIGHT / (2.5 * UI_RATIO)});
+	game->lvl->images[e_end_screen]
+		= mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	if (!ISDEBUG)
 		return ;
 	game->lvl->images[e_debug]
