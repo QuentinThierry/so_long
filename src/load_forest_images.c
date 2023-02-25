@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:39:38 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/25 18:25:50 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/25 19:38:40 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,7 @@ static int	is_all_image_good(t_img **img)
 	while (i < e_nb_img)
 	{
 		if (img[i] == NULL && i != e_debug && i != e_debug_tile)
-		{
-			printf("i : %d\n", i);
 			return (0);
-		}
 		i++;
 	}
 	if (ISDEBUG && !(img[e_debug] && img[e_debug_tile]))
