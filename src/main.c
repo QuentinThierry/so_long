@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/25 17:04:00 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/25 17:36:06 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,19 @@ void	draw_arrow_to_end(t_level *lvl, t_player *player)
 	blend_image_to_image(lvl->cam->sprite, lvl->arrow, pos_arrow);
 }
 
+static void	on_update2(t_game *game)
+{
+	play_animations(game);
+	recalculate_chunks(game->lvl);
+	draw_on_window(game);
+	mlx_put_image_to_window(game->mlx, game->window,
+		game->lvl->cam->sprite->img_ptr, 0, 0);
+	draw_ui(game);
+	clear_chunks_to_redraw(game->lvl->canvas);
+	calculate_fps(&game->fps, &game->elapsed);
+	game->tot_fps += game->fps;
+	game->tot_frame++;
+}
 
 int	on_update(t_game *game)
 {
@@ -136,17 +149,6 @@ int	on_update(t_game *game)
 		if (game->lvl->player2)
 			find_chunk_under(game->lvl->canvas, game->lvl->player2->sprite);
 	}
-	play_animations(game);
-	recalculate_chunks(game->lvl);
-	draw_on_window(game);
-	mlx_put_image_to_window(game->mlx, game->window,
-		game->lvl->cam->sprite->img_ptr, 0, 0);
-	draw_ui(game);
-	clear_chunks_to_redraw(game->lvl->canvas);
-	calculate_fps(&game->fps, &game->elapsed);
-	game->tot_fps += game->fps;
-	game->tot_frame++;
-
 	return (0);
 }
 
@@ -221,7 +223,7 @@ int	on_start(t_game *game, char *map, t_vector2 map_size)
 	game->lvl->canvas->origin = (t_vector2){0, 0};
 	init_chunks(game);
 	init_map_variables(game);
-	if(!init_enemies(game->lvl))
+	if (!init_enemies(game->lvl))
 		exit_game(game, "Error\nAllocation error.\n");
 	if (!init_collisions(game->lvl))
 		exit_game(game, "Error\nAllocation error.\n");
@@ -254,11 +256,9 @@ int	main(int argc, char const *argv[])
 	srand((unsigned int)seed);
 	if (on_start(&game, map, map_size))
 		return (1);
-
 	mlx_hook(game.window, KeyPress, KeyPressMask, &press_key, &game);
 	mlx_hook(game.window, KeyRelease, KeyReleaseMask, &release_key, &game);
 	mlx_loop_hook(game.mlx, on_update, &game.mlx);
-	
 	mlx_loop(game.mlx);
 	mlx_do_key_autorepeaton(game.mlx);
 	return (0);

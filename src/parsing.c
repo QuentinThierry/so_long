@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 14:19:42 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/24 17:42:02 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/25 17:26:49 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,20 +136,21 @@ static char	**read_map(int fd, int *x, int *y)
 	list = NULL;
 	line = no_nl_gnl(fd);
 	if (!line)
-		return (no_nl_gnl(-1), NULL);
+		return (no_nl_gnl(-1), close(fd), NULL);
 	while (line)
 	{
 		tmp = ft_lstnew(line);
 		if (!tmp)
 		{
 			free_list(&list);
-			return (no_nl_gnl(-1), NULL);
+			return (no_nl_gnl(-1), close(fd), NULL);
 		}
 		ft_lstadd_back(&list, tmp);
 		line = no_nl_gnl(fd);
 	}
 	map = list_to_map(list, x, y);
 	free_list(&list);
+	close(fd);
 	return (map);
 }
 
@@ -252,7 +253,6 @@ int	parse_map(const char *file_name, char **map, t_vector2 *map_size)
 	int		x;
 	int		y;
 
-	x = 0;
 	if (!is_ber(file_name))
 		return (0);
 	fd = open(file_name, O_DIRECTORY);
@@ -262,7 +262,6 @@ int	parse_map(const char *file_name, char **map, t_vector2 *map_size)
 	if (fd == -1)
 		return (0);
 	map2d = read_map(fd, &x, &y);
-	close(fd);
 	if (!map2d)
 		return (0);
 	if (!is_closed(map2d, x, y))
@@ -271,8 +270,7 @@ int	parse_map(const char *file_name, char **map, t_vector2 *map_size)
 		return (free_tab2d(map2d, y), 0);
 	*map_size = (t_vector2){x, y};
 	*map = map2d_to_1d(map2d, *map_size);
-	free_tab2d(map2d, y);
 	if (!*map)
-		return (0);
-	return (1);
+		return (free_tab2d(map2d, y), 0);
+	return (free_tab2d(map2d, y), 1);
 }

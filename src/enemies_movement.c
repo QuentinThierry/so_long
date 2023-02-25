@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:19:55 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/24 17:23:35 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/25 17:31:19 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ static inline void	set_enemy_pos_y(t_enemy *enemy, int delta)
 // 		game->lvl->enemies[id]->pos->y = floor(new_posy);
 // 	}
 // }
-
 
 static void	_move_enemy(t_game *game, t_enemy *enemy,
 		int is_x, int is_y)

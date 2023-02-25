@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:01:50 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/25 02:11:39 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/25 17:33:42 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ void	blend_image_to_image(t_sprite *back, t_sprite *front,
 		x = pos.x;
 		while (x < dim.x)
 		{
-			
 			apply_blend(back, front, pos, (t_vector2){x, y});
 			++x;
 		}

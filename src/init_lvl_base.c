@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 17:45:49 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/25 16:39:16 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/25 17:28:32 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ static void	_init_background(t_game *game)
 
 static void	_init_player1(t_game *game)
 {
-
 	t_level	*lvl;
 
 	lvl = game->lvl;
@@ -146,7 +145,7 @@ void	init_lvl_base(t_game *game)
 	lvl->dist_table = ft_calloc(lvl->map_size.x
 			* lvl->map_size.y, sizeof(int));
 	if (!(lvl->canvas && lvl->player1 && lvl->arrow && lvl->ui
-		&& lvl->end_screen && lvl->path_grid && lvl->dist_table))
+			&& lvl->end_screen && lvl->path_grid && lvl->dist_table))
 		exit_game(game, "Error\nAllocation error.\n");
 	lvl->arrow->image_id = e_arrow;
 	lvl->ui->image_id = e_ui;
