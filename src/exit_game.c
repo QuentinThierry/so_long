@@ -6,12 +6,11 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 01:06:41 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/25 16:50:16 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/25 18:54:09 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
-#include <stdlib.h>
 
 static void	_free_images(t_game *game, t_img **img)
 {
