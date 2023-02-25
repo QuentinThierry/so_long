@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/24 17:37:53 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/25 17:04:00 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,14 +174,19 @@ t_game	init_values(char *map, t_vector2 map_size)
 {
 	t_game	game;
 
+	ft_bzero(&game, sizeof(t_game));
 	game.mlx = mlx_init();
 	game.lvl = ft_calloc(sizeof(t_level), 1);
+	if (!game.lvl)
+	{
+		free(map);
+		exit_game(&game, "Error\nAllocation error.\n");
+	}
 	game.lvl->map = map;
 	game.lvl->map_size = map_size;
 	game.lvl->exit_chunk = find_exit_chunk(game.lvl->map);
 	load_images_forest(&game);
-	init_base_images(&game);
-	init_lvl_base(game.lvl);
+	init_lvl_base(&game);
 	init_keys(&game);
 	game.fps = 0;
 	game.tot_fps = 0;
@@ -213,22 +218,21 @@ void	init_ui(t_game *game)
 int	on_start(t_game *game, char *map, t_vector2 map_size)
 {
 	*game = init_values(map, map_size);
-	game->window
-		= mlx_new_window(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "so_long");
 	game->lvl->canvas->origin = (t_vector2){0, 0};
-	init_chunks(game->lvl);
+	init_chunks(game);
 	init_map_variables(game);
-	init_enemies(game->lvl);
-	init_collisions(game->lvl);
+	if(!init_enemies(game->lvl))
+		exit_game(game, "Error\nAllocation error.\n");
+	if (!init_collisions(game->lvl))
+		exit_game(game, "Error\nAllocation error.\n");
 	init_ui(game);
 	gettimeofday(&game->lvl->start_time, NULL);
 	game->lvl->is_animating_cam = HAS_CAM_ANIM;
 	init_dist_table(game->lvl, game->lvl->dist_table, map_size.x * map_size.y);
 	if (check_valid_path(game) != 1)
-	{
-		write(1, "Error\nMap entry is not valid.\n", 30);
-		exit_game(game);
-	}
+		exit_game(game, "Error\nMap entry is not valid.\n");
+	game->window
+		= mlx_new_window(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "so_long");
 	return (0);
 }
 
@@ -243,11 +247,10 @@ int	main(int argc, char const *argv[])
 		seed = time(NULL);
 	if (argc == 0 || argc > 2)
 		return (1);
+	ft_bzero(&game, sizeof(game));
+	game.window = NULL;
 	if (!parse_map(argv[1], &map, &map_size))
-	{
-		write(1, "Error\nMap entry is not valid.\n", 30);
-		return (1);
-	}
+		exit_game(&game, "Error\nMap entry is not valid.\n");
 	srand((unsigned int)seed);
 	if (on_start(&game, map, map_size))
 		return (1);

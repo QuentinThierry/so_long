@@ -6,11 +6,12 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 01:06:41 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/24 02:50:38 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/25 16:50:16 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
+#include <stdlib.h>
 
 static void	_free_images(t_game *game, t_img **img)
 {
@@ -83,8 +84,10 @@ static void	_free_level(t_game *game, t_level *lvl)
 	free(lvl->canvas);
 }
 
-void	exit_game(t_game *game)
+void	exit_game(t_game *game, const char *error)
 {
+	if (error)
+		write(1, error, ft_strlen(error));
 	if (!game)
 		return ;
 	_free_level(game, game->lvl);
@@ -96,6 +99,8 @@ void	exit_game(t_game *game)
 	free(game->mlx);
 	if (!game->tot_frame)
 		game->tot_frame = 1;
+	if (error)
+		exit(EXIT_FAILURE);
 	exit(EXIT_SUCCESS);
 }
 //write(1, "DEBUG : \n\tFPS average : ", 24);

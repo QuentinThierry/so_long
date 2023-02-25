@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/24 16:03:38 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/25 16:31:54 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -316,7 +316,6 @@ void			free_list(t_list **lst);
 
 // load_images_forest.c
 void			load_images_forest(t_game *game);
-void			init_base_images(t_game *game);
 
 // parsing.c
 int				parse_map(const char *file_name, char **map,
@@ -341,14 +340,14 @@ t_img			*btmlx_xpm_file_to_image(void *mlx, char *path,
 					t_vector2 dst_size);
 
 // init_lvl_base.c
-void			init_lvl_base(t_level *lvl);
-void			init_player2(t_level *lvl);
+void			init_lvl_base(t_game *game);
+void			init_player2(t_game *game);
 
 // sprite_choose.c
 enum e_img_id	choose_image(char *map, int chunk);
 
 // chunks.c
-int				init_chunks(t_level *lvl);
+int				init_chunks(t_game *game);
 void			recalculate_chunks(t_level *lvl);
 void			find_chunk_under(t_canvas *canvas, t_sprite *sprite);
 
@@ -399,7 +398,7 @@ void			press_on_6(t_game *game, int is_release); // right p2
 void			press_on_esc(t_game *game, int is_release); // quit
 
 // exit_game.c
-void			exit_game(t_game *game);
+void			exit_game(t_game *game, const char *error);
 
 // end_game.c
 void			end_game(t_game *game);

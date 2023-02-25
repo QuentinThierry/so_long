@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 20:03:30 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/18 22:33:59 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/25 16:40:57 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,31 +36,35 @@ t_chunk	init_a_chunk(t_level *lvl, int index, int x, int y)
 	return (res);
 }
 
-int	init_chunks(t_level *lvl)
+int	init_chunks(t_game *game)
 {
 	int		x;
 	int		y;
 
-	lvl->canvas->size.x = lvl->canvas->sprite->size.x;
-	lvl->canvas->size.y = lvl->canvas->sprite->size.y;
-	lvl->canvas->nb_chunks.x = lvl->map_size.x;
-	lvl->canvas->nb_chunks.y = lvl->map_size.y;
-	lvl->canvas->chunks = ft_calloc(sizeof(t_chunk),
-			lvl->canvas->nb_chunks.x * lvl->canvas->nb_chunks.y);
+	game->lvl->canvas->size.x = game->lvl->canvas->sprite->size.x;
+	game->lvl->canvas->size.y = game->lvl->canvas->sprite->size.y;
+	game->lvl->canvas->nb_chunks.x = game->lvl->map_size.x;
+	game->lvl->canvas->nb_chunks.y = game->lvl->map_size.y;
+	game->lvl->canvas->chunks = ft_calloc(sizeof(t_chunk),
+			game->lvl->canvas->nb_chunks.x * game->lvl->canvas->nb_chunks.y);
+	if (!game->lvl->canvas->chunks)
+		exit_game(game, "Error\nAllocation error.\n");
 	y = 0;
-	while (y < lvl->canvas->nb_chunks.y)
+	while (y < game->lvl->canvas->nb_chunks.y)
 	{
 		x = 0;
-		while (x < lvl->canvas->nb_chunks.x)
+		while (x < game->lvl->canvas->nb_chunks.x)
 		{
-			lvl->canvas->chunks[y * lvl->canvas->nb_chunks.x + x]
-				= init_a_chunk(lvl, y * lvl->canvas->nb_chunks.x + x, x, y);
+			game->lvl->canvas->chunks[y * game->lvl->canvas->nb_chunks.x + x]
+				= init_a_chunk(game->lvl, y * game->lvl->canvas->nb_chunks.x + x, x, y);
 			x++;
 		}
 		y++;
 	}
-	lvl->canvas->chunks_to_redraw = ft_calloc(sizeof(int),
-			lvl->canvas->nb_chunks.x * lvl->canvas->nb_chunks.y);
+	game->lvl->canvas->chunks_to_redraw = ft_calloc(sizeof(int),
+			game->lvl->canvas->nb_chunks.x * game->lvl->canvas->nb_chunks.y);
+	if (!game->lvl->canvas->chunks_to_redraw)
+		exit_game(game, "Error\nAllocation error.\n");
 	return (0);
 }
 

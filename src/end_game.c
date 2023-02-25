@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 19:53:25 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/24 02:23:38 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/25 15:40:44 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,5 @@ void	end_game(t_game *game)
 	elapsed = get_elapsed(&time);
 	_play_on_win_game(game, elapsed);
 	if (elapsed > END_TIME)
-		exit_game(game);
+		exit_game(game, NULL);
 }

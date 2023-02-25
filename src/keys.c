@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 16:06:07 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/18 23:11:00 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/25 16:32:12 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ void	press_on_enter(t_game *game, int is_release)
 {
 	(void)is_release;
 	if (!game->lvl->player2)
-		init_player2(game->lvl);
+		init_player2(game);
 }
 
 void	press_on_8(t_game *game, int is_release)
@@ -205,5 +205,5 @@ void	press_on_esc(t_game *game, int is_release)
 {
 	(void)game;
 	(void)is_release;
-	exit_game(game);
+	exit_game(game, NULL);
 }

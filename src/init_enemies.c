@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:25:50 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/18 22:14:31 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/25 16:55:34 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,20 @@ static int	get_nb_enemies(t_level *lvl)
 	return (nb_enemies);
 }
 
+void	error_free_enemies(t_enemy ***enemies, int i)
+{
+	while (i >= 0)
+	{
+		free((*enemies)[i]->sprite);
+		free((*enemies)[i]->collider);
+		free((*enemies)[i]);
+		(*enemies)[i] = NULL;
+		i--;
+	}
+	free((*enemies));
+	(*enemies) = NULL;
+}
+
 int	init_enemies(t_level *lvl)
 {
 	int	i;
@@ -75,13 +89,12 @@ int	init_enemies(t_level *lvl)
 			continue ;
 		lvl->enemies[j] = _instantiate_enemy(lvl->images, j);
 		if (!lvl->enemies[j])
-			return (0);
+			return (error_free_enemies(&lvl->enemies, j - 1), 0);
 		*lvl->enemies[j]->pos = lvl->canvas->chunks[i].pos;
 		lvl->enemies[j]->exact_pos = (t_fvector2)
 		{lvl->enemies[j]->pos->x, lvl->enemies[j]->pos->y};
 		lvl->enemies[j]->dir = (t_fvector2){1, 1};
 		j++;
 	}
-	lvl->enemies[nb_enemies] = NULL;
 	return (1);
 }

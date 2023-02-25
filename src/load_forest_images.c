@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:39:38 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/24 16:16:17 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/25 16:13:27 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,9 +169,38 @@ static void	load_special_images(t_game *game)
 			(t_vector2){SIZE_CHUNK, SIZE_CHUNK});
 }
 
+static int	is_all_image_good(t_img **img)
+{
+	int	i;
+
+	i = 0;
+	while (i < e_nb_img)
+	{
+		if (img[i] == NULL && i != e_debug && i != e_debug_tile)
+		{
+			printf("i : %d\n", i);
+			return (0);
+		}
+		i++;
+	}
+	if (ISDEBUG && !(img[e_debug] && img[e_debug_tile]))
+		return (0);
+	return (1);
+}
+
 void	load_images_forest(t_game *game)
 {
+	t_vector2	map_size;
+
 	game->lvl->images = ft_calloc(sizeof(t_img *), e_nb_img);
+	if (!game->lvl->images)
+		exit_game(game, "Error\nAllocation error.\n");
+	map_size.x = game->lvl->map_size.x * SIZE_CHUNK;
+	map_size.y = game->lvl->map_size.y * SIZE_CHUNK;
+	game->lvl->images[e_canvas]
+		= mlx_new_image(game->mlx, map_size.x, map_size.y);
+	game->lvl->images[e_camera]
+		= mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	load_special_images(game);
 	_load_ground_wall(game);
 	_load_player_idle(game);
@@ -180,16 +209,6 @@ void	load_images_forest(t_game *game)
 	_load_ennemy_idle1(game);
 	_load_ennemy_idle2(game);
 	_load_enemy_run(game);
-}
-
-void	init_base_images(t_game *game)
-{
-	t_vector2	map_size;
-
-	map_size.x = game->lvl->map_size.x * SIZE_CHUNK;
-	map_size.y = game->lvl->map_size.y * SIZE_CHUNK;
-	game->lvl->images[e_canvas]
-		= mlx_new_image(game->mlx, map_size.x, map_size.y);
-	game->lvl->images[e_camera]
-		= mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+	if (!is_all_image_good(game->lvl->images))
+		exit_game(game, "Error\nLoading images error.\n");
 }

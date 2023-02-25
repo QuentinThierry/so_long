@@ -1,5 +1,5 @@
 NAME =		so_long
-CFLAGS =	-g3 -Wall -Wextra -Werror -fsanitize=address #-O3 
+CFLAGS =	-g3 -Wall -Wextra -Werror #-fsanitize=address #-O3 
 DEPS =		$(INCLUDES)so_long.h \
 			$(INCLUDES)get_next_line.h \
 			$(INCLUDES)textures.h \

@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 20:18:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/24 02:54:20 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/25 15:41:16 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,13 @@ void	draw_ui(t_game *game)
 	collec_posy = game->lvl->ui->pos.y + (game->lvl->ui->size.y / 2);
 	str = ft_itoa(game->lvl->nb_move);
 	if (!str)
-		exit_game(game);
+		exit_game(game, "Error\nAllocation error.\n");
 	mlx_string_put(game->mlx, game->window, moves_posx, moves_posy,
 		DARK_GRAY, str);
 	free(str);
 	str = ft_itoa(game->lvl->nb_collec);
 	if (!str)
-		exit_game(game);
+		exit_game(game, "Error\nAllocation error.\n");
 	mlx_string_put(game->mlx, game->window, collec_posx, collec_posy,
 		DARK_GRAY, str);
 	free(str);
