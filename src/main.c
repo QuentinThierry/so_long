@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/25 17:36:06 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/25 17:41:30 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ int	on_update(t_game *game)
 		if (game->lvl->player2)
 			find_chunk_under(game->lvl->canvas, game->lvl->player2->sprite);
 	}
+	on_update2(game);
 	return (0);
 }
 
