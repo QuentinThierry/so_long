@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:01:50 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/18 23:34:56 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/25 02:11:39 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,28 +58,28 @@ inline static void	apply_blend(t_sprite *back,
 }
 
 static t_vector2	_get_dimensions(t_sprite *back, t_sprite *front,
-			t_vector2 pos)
+			t_vector2 *pos)
 {
 	t_vector2	dim;
 
 	dim.x = fmin(back->size.x, front->size.x);
 	dim.y = fmin(back->size.y, front->size.y);
-	if (pos.x + dim.x > back->size.x)
-		dim.x -= pos.x + dim.x - back->size.x;
-	if (pos.x < front->pos.x)
+	if (pos->x + dim.x > back->size.x)
+		dim.x -= pos->x + dim.x - back->size.x;
+	if (pos->x < front->pos.x)
 	{
-		dim.x += pos.x;
-		pos.x = 0;
+		dim.x += pos->x;
+		pos->x = 0;
 	}
-	if (pos.y + dim.y > back->size.y)
-		dim.y -= pos.y + dim.y - back->size.y;
-	if (pos.y < 0)
+	if (pos->y + dim.y > back->size.y)
+		dim.y -= pos->y + dim.y - back->size.y;
+	if (pos->y < 0)
 	{
-		dim.y += pos.y;
-		pos.y = 0;
+		dim.y += pos->y;
+		pos->y = 0;
 	}
-	dim.y += pos.y;
-	dim.x += pos.x;
+	dim.y += pos->y;
+	dim.x += pos->x;
 	return (dim);
 }
 
@@ -90,15 +90,16 @@ void	blend_image_to_image(t_sprite *back, t_sprite *front,
 	int				x;
 	t_vector2		dim;
 
-	dim = _get_dimensions(back, front, pos);
+	dim = _get_dimensions(back, front, &pos);
 	y = pos.y;
 	while (y < dim.y)
 	{
 		x = pos.x;
 		while (x < dim.x)
 		{
+			
 			apply_blend(back, front, pos, (t_vector2){x, y});
-			x++;
+			++x;
 		}
 		++y;
 	}

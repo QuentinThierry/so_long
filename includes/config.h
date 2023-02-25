@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 00:04:43 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/24 17:43:14 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/25 01:54:45 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,6 @@
 # define END_TIME 5
 
 // --=======----=======-- DEBUG --=======----=======--
-# define ISDEBUG 0
+# define ISDEBUG 1
 
 #endif
