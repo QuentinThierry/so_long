@@ -1,5 +1,7 @@
 NAME =		so_long
 CFLAGS =	-Wall -Wextra -Werror#-fsanitize=address #-O3 #-g3
+MLX_DIR =	$(INCLUDES)mlx/
+MLX = 		$(MLX_DIR)libmlx.a
 DEPS =		$(INCLUDES)so_long.h \
 			$(INCLUDES)get_next_line.h \
 			$(INCLUDES)textures.h \
@@ -69,13 +71,18 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(DEPS)
 	@if [ ! -d "$(dir $@)" ]; then mkdir $(dir $@); fi
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME): $(OBJ) $(DEPS) 
+
+$(NAME): $(MLX) $(OBJ) $(DEPS)
 	$(CC) $(CFLAGS) $(OBJ) $(LIBS) -o $(NAME)
+
+$(MLX):
+	make -C $(MLX_DIR)
 
 bonus : $(NAME)
 
 clean :
 	rm -rf $(OBJ_DIR)
+	make clean -C $(MLX_DIR)
 
 fclean : clean
 	rm -f $(NAME)
