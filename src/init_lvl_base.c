@@ -6,58 +6,11 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 17:45:49 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/25 17:28:32 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/25 18:07:39 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
-
-static void	_init_canvas(t_game *game)
-{
-	t_level	*lvl;
-
-	lvl = game->lvl;
-	lvl->canvas->sprite = ft_calloc(sizeof(t_sprite), 1);
-	if (!lvl->canvas->sprite)
-		exit_game(game, "Error\nAllocation error.\n");
-	lvl->canvas->sprite->image_id = e_canvas;
-	btmlx_get_addr(lvl->canvas->sprite, lvl->images[e_canvas]);
-}
-
-static void	_init_camera(t_game *game)
-{
-	t_level	*lvl;
-
-	lvl = game->lvl;
-	lvl->cam = ft_calloc(sizeof(t_camera), 1);
-	if (!lvl->cam)
-		exit_game(game, "Error\nAllocation error.\n");
-	lvl->cam->sprite = ft_calloc(sizeof(t_sprite), 1);
-	if (!lvl->cam->sprite)
-		exit_game(game, "Error\nAllocation error.\n");
-	lvl->cam->sprite->pos = (t_vector2){0, 0};
-	lvl->cam->pos = &lvl->cam->sprite->pos;
-	lvl->cam->size = &lvl->cam->sprite->size;
-	lvl->cam->exact_pos = (t_fvector2){lvl->cam->pos->y,
-		lvl->cam->pos->y};
-	lvl->cam->dir = (t_fvector2){0, 0};
-	lvl->cam->sprite->image_id = e_camera;
-	btmlx_get_addr(lvl->cam->sprite, lvl->images[e_camera]);
-	lvl->cam->is_cam_lock = 1;
-}
-
-static void	_init_background(t_game *game)
-{
-	t_level	*lvl;
-
-	lvl = game->lvl;
-	lvl->background = ft_calloc(sizeof(t_sprite), 1);
-	if (!lvl->background)
-		exit_game(game, "Error\nAllocation error.\n");
-	lvl->background->pos = (t_vector2){0, 0};
-	lvl->background->image_id = e_background;
-	btmlx_get_addr(lvl->background, lvl->images[e_background]);
-}
 
 static void	_init_player1(t_game *game)
 {
@@ -124,9 +77,9 @@ static void	init_lvl_base2(t_game *game)
 	lvl->nb_collec = 0;
 	lvl->max_collec = 0;
 	lvl->nb_move = 0;
-	_init_canvas(game);
-	_init_camera(game);
-	_init_background(game);
+	init_canvas(game);
+	init_camera(game);
+	init_background(game);
 	_init_player1(game);
 }
 

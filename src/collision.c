@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 19:18:33 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/24 16:13:57 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/25 18:32:08 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,16 +64,6 @@ void	check_col_enemy(t_game *game)
 		}
 		i++;
 	}
-}
-
-void	check_col_exit(t_game *game)
-{
-	if ((is_colliding(game->lvl->player1->collider, game->lvl->exit_col)
-			&& game->lvl->nb_collec >= game->lvl->max_collec)
-		&& (!game->lvl->player2
-			|| (is_colliding(game->lvl->player2->collider, game->lvl->exit_col)
-				&& game->lvl->nb_collec >= game->lvl->max_collec)))
-			game->is_end = END_WIN;
 }
 
 void	check_col_collectible(t_game *game)

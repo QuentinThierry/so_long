@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/25 16:31:54 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/25 18:46:46 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -317,11 +317,25 @@ void			free_list(t_list **lst);
 // load_images_forest.c
 void			load_images_forest(t_game *game);
 
+// load_images_forest2.c
+void			load_ground_wall(t_game *game);
+void			load_player_idle(t_game *game);
+void			load_player_run(t_game *game);
+void			load_collec_exit(t_game *game);
+void			load_ennemy_idle1(t_game *game);
+
 // parsing.c
 int				parse_map(const char *file_name, char **map,
 					t_vector2 *map_size);
 void			free_tab2d(char **to_free, int size_y);
 int				find_exit_chunk(char *map);
+
+// parsing2.c
+char			**read_map(int fd, int *x, int *y);
+
+// parsing3.c
+int				is_ber(const char *file_name);
+int				is_closed(char **map, int x, int y);
 
 // camera.c
 void			render_camera(t_level *lvl, t_vector2 pos);
@@ -339,9 +353,21 @@ t_img			*resize_img(void *mlx, t_img *src,
 t_img			*btmlx_xpm_file_to_image(void *mlx, char *path,
 					t_vector2 dst_size);
 
+// init_on_start.c
+void			init_keys(t_game *game);
+t_game			init_values(char *map, t_vector2 map_size);
+void			init_dist_table(t_level *lvl, int *table, int size);
+void			init_ui(t_game *game);
+void			init_map_variables(t_game *game);
+
 // init_lvl_base.c
 void			init_lvl_base(t_game *game);
 void			init_player2(t_game *game);
+
+// init_lvl_base_2.c
+void			init_canvas(t_game *game);
+void			init_camera(t_game *game);
+void			init_background(t_game *game);
 
 // sprite_choose.c
 enum e_img_id	choose_image(char *map, int chunk);
@@ -366,6 +392,9 @@ void			check_col_collectible(t_game *game);
 void			check_col_enemy(t_game *game);
 void			check_col_exit(t_game *game);
 
+// collision_utils.c
+int				is_colliding(t_collider *collider1, t_collider *collider2);
+
 // player_move.c
 void			player_movement(t_game *game, t_player *player);
 
@@ -375,6 +404,12 @@ int				init_enemies(t_level *lvl);
 //enemies_movement.c
 void			enemy_movement(t_game *game);
 void			check_trigger_enemy(t_game *game, t_player *player);
+
+// enemies_movement_utils.c
+void			move_enemy(t_game *game, t_enemy *enemy,
+					int is_x, int is_y);
+void			reverse_move_enemy(t_enemy *enemy,
+					t_collider *collider, t_vector2 is_xy);
 
 // keys.c
 enum e_key_map	get_key(int key);
@@ -414,11 +449,22 @@ t_vector2		add_vector2(t_vector2 vec1, t_vector2 vec2);
 t_vector2		sub_vector2(t_vector2 vec1, t_vector2 vec2);
 void			cpy_vector(t_vector2 *dest, t_vector2 src);
 
-//pathfinding.c
+// pathfinding.c
 int				a_star(t_game *game, t_vector2 src, char **path_map);
+
+// pathfinding2.c
+int				iterate_on_map(t_level *lvl, int nb_cases, char **path_map);
 
 // check_valid_path.c
 int				check_valid_path(t_game *game);
+
+// others.c
+void			my_mlx_pixel_put(t_sprite *sprite,
+					t_vector2 pos, unsigned int color);
+void			calculate_fps(int *fps, double *elapsed);
+void			move_camera_on_player(t_camera *cam, t_player *player);
+void			update_cam_pos(t_game *game);
+void			draw_arrow_to_end(t_level *lvl, t_player *player);
 
 // animations.c
 void			camera_animation_to_exit(t_level *lvl);

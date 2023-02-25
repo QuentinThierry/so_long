@@ -1,5 +1,5 @@
 NAME =		so_long
-CFLAGS =	-g3 -Wall -Wextra -Werror #-fsanitize=address #-O3 
+CFLAGS =	-Wall -Wextra -Werror#-fsanitize=address #-O3 #-g3
 DEPS =		$(INCLUDES)so_long.h \
 			$(INCLUDES)get_next_line.h \
 			$(INCLUDES)textures.h \
@@ -22,28 +22,41 @@ SRC =		$(addprefix $(SRC_DIR), \
 			chunks_utils.c \
 			chunks.c \
 			collision.c \
+			collision_utils.c \
 			colors.c \
 			debug.c \
 			draw_game.c \
 			draw_line.c \
 			exit_game.c \
 			end_game.c \
-			init_enemies.c \
 			enemies_movement.c \
+			enemies_movement_utils.c \
 			get_next_line_utils.c \
 			get_next_line.c \
+			init_enemies.c \
+			init_on_start.c \
 			image_flip.c \
 			image_operations.c \
 			init_collision.c \
 			init_lvl_base.c \
-			keys.c \
+			init_lvl_base2.c \
+			keys1.c \
+			keys2.c \
+			keys3.c \
+			keys4.c \
 			list_utils.c \
-			load_forest_images.c\
+			load_forest_images.c \
+			load_forest_images2.c \
 			parsing.c \
+			parsing2.c \
+			parsing3.c \
 			pathfinding.c \
+			pathfinding2.c \
 			player_move.c \
+			others.c \
 			sprite_choose.c \
 			utils.c \
+			utils2.c \
 			vector_maths.c \
 			main.c)
 
