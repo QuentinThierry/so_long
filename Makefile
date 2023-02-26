@@ -1,5 +1,5 @@
 NAME =		so_long
-CFLAGS =	-Wall -Wextra -Werror#-fsanitize=address #-O3 #-g3
+CFLAGS =	-Wall -Wextra -Werror#-O3 #-fsanitize=address #-g3
 MLX_DIR =	$(INCLUDES)mlx/
 MLX = 		$(MLX_DIR)libmlx.a
 DEPS =		$(INCLUDES)so_long.h \
@@ -30,6 +30,7 @@ SRC =		$(addprefix $(SRC_DIR), \
 			draw_game.c \
 			draw_line.c \
 			exit_game.c \
+			exit_on_cross.c \
 			end_game.c \
 			enemies_movement.c \
 			enemies_movement_utils.c \

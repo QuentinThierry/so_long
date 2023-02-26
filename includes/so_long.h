@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:11 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/25 18:46:46 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/26 18:03:14 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -434,6 +434,9 @@ void			press_on_esc(t_game *game, int is_release); // quit
 
 // exit_game.c
 void			exit_game(t_game *game, const char *error);
+
+// exit_one_cross.c
+int				exit_on_cross(t_game *game);
 
 // end_game.c
 void			end_game(t_game *game);

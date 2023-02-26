@@ -6,7 +6,7 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/25 19:30:27 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/26 18:09:15 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,7 @@ int	main(int argc, char const *argv[])
 	if (!SEED)
 		seed = time(NULL);
 	if (argc != 2)
-	{
-		write(1, "Error\nIncorrect number of arguments.\n", 37);
-		return (1);
-	}
+		return (write(1, "Error\nIncorrect number of arguments.\n", 37), 1);
 	ft_bzero(&game, sizeof(game));
 	game.window = NULL;
 	if (!parse_map(argv[1], &map, &map_size))
@@ -103,6 +100,7 @@ int	main(int argc, char const *argv[])
 		return (1);
 	mlx_hook(game.window, KeyPress, KeyPressMask, &press_key, &game);
 	mlx_hook(game.window, KeyRelease, KeyReleaseMask, &release_key, &game);
+	mlx_hook(game.window, 33, 32, &exit_on_cross, &game);
 	mlx_loop_hook(game.mlx, on_update, &game.mlx);
 	mlx_loop(game.mlx);
 	mlx_do_key_autorepeaton(game.mlx);
