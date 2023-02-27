@@ -6,11 +6,12 @@
 /*   By: qthierry <qthierry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:44:26 by qthierry          #+#    #+#             */
-/*   Updated: 2023/02/26 18:09:15 by qthierry         ###   ########.fr       */
+/*   Updated: 2023/02/27 16:58:30 by qthierry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
+#include <X11/X.h>
 
 static void	update_player_2(t_game *game)
 {
@@ -100,7 +101,7 @@ int	main(int argc, char const *argv[])
 		return (1);
 	mlx_hook(game.window, KeyPress, KeyPressMask, &press_key, &game);
 	mlx_hook(game.window, KeyRelease, KeyReleaseMask, &release_key, &game);
-	mlx_hook(game.window, 33, 32, &exit_on_cross, &game);
+	mlx_hook(game.window, DestroyNotify, 1L << 5, &exit_on_cross, &game);
 	mlx_loop_hook(game.mlx, on_update, &game.mlx);
 	mlx_loop(game.mlx);
 	mlx_do_key_autorepeaton(game.mlx);
